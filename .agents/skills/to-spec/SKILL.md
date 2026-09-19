@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: Use when an owner-approved Orbz repository change needs to be synthesized into the next canonical numbered SPEC with acceptance criteria and evidence.
+description: Use when an owner-approved OrbV repository change needs to be synthesized into the next canonical numbered SPEC with acceptance criteria and evidence.
 disable-model-invocation: true
 ---
 

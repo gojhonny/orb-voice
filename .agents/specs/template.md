@@ -4,7 +4,7 @@
 - Created: YYYY-MM-DD
 - Updated: YYYY-MM-DD
 - Mode: Prospective
-- Owner: Orbz maintainers
+- Owner: OrbV maintainers
 
 ## Problem
 

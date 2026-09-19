@@ -1,8 +1,8 @@
 # Product context
 
-Orbz is the `@neongate-ai/orbz` package: a framework-agnostic, SSR-safe visual
+OrbV is the `orbv` package: a framework-agnostic, SSR-safe visual
 presence for AI voice experiences. It exposes one native custom element,
-`<orb-z>`, plus typed ports and optional speech adapters.
+`<orb-v>`, plus typed ports and optional speech adapters.
 
 ## Product boundary
 
@@ -12,7 +12,7 @@ conversation copy, authentication, provider credentials, and intelligence.
 
 ## Public experience
 
-The orb represents states through motion and appearance. Consumers can select a
+The orbv represents states through motion and appearance. Consumers can select a
 preset or an explicit five-color palette, set size and speed, respect reduced
 motion preferences, and connect speech through an adapter.
 

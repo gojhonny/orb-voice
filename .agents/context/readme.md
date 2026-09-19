@@ -1,6 +1,6 @@
 # Context
 
-Start here before changing Orbz. The files in this directory summarize the
+Start here before changing OrbV. The files in this directory summarize the
 package from several engineering perspectives.
 
 - [`product.md`](./product.md): purpose, consumers, and public surface.

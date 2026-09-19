@@ -1,5 +1,5 @@
 ---
-description: Scopes Orbz engineering-harness records, navigation, deterministic audits, accurate dates, terminology, and documentation synchronization.
+description: Scopes OrbV engineering-harness records, navigation, deterministic audits, accurate dates, terminology, and documentation synchronization.
 globs:
   - ".agents/**"
   - ".audits/**"
@@ -13,7 +13,7 @@ globs:
 - Applies: `.agents/**`, `.audits/**`, repository documentation
 
 1. Every directory under `.agents/` and `.audits/` contains a `readme.md`.
-2. Harness records describe Orbz only and must not retain unrelated product-domain terminology.
+2. Harness records describe OrbV only and must not retain unrelated product-domain terminology.
 3. ADRs and SPECs state whether they are prospective or retrospective.
 4. New behavior starts with a SPEC; architectural changes link an ADR; constraints link rules.
 5. Audits are deterministic POSIX shell scripts with no network requirement.

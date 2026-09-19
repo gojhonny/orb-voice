@@ -1,9 +1,12 @@
 # ADR-0020: Provision a direct Orb launcher for source checkouts
 
-- Status: Accepted
+- Status: Accepted; public command spelling superseded by ADR-0021
 - Created: 2026-09-09
-- Updated: 2026-09-09
+- Updated: 2026-09-19
 - Mode: Current decision
+
+Public CLI identity is `orbv` (ADR-0021). This record remains the source-
+checkout launcher decision; examples that say `orb` are historical spelling.
 
 ## Context
 

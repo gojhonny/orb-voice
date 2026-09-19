@@ -1,10 +1,13 @@
 # SPEC-027: Preserve the published npm package identity
 
-- Status: Implemented
+- Status: Superseded by SPEC-030
 - Created: 2026-09-08
-- Updated: 2026-09-08
+- Updated: 2026-09-19
 - Mode: Prospective
 - Owner: Jonatas Sales
+
+OrbZ was later renamed to OrbV. This record is historical evidence of preserving
+`@neongate-ai/orbz`. Current identity is SPEC-030 / ADR-0021.
 
 ## Problem
 

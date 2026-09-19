@@ -1,3 +1,3 @@
 # Spec-driven development skill
 
-Guidance for moving Orbz changes from explicit specification to evidence.
+Guidance for moving OrbV changes from explicit specification to evidence.
