@@ -7,11 +7,11 @@ case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Harness help does not accept additional arguments.' 2
     cat <<'USAGE'
-Usage: orb harness [harness-score arguments]
+Usage: orbv harness [harness-score arguments]
 
 Run pinned harness-score 1.5.2 explicitly for this checkout. Arguments are
 forwarded to the utility. This command is engineering-only and is never
-part of the Orbz runtime API.
+part of the OrbV runtime API.
 USAGE
     exit 0
     ;;

@@ -1,18 +1,18 @@
-import { ORBZ_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
-import type { OrbzResolvedConfigurationSource } from '@core/config.types'
-import { ORBZ_DEFAULT_MOTION } from '@core/motion/default-motion.data'
-import { ORBZ_DEFAULT_SPEECH } from '@talk/default-speech.data'
+import { ORBV_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
+import type { OrbVResolvedConfigurationSource } from '@core/config.types'
+import { ORBV_DEFAULT_MOTION } from '@core/motion/default-motion.data'
+import { ORBV_DEFAULT_SPEECH } from '@talk/default-speech.data'
 
-import { cloneOrbzConfigurationInput } from './clone-configuration.compute'
+import { cloneOrbVConfigurationInput } from './clone-configuration.compute'
 
 /** Validate a cloned input; diagnostics contain schema paths without supplied values. */
-export function readOrbzConfigurationSource(input: unknown): OrbzResolvedConfigurationSource {
-  const source = cloneOrbzConfigurationInput(input)
+export function readOrbVConfigurationSource(input: unknown): OrbVResolvedConfigurationSource {
+  const source = cloneOrbVConfigurationInput(input)
   const root = record(source, '$', ['component', 'appearance', 'realtime'], ['motion', 'speech'])
   // Only absent legacy groups receive defaults. Explicit null/invalid input
   // still reaches validation, and every returned tree owns its nested data.
-  if (!Object.hasOwn(root, 'motion')) root.motion = cloneOrbzConfigurationInput(ORBZ_DEFAULT_MOTION)
-  if (!Object.hasOwn(root, 'speech')) root.speech = cloneOrbzConfigurationInput(ORBZ_DEFAULT_SPEECH)
+  if (!Object.hasOwn(root, 'motion')) root.motion = cloneOrbVConfigurationInput(ORBV_DEFAULT_MOTION)
+  if (!Object.hasOwn(root, 'speech')) root.speech = cloneOrbVConfigurationInput(ORBV_DEFAULT_SPEECH)
   const component = record(root.component, '$.component', [
     'tagName',
     'states',
@@ -23,7 +23,7 @@ export function readOrbzConfigurationSource(input: unknown): OrbzResolvedConfigu
     'defaultReducedMotion',
     'observedAttributes'
   ])
-  choice(component.tagName, '$.component.tagName', ['orb-z'])
+  choice(component.tagName, '$.component.tagName', ['orb-v'])
   const states = tuple(component.states, '$.component.states', [
     'idle',
     'listening',
@@ -66,7 +66,7 @@ export function readOrbzConfigurationSource(input: unknown): OrbzResolvedConfigu
     ['byState']
   )
   if (!Object.hasOwn(appearance, 'byState')) {
-    appearance.byState = cloneOrbzConfigurationInput(ORBZ_DEFAULT_APPEARANCE_BY_STATE)
+    appearance.byState = cloneOrbVConfigurationInput(ORBV_DEFAULT_APPEARANCE_BY_STATE)
   }
   // The accidental 1.0.1 identifier is accepted only in its exact legacy shape.
   // Normalize our clone before canonical validation; preserve every palette value.
@@ -132,7 +132,7 @@ export function readOrbzConfigurationSource(input: unknown): OrbzResolvedConfigu
     'reduced'
   ])
   tuple(motion.animatedStyleProperties, '$.motion.animatedStyleProperties', [
-    '--orbz-angle',
+    '--orbv-angle',
     'opacity',
     'rotate',
     'scale',
@@ -146,7 +146,7 @@ export function readOrbzConfigurationSource(input: unknown): OrbzResolvedConfigu
   motionProfiles(motion.reduced, '$.motion.reduced', states, true)
   speechConfiguration(root.speech)
   realtimeConfiguration(root.realtime)
-  return source as OrbzResolvedConfigurationSource
+  return source as OrbVResolvedConfigurationSource
 }
 
 function motionProfiles(
@@ -173,7 +173,7 @@ function motionProfiles(
         motion.animate,
         `${layerPath}.animate`,
         [],
-        ['--orb-angle', 'opacity', 'rotate', 'scale', 'x', 'y']
+        ['--orbv-angle', 'opacity', 'rotate', 'scale', 'x', 'y']
       )
       if (Object.keys(animate).length === 0) {
         invalid(`${layerPath}.animate`, 'expected at least one animated property')
@@ -243,7 +243,7 @@ function animationScalar(value: unknown, path: string, property: string): void {
   } else {
     const scalar = text(value, path)
     const units =
-      property === 'rotate' || property === '--orb-angle'
+      property === 'rotate' || property === '--orbv-angle'
         ? /^[-+]?(?:\d+\.?\d*|\.\d+)(?:deg|rad|grad|turn)$/
         : /^[-+]?(?:\d+\.?\d*|\.\d+)(?:%|px|rem|em|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc)$/
     if (!units.test(scalar)) {
@@ -428,5 +428,5 @@ function credentials(value: unknown, path: string): void {
 }
 
 function invalid(path: string, reason: string): never {
-  throw new TypeError(`Invalid Orbz configuration at ${path}: ${reason}.`)
+  throw new TypeError(`Invalid OrbV configuration at ${path}: ${reason}.`)
 }

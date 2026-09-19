@@ -1,14 +1,14 @@
-import type { OrbzElement } from '@element/element.types'
-import { defineOrbz } from '@services/registration.service'
+import type { OrbVElement } from '@element/element.types'
+import { defineOrbV } from '@services/registration.service'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { normalizeRealtimeSession } from './normalize-realtime-session.compute'
 import { OpenAIRealtimeAdapter } from './openai-realtime.adapter'
-import type { OrbzRealtimeSessionEndpoint } from './voice-model.types'
+import type { OrbVRealtimeSessionEndpoint } from './voice-model.types'
 
 describe('talk/realtime-session-boundary', () => {
   beforeAll(() => {
-    defineOrbz()
+    defineOrbV()
   })
 
   it.each(['apiKey', 'token', 'secret', 'headers'])('rejects %s without echoing values', (key) => {
@@ -38,7 +38,7 @@ describe('talk/realtime-session-boundary', () => {
 
   it('snapshots a mutable URL and freezes only the copied endpoint configuration', () => {
     const endpoint = new URL('https://application.example/api/session')
-    const input: OrbzRealtimeSessionEndpoint = { endpoint, credentials: 'same-origin' }
+    const input: OrbVRealtimeSessionEndpoint = { endpoint, credentials: 'same-origin' }
     const result = normalizeRealtimeSession(input)
     endpoint.pathname = '/changed'
     input.credentials = 'omit'
@@ -71,7 +71,7 @@ describe('talk/realtime-session-boundary', () => {
   it('guards direct adapter construction as well as the native property', () => {
     const session = { endpoint: '/session', apiKey: 'synthetic-private-value' }
     expect(() => new OpenAIRealtimeAdapter({ session })).toThrow(TypeError)
-    const orb = document.createElement('orb-z') as OrbzElement
+    const orb = document.createElement('orb-v') as OrbVElement
     orb.realtimeSession = { endpoint: '/original' }
     const previous = orb.realtimeSession
     const stop = vi.spyOn(orb, 'stopConversation')
@@ -82,7 +82,7 @@ describe('talk/realtime-session-boundary', () => {
   })
 
   it('keeps model settings out of markup and rejects secret-bearing selections', () => {
-    const orb = document.createElement('orb-z') as OrbzElement
+    const orb = document.createElement('orb-v') as OrbVElement
     orb.voiceModel = { provider: 'openai-realtime', model: 'gpt-realtime-2' }
     const previous = orb.voiceModel
     expect(orb.hasAttribute('voice-model')).toBe(false)

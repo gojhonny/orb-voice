@@ -9,9 +9,9 @@ case "${1:-}" in
     [ "$#" -eq 1 ] || orb_die 'Lint help does not accept additional arguments.' 2
     cat <<'USAGE'
 Usage:
-  orb lint
-  orb lint --write
-  orb lint --staged
+  orbv lint
+  orbv lint --write
+  orbv lint --staged
 
 Modes:
   default    Run the repository Biome linter without modifying files

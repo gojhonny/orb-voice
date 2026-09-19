@@ -1,7 +1,7 @@
-import { DEFAULT_ORBZ_SPEED } from '@core/config.data'
+import { DEFAULT_ORBV_SPEED } from '@core/config.data'
 
-export function normalizeOrbzSpeed(value: unknown): number {
+export function normalizeOrbVSpeed(value: unknown): number {
   const numericValue = typeof value === 'number' ? value : Number(value)
 
-  return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : DEFAULT_ORBZ_SPEED
+  return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : DEFAULT_ORBV_SPEED
 }

@@ -1,51 +1,51 @@
 export type {
-  OrbzBaseOptions,
-  OrbzColorOverrides,
-  OrbzColorSelection,
-  OrbzColors,
-  OrbzCustomColorOptions,
-  OrbzOptions,
-  OrbzPresetName,
-  OrbzPresetOptions,
-  OrbzReducedMotion,
-  OrbzSize,
-  OrbzState
+  OrbVBaseOptions,
+  OrbVColorOverrides,
+  OrbVColorSelection,
+  OrbVColors,
+  OrbVCustomColorOptions,
+  OrbVOptions,
+  OrbVPresetName,
+  OrbVPresetOptions,
+  OrbVReducedMotion,
+  OrbVSize,
+  OrbVState
 } from '@core/appearance/appearance.types'
-export { mergeOrbzColors } from '@core/appearance/merge-colors.compute'
+export { mergeOrbVColors } from '@core/appearance/merge-colors.compute'
 export {
   config,
-  DEFAULT_ORBZ_COLORS,
-  DEFAULT_ORBZ_PRESET,
-  DEFAULT_ORBZ_REDUCED_MOTION,
-  DEFAULT_ORBZ_SIZE,
-  DEFAULT_ORBZ_SPEED,
-  DEFAULT_ORBZ_STATE,
-  ORBZ_COLOR_ATTRIBUTES,
-  ORBZ_COLOR_KEYS,
-  ORBZ_PRESET_NAMES,
-  ORBZ_PRESETS,
-  ORBZ_REDUCED_MOTION_MODES,
-  ORBZ_STATES,
-  orbzConfiguration
+  DEFAULT_ORBV_COLORS,
+  DEFAULT_ORBV_PRESET,
+  DEFAULT_ORBV_REDUCED_MOTION,
+  DEFAULT_ORBV_SIZE,
+  DEFAULT_ORBV_SPEED,
+  DEFAULT_ORBV_STATE,
+  ORBV_COLOR_ATTRIBUTES,
+  ORBV_COLOR_KEYS,
+  ORBV_PRESET_NAMES,
+  ORBV_PRESETS,
+  ORBV_REDUCED_MOTION_MODES,
+  ORBV_STATES,
+  orbvConfiguration
 } from '@core/config.data'
-export { isOrbzPresetName } from '@core/lib/is-preset-name.guard'
-export { isOrbzState } from '@core/lib/is-state.guard'
-export { normalizeOrbzPreset } from '@core/lib/normalize-preset.compute'
-export { normalizeOrbzReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
-export { normalizeOrbzSize } from '@core/lib/normalize-size.compute'
-export { normalizeOrbzSpeed } from '@core/lib/normalize-speed.compute'
-export { normalizeOrbzState } from '@core/lib/normalize-state.compute'
-export { isOrbzReducedMotion } from '@core/motion/is-reduced-motion.guard'
-export { ORBZ_OBSERVED_ATTRIBUTES, ORBZ_TAG_NAME } from '@element/element.data'
+export { isOrbVPresetName } from '@core/lib/is-preset-name.guard'
+export { isOrbVState } from '@core/lib/is-state.guard'
+export { normalizeOrbVPreset } from '@core/lib/normalize-preset.compute'
+export { normalizeOrbVReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
+export { normalizeOrbVSize } from '@core/lib/normalize-size.compute'
+export { normalizeOrbVSpeed } from '@core/lib/normalize-speed.compute'
+export { normalizeOrbVState } from '@core/lib/normalize-state.compute'
+export { isOrbVReducedMotion } from '@core/motion/is-reduced-motion.guard'
+export { ORBV_OBSERVED_ATTRIBUTES, ORBV_TAG_NAME } from '@element/element.data'
 export type {
-  OrbzElement,
-  OrbzElementConstructor,
-  OrbzVoiceOptions
+  OrbVElement,
+  OrbVElementConstructor,
+  OrbVVoiceOptions
 } from '@element/element.types'
-export { orbzElementClassFactory } from '@factories/element-class.factory'
-export type { OrbzIntelligencePort } from '@ports/intelligence.port'
-export type { OrbzVoiceEnginePort } from '@ports/voice-engine.port'
-export { defineOrbz } from '@services/registration.service'
+export { orbvElementClassFactory } from '@factories/element-class.factory'
+export type { OrbVIntelligencePort } from '@ports/intelligence.port'
+export type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
+export { defineOrbV } from '@services/registration.service'
 export { OpenAISpeechAdapter } from '@talk/openai-speech.adapter'
 export { DEFAULT_SPEECH_LANGUAGE, DEFAULT_TALK_FLOW, talk } from '@talk/talk.data'
 export type {
@@ -53,8 +53,8 @@ export type {
   OpenAISpeechFormat,
   OpenAISpeechModel,
   OpenAISpeechVoice,
-  OrbzTalkContext,
-  OrbzTalkStep,
+  OrbVTalkContext,
+  OrbVTalkStep,
   WebSpeechAdapterOptions
 } from '@talk/talk.types'
 export { WebSpeechAdapter } from '@talk/web-speech.adapter'
@@ -63,21 +63,21 @@ export { OpenAIRealtimeAdapter } from '@talk/openai-realtime.adapter'
 export type {
   OpenAIRealtimeAdapterOptions,
   OpenAIRealtimeModel,
-  OrbzOpenAIRealtimeVoiceModel,
-  OrbzOpenAISpeechVoiceModel,
-  OrbzRealtimeSession,
-  OrbzRealtimeSessionAuthorizer,
-  OrbzRealtimeSessionEndpoint,
-  OrbzRealtimeSessionRequest,
-  OrbzVoiceModel,
-  OrbzWebSpeechVoiceModel
+  OrbVOpenAIRealtimeVoiceModel,
+  OrbVOpenAISpeechVoiceModel,
+  OrbVRealtimeSession,
+  OrbVRealtimeSessionAuthorizer,
+  OrbVRealtimeSessionEndpoint,
+  OrbVRealtimeSessionRequest,
+  OrbVVoiceModel,
+  OrbVWebSpeechVoiceModel
 } from '@talk/voice-model.types'
 export type {
-  OrbzConversationHandlers,
-  OrbzConversationPort,
-  OrbzConversationState,
-  OrbzTranscript
+  OrbVConversationHandlers,
+  OrbVConversationPort,
+  OrbVConversationState,
+  OrbVTranscript
 } from '@ports/conversation.port'
 
-export { transformOrbzConfiguration } from '@core/lib/transform-configuration.compute'
-export type { OrbzConfiguration, OrbzConfigurationSource, OrbzDeepReadonly } from '@core/config.types'
+export { transformOrbVConfiguration } from '@core/lib/transform-configuration.compute'
+export type { OrbVConfiguration, OrbVConfigurationSource, OrbVDeepReadonly } from '@core/config.types'

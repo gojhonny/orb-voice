@@ -10,12 +10,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: orbz-npm-release
+  group: orbv-npm-release
   cancel-in-progress: false
 
 jobs:
   publish:
-    if: github.repository == 'gojhonny/orbz' && github.ref == 'refs/heads/main'
+    if: github.repository == 'gojhonny/orbv' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -35,16 +35,16 @@ jobs:
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Inspect environment
-        run: ./cli/orb doctor --ci
+        run: ./cli/orbv doctor --ci
       - name: Identify stable release
         run: |
           node --input-type=module <<'NODE'
           import { readFileSync, appendFileSync } from 'node:fs';
           const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'));
-          if (name !== '@neongate-ai/orbz' || !/^[1-9]\d*\.\d+\.\d+$/.test(version)) {
-            throw new Error('Expected the canonical Orbz package and a stable major version');
+          if (name !== 'orbv' || !/^[1-9]\d*\.\d+\.\d+$/.test(version)) {
+            throw new Error('Expected the canonical OrbV package and a stable major version');
           }
-          appendFileSync(process.env.GITHUB_ENV, `RELEASE_VERSION=${version}\nRELEASE_TAG=v${version}\nRELEASE_TARBALL=${process.env.RUNNER_TEMP}/neongate-ai-orbz-${version}.tgz\n`);
+          appendFileSync(process.env.GITHUB_ENV, `RELEASE_VERSION=${version}\nRELEASE_TAG=v${version}\nRELEASE_TARBALL=${process.env.RUNNER_TEMP}/orbv-${version}.tgz\n`);
           NODE
       - name: Validate and pack once
         run: npm pack --pack-destination "$RUNNER_TEMP"
@@ -56,7 +56,7 @@ jobs:
           import { createHash } from 'node:crypto';
           const integrity = `sha512-${createHash('sha512').update(readFileSync(process.env.RELEASE_TARBALL)).digest('base64')}`;
           appendFileSync(process.env.GITHUB_ENV, `RELEASE_INTEGRITY=${integrity}\n`);
-          const response = await fetch(`https://registry.npmjs.org/@neongate-ai%2forbz/${process.env.RELEASE_VERSION}`);
+          const response = await fetch(`https://registry.npmjs.org/orbv/${process.env.RELEASE_VERSION}`);
           if (response.status === 404) {
             appendFileSync(process.env.GITHUB_OUTPUT, 'published=false\n');
           } else {
@@ -76,7 +76,7 @@ jobs:
           else
             git config user.name 'Jonatas Sales'
             git config user.email 'sykes.echo@proton.me'
-            git tag -a "$RELEASE_TAG" "$GITHUB_SHA" -m "Orbz $RELEASE_VERSION"
+            git tag -a "$RELEASE_TAG" "$GITHUB_SHA" -m "OrbV $RELEASE_VERSION"
             git push origin "refs/tags/$RELEASE_TAG"
           fi
       - name: Publish validated tarball
@@ -84,15 +84,15 @@ jobs:
         run: npm publish "$RELEASE_TARBALL" --access public --tag latest --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Verify registry integrity and Orb binary
+      - name: Verify registry integrity and OrbV binary
         run: |
-          test "$(npm view "@neongate-ai/orbz@$RELEASE_VERSION" dist.integrity)" = "$RELEASE_INTEGRITY"
+          test "$(npm view "orbv@$RELEASE_VERSION" dist.integrity)" = "$RELEASE_INTEGRITY"
           cd "$RUNNER_TEMP"
-          npm exec --yes --package="@neongate-ai/orbz@$RELEASE_VERSION" -- orb --help
+          npm exec --yes --package="orbv@$RELEASE_VERSION" -- orbv --help
       - name: Record GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release create "$RELEASE_TAG" --verify-tag --title "Orbz $RELEASE_VERSION" --generate-notes
+            gh release create "$RELEASE_TAG" --verify-tag --title "OrbV $RELEASE_VERSION" --generate-notes
           fi

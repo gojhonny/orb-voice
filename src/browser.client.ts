@@ -1,5 +1,5 @@
-import { defineOrbz } from '@services/registration.service'
+import { defineOrbV } from '@services/registration.service'
 
-export * from '@orbz'
+export * from '@orbv'
 
-defineOrbz()
+defineOrbV()

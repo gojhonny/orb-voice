@@ -1,4 +1,4 @@
 {
   "*.{ts,tsx,js,mjs,cjs,json,jsonc,css}": "biome check --write --no-errors-on-unmatched",
-  "{cli/orb,cli/**/*.sh,.audits/**/*.sh,.husky/pre-commit,.husky/commit-msg}": "./cli/src/core/shell-syntax.sh"
+  "{cli/orbv,cli/**/*.sh,.audits/**/*.sh,.husky/pre-commit,.husky/commit-msg}": "./cli/src/core/shell-syntax.sh"
 }

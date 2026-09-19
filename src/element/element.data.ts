@@ -1,5 +1,5 @@
-import { orbzConfiguration } from '@core/config.data'
+import { orbvConfiguration } from '@core/config.data'
 
-export const ORBZ_TAG_NAME = orbzConfiguration.component.tagName
+export const ORBV_TAG_NAME = orbvConfiguration.component.tagName
 
-export const ORBZ_OBSERVED_ATTRIBUTES = orbzConfiguration.component.observedAttributes
+export const ORBV_OBSERVED_ATTRIBUTES = orbvConfiguration.component.observedAttributes

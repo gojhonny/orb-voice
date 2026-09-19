@@ -1,9 +1,9 @@
-import type { OrbzMotionConfigurationSource } from '@core/config.types'
-import { deepFreezeOrbzConfiguration } from '@core/lib/deep-freeze.compute'
+import type { OrbVMotionConfigurationSource } from '@core/config.types'
+import { deepFreezeOrbVConfiguration } from '@core/lib/deep-freeze.compute'
 
 /** Internal defaults restored from the pre-SPEC-025 configuration. */
-export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
-  animatedStyleProperties: ['--orbz-angle', 'opacity', 'rotate', 'scale', 'translate'],
+export const ORBV_DEFAULT_MOTION = deepFreezeOrbVConfiguration({
+  animatedStyleProperties: ['--orbv-angle', 'opacity', 'rotate', 'scale', 'translate'],
   easings: {
     easeInOut: 'ease-in-out',
     easeOut: 'ease-out',
@@ -35,7 +35,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': ['0deg', '360deg']
+          '--orbv-angle': ['0deg', '360deg']
         },
         transition: {
           duration: 20,
@@ -106,7 +106,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': ['0deg', '360deg']
+          '--orbv-angle': ['0deg', '360deg']
         },
         transition: {
           duration: 11,
@@ -179,7 +179,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': ['0deg', '720deg']
+          '--orbv-angle': ['0deg', '720deg']
         },
         transition: {
           duration: 8,
@@ -253,7 +253,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': ['0deg', '540deg']
+          '--orbv-angle': ['0deg', '540deg']
         },
         transition: {
           duration: 5.5,
@@ -325,7 +325,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': ['0deg', '18deg']
+          '--orbv-angle': ['0deg', '18deg']
         },
         transition: {
           duration: 16,
@@ -393,7 +393,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': '0deg'
+          '--orbv-angle': '0deg'
         },
         transition: {
           duration: 0
@@ -452,7 +452,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': '36deg'
+          '--orbv-angle': '36deg'
         },
         transition: {
           duration: 0
@@ -513,7 +513,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': '92deg'
+          '--orbv-angle': '92deg'
         },
         transition: {
           duration: 0
@@ -574,7 +574,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': '148deg'
+          '--orbv-angle': '148deg'
         },
         transition: {
           duration: 0
@@ -633,7 +633,7 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       },
       field: {
         animate: {
-          '--orb-angle': '8deg'
+          '--orbv-angle': '8deg'
         },
         transition: {
           duration: 0
@@ -672,4 +672,4 @@ export const ORBZ_DEFAULT_MOTION = deepFreezeOrbzConfiguration({
       }
     }
   }
-} satisfies OrbzMotionConfigurationSource)
+} satisfies OrbVMotionConfigurationSource)

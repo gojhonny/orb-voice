@@ -36,33 +36,33 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Inspect engineering environment
-        run: ./cli/orb doctor --ci
+        run: ./cli/orbv doctor --ci
 
       - name: Lint pull request commits
         if: github.event_name == 'pull_request'
-        run: ./cli/orb git lint --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}"
+        run: ./cli/orbv git lint --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}"
 
       - name: Lint pushed commit
         if: github.event_name == 'push'
-        run: ./cli/orb git lint --last
+        run: ./cli/orbv git lint --last
 
       - name: Lint
-        run: ./cli/orb lint
+        run: ./cli/orbv lint
 
       - name: Typecheck
-        run: ./cli/orb typecheck
+        run: ./cli/orbv typecheck
 
       - name: Test
-        run: ./cli/orb test
+        run: ./cli/orbv test
 
       - name: Build
-        run: ./cli/orb build
+        run: ./cli/orbv build
 
       - name: Validate package version
-        run: ./cli/orb git version-check
+        run: ./cli/orbv git version-check
 
       - name: Run repository audits
-        run: ./cli/orb audit
+        run: ./cli/orbv audit
 
       - name: Verify npm payload and prepack gate
         run: npm pack --dry-run
