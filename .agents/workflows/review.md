@@ -1,6 +1,6 @@
 # Change review workflow
 
-Use for a pre-merge review of Orbz code, package, or harness changes.
+Use for a pre-merge review of OrbV code, package, or harness changes.
 
 1. Read `AGENTS.md`, the changed SPEC, and linked ADRs/rules.
 2. Use the `code-review` skill.
@@ -9,8 +9,8 @@ Use for a pre-merge review of Orbz code, package, or harness changes.
 5. Check Web Component lifecycle, closed-shadow behavior, reduced motion, voice cancellation, localization, and accessibility implications.
 6. Confirm tests are colocated, deterministic, and exercise public behavior or justified factory internals.
 7. Confirm docs, SPECs, ADRs, rules, audits, and CLI help remain synchronized.
-8. Run `orb lint`, `orb typecheck`, and `orb test` when reviewing executable changes.
-9. Run `orb check` before declaring the change release-ready.
+8. Run `orbv lint`, `orbv typecheck`, and `orbv test` when reviewing executable changes.
+9. Run `orbv check` before declaring the change release-ready.
 10. Report findings by severity with exact file/behavior evidence.
 
 ## Formatting-only README changes
@@ -24,6 +24,6 @@ correct existing copy or update a URL as part of presentation work.
 
 Keep native heading anchors and section order stable. Check that GitHub-supported
 HTML remains balanced and does not hide instructions. Run the documentation
-audit with `sh .audits/documentation.audit.sh`, then the complete Orb gate. Record
+audit with `sh .audits/documentation.audit.sh`, then the complete OrbV gate. Record
 the content comparison, review head and CI/deployment outcomes in the delivery
 SPEC and PR. Keep temporary rendered comparisons outside tracked package files.

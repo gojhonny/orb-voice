@@ -1,3 +1,3 @@
 # Implementation skill
 
-Procedure for implementing an approved Orbz specification through validation.
+Procedure for implementing an approved OrbV specification through validation.

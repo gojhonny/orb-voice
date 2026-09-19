@@ -1,6 +1,6 @@
 # Harness prompts
 
-These prompts are compact authoring aids for Orbz records. They do not override
+These prompts are compact authoring aids for OrbV records. They do not override
 `AGENTS.md`, rules, accepted ADRs, or the specification workflow.
 
 - `adr.prompt.md`: durable architectural decision.

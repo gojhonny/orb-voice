@@ -1,6 +1,6 @@
 # Agent workflows
 
-Workflows are explicit, user-invoked engineering sequences for recurring Orbz tasks.
+Workflows are explicit, user-invoked engineering sequences for recurring OrbV tasks.
 They orchestrate existing skills, rules, CLI commands, and audits; they do not
 replace SPECs or introduce a second command surface.
 

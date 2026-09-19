@@ -1,9 +1,12 @@
 # ADR-0010: Use Orb as the single engineering command surface
 
-- Status: Accepted; amended by ADR-0011 and ADR-0020
+- Status: Accepted; amended by ADR-0011, ADR-0020, and ADR-0021
 - Created: 2026-09-04
-- Updated: 2026-09-09
+- Updated: 2026-09-19
 - Mode: Current decision
+
+Public command spelling is now `orbv` (ADR-0021). This record remains the
+single-command-surface decision; examples that say `orb` are historical spelling.
 
 ## Context
 
