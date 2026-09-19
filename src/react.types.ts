@@ -1,44 +1,44 @@
 import type {
-  OrbzPresetName,
-  OrbzReducedMotion,
-  OrbzSize,
-  OrbzState
+  OrbVPresetName,
+  OrbVReducedMotion,
+  OrbVSize,
+  OrbVState
 } from '@core/appearance/appearance.types'
-import type { OrbzElement } from '@element/element.types'
-import type { OrbzRealtimeSession, OrbzVoiceModel } from '@talk/voice-model.types'
+import type { OrbVElement } from '@element/element.types'
+import type { OrbVRealtimeSession, OrbVVoiceModel } from '@talk/voice-model.types'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
-export interface OrbzReactAttributes {
-  voiceModel?: OrbzVoiceModel
-  realtimeSession?: OrbzRealtimeSession
+export interface OrbVReactAttributes {
+  voiceModel?: OrbVVoiceModel
+  realtimeSession?: OrbVRealtimeSession
   'color-accent'?: string
   'color-background'?: string
   'color-highlight'?: string
   'color-primary'?: string
   'color-secondary'?: string
-  /** Use Orbz presets/properties and an outer element for layout styling. */
+  /** Use OrbV presets/properties and an outer element for layout styling. */
   className?: never
   elevated?: boolean | string
   paused?: boolean | string
-  preset?: OrbzPresetName
-  'reduced-motion'?: OrbzReducedMotion
-  size?: OrbzSize
+  preset?: OrbVPresetName
+  'reduced-motion'?: OrbVReducedMotion
+  size?: OrbVSize
   speech?: string
   speed?: number | string
-  state?: OrbzState
+  state?: OrbVState
 }
 
-type OrbzReactHostProps = Omit<
-  DetailedHTMLProps<HTMLAttributes<OrbzElement>, OrbzElement>,
+type OrbVReactHostProps = Omit<
+  DetailedHTMLProps<HTMLAttributes<OrbVElement>, OrbVElement>,
   'className'
 >
 
-export type OrbzReactIntrinsicProps = OrbzReactHostProps & OrbzReactAttributes
+export type OrbVReactIntrinsicProps = OrbVReactHostProps & OrbVReactAttributes
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'orb-z': OrbzReactIntrinsicProps
+      'orb-v': OrbVReactIntrinsicProps
     }
   }
 }

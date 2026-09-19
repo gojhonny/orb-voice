@@ -30,7 +30,7 @@ process.stdin.on('end', () => {
     ],
     [
       /\bgit\s+push\b[^\n;&|]*(?:--force(?:-with-lease)?|\s-f(?:\s|$))/i,
-      'Force-pushing is blocked by the Orbz agent guard.'
+      'Force-pushing is blocked by the OrbV agent guard.'
     ],
     [
       /\bgit\s+reset\s+--hard\b/i,

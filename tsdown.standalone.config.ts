@@ -1,12 +1,12 @@
 import { defineConfig } from 'tsdown'
 
-import { orbzCssPlugin } from './tsdown.css.config.ts'
+import { orbvCssPlugin } from './tsdown.css.config.ts'
 
 export default defineConfig({
   clean: false,
   dts: false,
   entry: {
-    'standalone/orbz': 'src/browser.client.ts'
+    'standalone/orbv': 'src/browser.client.ts'
   },
   failOnWarn: true,
   fixedExtension: false,
@@ -14,7 +14,7 @@ export default defineConfig({
   hash: false,
   minify: true,
   platform: 'browser',
-  plugins: [orbzCssPlugin()],
+  plugins: [orbvCssPlugin()],
   sourcemap: false,
   target: 'es2022'
 })

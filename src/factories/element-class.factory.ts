@@ -1,50 +1,50 @@
 import type {
-  OrbzColorOverrides,
-  OrbzColors,
-  OrbzPresetName,
-  OrbzReducedMotion,
-  OrbzSize,
-  OrbzState
+  OrbVColorOverrides,
+  OrbVColors,
+  OrbVPresetName,
+  OrbVReducedMotion,
+  OrbVSize,
+  OrbVState
 } from '@core/appearance/appearance.types'
-import { mergeOrbzColors } from '@core/appearance/merge-colors.compute'
+import { mergeOrbVColors } from '@core/appearance/merge-colors.compute'
 import {
-  DEFAULT_ORBZ_REDUCED_MOTION,
-  ORBZ_COLOR_ATTRIBUTES,
-  ORBZ_COLOR_KEYS,
-  ORBZ_PRESETS
+  DEFAULT_ORBV_REDUCED_MOTION,
+  ORBV_COLOR_ATTRIBUTES,
+  ORBV_COLOR_KEYS,
+  ORBV_PRESETS
 } from '@core/config.data'
-import { normalizeOrbzPreset } from '@core/lib/normalize-preset.compute'
-import { normalizeOrbzReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
-import { normalizeOrbzSize } from '@core/lib/normalize-size.compute'
-import { normalizeOrbzSpeed } from '@core/lib/normalize-speed.compute'
-import { normalizeOrbzState } from '@core/lib/normalize-state.compute'
-import { ORBZ_OBSERVED_ATTRIBUTES } from '@element/element.data'
-import type { OrbzElement, OrbzElementConstructor } from '@element/element.types'
-import { orbzShadowTreeFactory } from '@factories/shadow-tree.factory'
-import type { OrbzConversationState } from '@ports/conversation.port'
-import type { OrbzIntelligencePort } from '@ports/intelligence.port'
-import type { OrbzVoiceEnginePort } from '@ports/voice-engine.port'
-import { OrbzAnimationService } from '@services/animation.service'
-import { OrbzConversationRunnerService } from '@services/conversation-runner.service'
-import { OrbzTalkRunnerService } from '@services/talk-runner.service'
+import { normalizeOrbVPreset } from '@core/lib/normalize-preset.compute'
+import { normalizeOrbVReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
+import { normalizeOrbVSize } from '@core/lib/normalize-size.compute'
+import { normalizeOrbVSpeed } from '@core/lib/normalize-speed.compute'
+import { normalizeOrbVState } from '@core/lib/normalize-state.compute'
+import { ORBV_OBSERVED_ATTRIBUTES } from '@element/element.data'
+import type { OrbVElement, OrbVElementConstructor } from '@element/element.types'
+import { orbvShadowTreeFactory } from '@factories/shadow-tree.factory'
+import type { OrbVConversationState } from '@ports/conversation.port'
+import type { OrbVIntelligencePort } from '@ports/intelligence.port'
+import type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
+import { OrbVAnimationService } from '@services/animation.service'
+import { OrbVConversationRunnerService } from '@services/conversation-runner.service'
+import { OrbVTalkRunnerService } from '@services/talk-runner.service'
 import {
-  createDefaultOrbzVoiceModel,
-  createOrbzConversation,
-  createOrbzVoiceEngine
+  createDefaultOrbVVoiceModel,
+  createOrbVConversation,
+  createOrbVVoiceEngine
 } from '@services/voice-model.service'
 import { normalizeRealtimeSession } from '@talk/normalize-realtime-session.compute'
 import { normalizeVoiceModel } from '@talk/normalize-voice-model.compute'
 import { DEFAULT_TALK_FLOW } from '@talk/talk.data'
-import type { OrbzTalkContext, OrbzTalkStep } from '@talk/talk.types'
-import type { OrbzRealtimeSession, OrbzVoiceModel } from '@talk/voice-model.types'
+import type { OrbVTalkContext, OrbVTalkStep } from '@talk/talk.types'
+import type { OrbVRealtimeSession, OrbVVoiceModel } from '@talk/voice-model.types'
 
-const ELEMENT_CONSTRUCTORS = new WeakMap<object, OrbzElementConstructor>()
+const ELEMENT_CONSTRUCTORS = new WeakMap<object, OrbVElementConstructor>()
 
 /**
- * Creates the Orbz custom-element class only when a DOM implementation exists.
+ * Creates the OrbV custom-element class only when a DOM implementation exists.
  * Importing this module on a server never evaluates an HTMLElement subclass.
  */
-export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
+export function orbvElementClassFactory(): OrbVElementConstructor | undefined {
   if (typeof globalThis.HTMLElement === 'undefined') {
     return undefined
   }
@@ -55,25 +55,25 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
     return existingConstructor
   }
 
-  class OrbzHTMLElement extends HTMLElementBase implements OrbzElement {
-    static readonly observedAttributes = ORBZ_OBSERVED_ATTRIBUTES
+  class OrbVHTMLElement extends HTMLElementBase implements OrbVElement {
+    static readonly observedAttributes = ORBV_OBSERVED_ATTRIBUTES
 
-    readonly #animationService: OrbzAnimationService
-    readonly #conversationRunner: OrbzConversationRunnerService
-    readonly #talkRunner: OrbzTalkRunnerService
+    readonly #animationService: OrbVAnimationService
+    readonly #conversationRunner: OrbVConversationRunnerService
+    readonly #talkRunner: OrbVTalkRunnerService
     readonly #visualRoot: HTMLElement
     #activationAbortController: AbortController | undefined
     #colorConflictCheckQueued = false
     #connected = false
-    #customVoiceEngine: OrbzVoiceEnginePort | undefined
+    #customVoiceEngine: OrbVVoiceEnginePort | undefined
     #hasColorConflict = false
     #motionQuery: MediaQueryList | undefined
     #speaking = false
-    #stateBeforeConversation: OrbzState | undefined
-    #stateBeforeSpeech: OrbzState | undefined
-    #talkFlow: readonly OrbzTalkStep[] = DEFAULT_TALK_FLOW
-    #voiceModel: Readonly<OrbzVoiceModel> | undefined = createDefaultOrbzVoiceModel()
-    #realtimeSession: OrbzRealtimeSession | undefined
+    #stateBeforeConversation: OrbVState | undefined
+    #stateBeforeSpeech: OrbVState | undefined
+    #talkFlow: readonly OrbVTalkStep[] = DEFAULT_TALK_FLOW
+    #voiceModel: Readonly<OrbVVoiceModel> | undefined = createDefaultOrbVVoiceModel()
+    #realtimeSession: OrbVRealtimeSession | undefined
 
     readonly #handleMotionPreferenceChange = (): void => {
       if (this.reducedMotion === 'system') {
@@ -85,101 +85,101 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       super()
 
       const shadowRoot = this.attachShadow({ mode: 'closed' })
-      const shadowTree = orbzShadowTreeFactory(shadowRoot, this.ownerDocument)
+      const shadowTree = orbvShadowTreeFactory(shadowRoot, this.ownerDocument)
 
       this.#visualRoot = shadowTree.root
-      this.#animationService = new OrbzAnimationService(this.#visualRoot, shadowTree.layers)
-      this.#talkRunner = new OrbzTalkRunnerService(
+      this.#animationService = new OrbVAnimationService(this.#visualRoot, shadowTree.layers)
+      this.#talkRunner = new OrbVTalkRunnerService(
         this.#handleSpeakingChange.bind(this),
         this.#handleTalkError.bind(this)
       )
-      this.#conversationRunner = new OrbzConversationRunnerService({
+      this.#conversationRunner = new OrbVConversationRunnerService({
         onStateChange: this.#handleConversationState.bind(this),
         onTranscript: (transcript) => {
-          this.dispatchEvent(new CustomEvent('orbz-transcript', { detail: transcript }))
+          this.dispatchEvent(new CustomEvent('orbv-transcript', { detail: transcript }))
         },
         onError: (error) => {
           this.dispatchEvent(
-            new CustomEvent('orbz-talk-error', {
+            new CustomEvent('orbv-talk-error', {
               detail: Object.freeze({ error })
             })
           )
         }
       })
-      this.#talkRunner.voiceEngine = createOrbzVoiceEngine(this.#voiceModel)
+      this.#talkRunner.voiceEngine = createOrbVVoiceEngine(this.#voiceModel)
     }
 
-    get intelligence(): OrbzIntelligencePort | undefined {
+    get intelligence(): OrbVIntelligencePort | undefined {
       return this.#talkRunner.intelligence
     }
 
-    set intelligence(value: OrbzIntelligencePort | undefined) {
+    set intelligence(value: OrbVIntelligencePort | undefined) {
       if (value !== undefined && typeof value.respond !== 'function') {
-        throw new TypeError('Orbz intelligence must implement respond().')
+        throw new TypeError('OrbV intelligence must implement respond().')
       }
 
       this.#talkRunner.intelligence = value
     }
 
-    get talkContext(): Readonly<OrbzTalkContext> {
+    get talkContext(): Readonly<OrbVTalkContext> {
       return this.#talkRunner.context
     }
 
-    get talkFlow(): readonly OrbzTalkStep[] {
+    get talkFlow(): readonly OrbVTalkStep[] {
       return Object.freeze([...this.#talkFlow])
     }
 
-    set talkFlow(value: readonly OrbzTalkStep[] | undefined) {
+    set talkFlow(value: readonly OrbVTalkStep[] | undefined) {
       const flow = value ?? DEFAULT_TALK_FLOW
       if (!Array.isArray(flow)) {
-        throw new TypeError('Orbz talkFlow must be an array of talk steps.')
+        throw new TypeError('OrbV talkFlow must be an array of talk steps.')
       }
 
       this.#talkFlow = [...flow]
     }
 
-    get voiceEngine(): OrbzVoiceEnginePort | undefined {
+    get voiceEngine(): OrbVVoiceEnginePort | undefined {
       return this.#talkRunner.voiceEngine
     }
 
-    set voiceEngine(value: OrbzVoiceEnginePort | undefined) {
+    set voiceEngine(value: OrbVVoiceEnginePort | undefined) {
       if (
         value !== undefined &&
         (typeof value.speak !== 'function' || typeof value.stop !== 'function')
       ) {
-        throw new TypeError('Orbz voiceEngine must implement speak() and stop().')
+        throw new TypeError('OrbV voiceEngine must implement speak() and stop().')
       }
 
       this.stopTalking()
       this.stopConversation()
       this.#customVoiceEngine = value
-      this.#talkRunner.voiceEngine = value ?? createOrbzVoiceEngine(this.#voiceModel)
+      this.#talkRunner.voiceEngine = value ?? createOrbVVoiceEngine(this.#voiceModel)
     }
 
-    get voiceModel(): Readonly<OrbzVoiceModel> | undefined {
+    get voiceModel(): Readonly<OrbVVoiceModel> | undefined {
       return this.#voiceModel
     }
 
-    set voiceModel(value: OrbzVoiceModel | null | undefined) {
+    set voiceModel(value: OrbVVoiceModel | null | undefined) {
       const model = normalizeVoiceModel(value)
-      const engine = this.#customVoiceEngine ?? createOrbzVoiceEngine(model)
+      const engine = this.#customVoiceEngine ?? createOrbVVoiceEngine(model)
       this.stopTalking()
       this.stopConversation()
       this.#voiceModel = model
       this.#talkRunner.voiceEngine = engine
     }
 
-    get realtimeSession(): OrbzRealtimeSession | undefined {
+    get realtimeSession(): OrbVRealtimeSession | undefined {
       return this.#realtimeSession
     }
 
-    set realtimeSession(value: OrbzRealtimeSession | undefined) {
+    set realtimeSession(value: OrbVRealtimeSession | undefined) {
       const session = normalizeRealtimeSession(value)
       this.stopConversation()
       this.#realtimeSession = session
     }
 
-    get conversationState(): OrbzConversationState {
+    get conversationState(): OrbVConversationState {
       return this.#conversationRunner.state
     }
 
@@ -191,17 +191,17 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       this.toggleAttribute('elevated', Boolean(value))
     }
 
-    get preset(): OrbzPresetName {
-      return normalizeOrbzPreset(this.getAttribute('preset'))
+    get preset(): OrbVPresetName {
+      return normalizeOrbVPreset(this.getAttribute('preset'))
     }
 
-    set preset(value: OrbzPresetName | null | undefined) {
+    set preset(value: OrbVPresetName | null | undefined) {
       if (value === null || value === undefined) {
         this.removeAttribute('preset')
         return
       }
 
-      this.setAttribute('preset', normalizeOrbzPreset(value))
+      this.setAttribute('preset', normalizeOrbVPreset(value))
     }
 
     get paused(): boolean {
@@ -212,20 +212,20 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       this.toggleAttribute('paused', Boolean(value))
     }
 
-    get reducedMotion(): OrbzReducedMotion {
-      return normalizeOrbzReducedMotion(this.getAttribute('reduced-motion'))
+    get reducedMotion(): OrbVReducedMotion {
+      return normalizeOrbVReducedMotion(this.getAttribute('reduced-motion'))
     }
 
-    set reducedMotion(value: OrbzReducedMotion) {
-      this.setAttribute('reduced-motion', normalizeOrbzReducedMotion(value))
+    set reducedMotion(value: OrbVReducedMotion) {
+      this.setAttribute('reduced-motion', normalizeOrbVReducedMotion(value))
     }
 
     get size(): string {
-      return normalizeOrbzSize(this.getAttribute('size'))
+      return normalizeOrbVSize(this.getAttribute('size'))
     }
 
-    set size(value: OrbzSize) {
-      this.setAttribute('size', normalizeOrbzSize(value))
+    set size(value: OrbVSize) {
+      this.setAttribute('size', normalizeOrbVSize(value))
     }
 
     get speech(): string | undefined {
@@ -243,19 +243,19 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
     }
 
     get speed(): number {
-      return normalizeOrbzSpeed(this.getAttribute('speed'))
+      return normalizeOrbVSpeed(this.getAttribute('speed'))
     }
 
     set speed(value: number) {
-      this.setAttribute('speed', String(normalizeOrbzSpeed(value)))
+      this.setAttribute('speed', String(normalizeOrbVSpeed(value)))
     }
 
-    get state(): OrbzState {
-      return normalizeOrbzState(this.getAttribute('state'))
+    get state(): OrbVState {
+      return normalizeOrbVState(this.getAttribute('state'))
     }
 
-    set state(value: OrbzState) {
-      this.setAttribute('state', normalizeOrbzState(value))
+    set state(value: OrbVState) {
+      this.setAttribute('state', normalizeOrbVState(value))
     }
 
     connectedCallback(): void {
@@ -303,7 +303,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
 
       if (name === 'preset') {
         if (newValue !== null) {
-          const normalized = normalizeOrbzPreset(newValue)
+          const normalized = normalizeOrbVPreset(newValue)
           if (newValue !== normalized) {
             this.setAttribute(name, normalized)
             return
@@ -332,7 +332,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       }
 
       if (name === 'state' && newValue !== null) {
-        const normalized = normalizeOrbzState(newValue)
+        const normalized = normalizeOrbVState(newValue)
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -340,7 +340,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       }
 
       if (name === 'speed' && newValue !== null) {
-        const normalized = String(normalizeOrbzSpeed(newValue))
+        const normalized = String(normalizeOrbVSpeed(newValue))
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -348,7 +348,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       }
 
       if (name === 'reduced-motion' && newValue !== null) {
-        const normalized = normalizeOrbzReducedMotion(newValue)
+        const normalized = normalizeOrbVReducedMotion(newValue)
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -429,12 +429,12 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
         this.#handleTalkError(error)
         throw error
       }
-      let conversation: ReturnType<typeof createOrbzConversation>
+      let conversation: ReturnType<typeof createOrbVConversation>
       try {
-        conversation = createOrbzConversation(this.#voiceModel, this.#realtimeSession)
+        conversation = createOrbVConversation(this.#voiceModel, this.#realtimeSession)
       } catch {
         const error = new Error(
-          'Orbz startConversation() requires a Realtime voiceModel and realtimeSession.'
+          'OrbV startConversation() requires a Realtime voiceModel and realtimeSession.'
         )
         this.#handleTalkError(error)
         throw error
@@ -451,7 +451,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       this.#conversationRunner.interrupt()
     }
 
-    #handleConversationState(state: OrbzConversationState): void {
+    #handleConversationState(state: OrbVConversationState): void {
       this.#handleSpeakingChange(state === 'speaking')
       if (state === 'idle' || state === 'error') {
         const previous = this.#stateBeforeConversation
@@ -463,7 +463,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
         this.state = state === 'connecting' ? 'thinking' : state
       }
       this.dispatchEvent(
-        new CustomEvent('orbz-conversation-state-change', {
+        new CustomEvent('orbv-conversation-state-change', {
           detail: Object.freeze({ state })
         })
       )
@@ -538,36 +538,36 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
 
       const presetAttribute = this.getAttribute('preset')
       if (presetAttribute !== null) {
-        const normalized = normalizeOrbzPreset(presetAttribute)
+        const normalized = normalizeOrbVPreset(presetAttribute)
         if (presetAttribute !== normalized) {
           this.setAttribute('preset', normalized)
         }
       }
 
-      for (const key of ORBZ_COLOR_KEYS) {
-        this.#normalizeColorAttribute(key, this.getAttribute(ORBZ_COLOR_ATTRIBUTES[key]))
+      for (const key of ORBV_COLOR_KEYS) {
+        this.#normalizeColorAttribute(key, this.getAttribute(ORBV_COLOR_ATTRIBUTES[key]))
       }
 
       this.#synchronizeColors()
     }
 
     #synchronizeSize(value: string | null): void {
-      const normalized = normalizeOrbzSize(value)
+      const normalized = normalizeOrbVSize(value)
       if (value !== null && value !== normalized) {
         this.setAttribute('size', normalized)
         return
       }
 
-      this.#visualRoot.style.setProperty('--orbz-size', normalized)
+      this.#visualRoot.style.setProperty('--orbv-size', normalized)
     }
 
-    #normalizeColorAttribute(key: keyof OrbzColors, value: string | null): boolean {
+    #normalizeColorAttribute(key: keyof OrbVColors, value: string | null): boolean {
       if (value === null) {
         return true
       }
 
       const normalized = value.trim()
-      const attribute = ORBZ_COLOR_ATTRIBUTES[key]
+      const attribute = ORBV_COLOR_ATTRIBUTES[key]
       if (normalized.length === 0) {
         this.removeAttribute(attribute)
         return false
@@ -584,11 +584,11 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
     #synchronizeColors(): void {
       const hasExplicitPreset = this.hasAttribute('preset')
       const colors = hasExplicitPreset
-        ? { ...ORBZ_PRESETS[this.preset] }
-        : mergeOrbzColors(this.#readColorOverrides())
+        ? { ...ORBV_PRESETS[this.preset] }
+        : mergeOrbVColors(this.#readColorOverrides())
 
-      for (const key of ORBZ_COLOR_KEYS) {
-        this.#visualRoot.style.setProperty(`--orbz-${key}`, colors[key])
+      for (const key of ORBV_COLOR_KEYS) {
+        this.#visualRoot.style.setProperty(`--orbv-${key}`, colors[key])
       }
 
       this.#queueColorConflictCheck()
@@ -602,15 +602,15 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       this.#colorConflictCheckQueued = true
       queueMicrotask(() => {
         this.#colorConflictCheckQueued = false
-        const customAttributes = ORBZ_COLOR_KEYS.filter((key) =>
-          this.hasAttribute(ORBZ_COLOR_ATTRIBUTES[key])
+        const customAttributes = ORBV_COLOR_KEYS.filter((key) =>
+          this.hasAttribute(ORBV_COLOR_ATTRIBUTES[key])
         )
         const hasConflict = this.hasAttribute('preset') && customAttributes.length > 0
 
         if (hasConflict && !this.#hasColorConflict) {
-          const names = customAttributes.map((key) => ORBZ_COLOR_ATTRIBUTES[key]).join(', ')
+          const names = customAttributes.map((key) => ORBV_COLOR_ATTRIBUTES[key]).join(', ')
           console.error(
-            `[Orbz] preset='${this.preset}' cannot be combined with ` +
+            `[OrbV] preset='${this.preset}' cannot be combined with ` +
               `${names}. ` +
               'The preset is applied and custom color attributes are ignored.'
           )
@@ -619,10 +619,10 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       })
     }
 
-    #readColorOverrides(): OrbzColorOverrides {
-      const overrides: OrbzColorOverrides = {}
-      for (const key of ORBZ_COLOR_KEYS) {
-        const value = this.getAttribute(ORBZ_COLOR_ATTRIBUTES[key])
+    #readColorOverrides(): OrbVColorOverrides {
+      const overrides: OrbVColorOverrides = {}
+      for (const key of ORBV_COLOR_KEYS) {
+        const value = this.getAttribute(ORBV_COLOR_ATTRIBUTES[key])
         if (value !== null) {
           overrides[key] = value
         }
@@ -652,7 +652,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       }
 
       this.dispatchEvent(
-        new CustomEvent('orbz-speaking-change', {
+        new CustomEvent('orbv-speaking-change', {
           detail: Object.freeze({ speaking })
         })
       )
@@ -664,7 +664,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       }
 
       this.dispatchEvent(
-        new CustomEvent('orbz-talk-error', {
+        new CustomEvent('orbv-talk-error', {
           detail: Object.freeze({ error })
         })
       )
@@ -678,7 +678,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
       const reducedMotion = this.reducedMotion
       const reduced =
         reducedMotion === 'always' ||
-        (reducedMotion === DEFAULT_ORBZ_REDUCED_MOTION && (this.#motionQuery?.matches ?? false))
+        (reducedMotion === DEFAULT_ORBV_REDUCED_MOTION && (this.#motionQuery?.matches ?? false))
 
       this.#animationService.render({
         paused: this.paused,
@@ -689,7 +689,7 @@ export function orbzElementClassFactory(): OrbzElementConstructor | undefined {
     }
   }
 
-  const elementConstructor = OrbzHTMLElement as unknown as OrbzElementConstructor
+  const elementConstructor = OrbVHTMLElement as unknown as OrbVElementConstructor
   ELEMENT_CONSTRUCTORS.set(HTMLElementBase, elementConstructor)
 
   return elementConstructor
@@ -700,8 +700,8 @@ function normalizeSpeech(value: string | null | undefined): string | undefined {
   return normalized && normalized.length > 0 ? normalized : undefined
 }
 
-function colorKeyForAttribute(name: string): keyof OrbzColors | undefined {
-  return ORBZ_COLOR_KEYS.find((key) => ORBZ_COLOR_ATTRIBUTES[key] === name)
+function colorKeyForAttribute(name: string): keyof OrbVColors | undefined {
+  return ORBV_COLOR_KEYS.find((key) => ORBV_COLOR_ATTRIBUTES[key] === name)
 }
 
 function isSpeechActivationError(error: unknown): boolean {

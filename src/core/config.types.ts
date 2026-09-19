@@ -1,12 +1,12 @@
 import type {
-  OrbzAnimationValues,
-  OrbzMotionProfile,
-  OrbzTransition
+  OrbVAnimationValues,
+  OrbVMotionProfile,
+  OrbVTransition
 } from '@core/motion/motion.types'
 
-export type OrbzStates = readonly ['idle', 'listening', 'thinking', 'speaking', 'asleep']
-export type OrbzReducedMotionModes = readonly ['system', 'always', 'never']
-export type OrbzPresetNames = readonly [
+export type OrbVStates = readonly ['idle', 'listening', 'thinking', 'speaking', 'asleep']
+export type OrbVReducedMotionModes = readonly ['system', 'always', 'never']
+export type OrbVPresetNames = readonly [
   'neongate',
   'periwinkle',
   'magenta',
@@ -15,42 +15,42 @@ export type OrbzPresetNames = readonly [
   'ivory'
 ]
 /** @deprecated Use the canonical NeonGate identifier in new configuration. */
-type LegacyPresetNames = readonly ['gojhonny', ...OmitFirst<OrbzPresetNames>]
+type LegacyPresetNames = readonly ['gojhonny', ...OmitFirst<OrbVPresetNames>]
 type OmitFirst<T extends readonly unknown[]> = T extends readonly [unknown, ...infer Rest]
   ? Rest
   : never
-export type OrbzColorKeys = readonly ['accent', 'background', 'highlight', 'primary', 'secondary']
+export type OrbVColorKeys = readonly ['accent', 'background', 'highlight', 'primary', 'secondary']
 
-type State = OrbzStates[number]
-type Preset = OrbzPresetNames[number]
-type Color = OrbzColorKeys[number]
+type State = OrbVStates[number]
+type Preset = OrbVPresetNames[number]
+type Color = OrbVColorKeys[number]
 type Layer = 'aura' | 'core' | 'field' | 'highlight' | 'ring' | 'root'
 
-export type OrbzDeepReadonly<T> = T extends object
-  ? { readonly [Key in keyof T]: OrbzDeepReadonly<T[Key]> }
+export type OrbVDeepReadonly<T> = T extends object
+  ? { readonly [Key in keyof T]: OrbVDeepReadonly<T[Key]> }
   : T
 
-export interface OrbzSerializedLayerMotion {
-  animate: OrbzAnimationValues
-  transition: Omit<OrbzTransition, 'repeat'> & { repeat?: number | 'infinite' }
+export interface OrbVSerializedLayerMotion {
+  animate: OrbVAnimationValues
+  transition: Omit<OrbVTransition, 'repeat'> & { repeat?: number | 'infinite' }
 }
 
-export interface OrbzComponentConfiguration {
-  tagName: 'orb-z'
-  states: OrbzStates
-  reducedMotionModes: OrbzReducedMotionModes
+export interface OrbVComponentConfiguration {
+  tagName: 'orb-v'
+  states: OrbVStates
+  reducedMotionModes: OrbVReducedMotionModes
   defaultState: State
   defaultSize: string
   defaultSpeed: number
-  defaultReducedMotion: OrbzReducedMotionModes[number]
+  defaultReducedMotion: OrbVReducedMotionModes[number]
   /** Base attributes in source JSON; includes derived color attributes at runtime. */
   observedAttributes: readonly string[]
 }
 
-export interface OrbzAppearanceConfiguration {
+export interface OrbVAppearanceConfiguration {
   defaultPreset: Preset
-  presetNames: OrbzPresetNames
-  colorKeys: OrbzColorKeys
+  presetNames: OrbVPresetNames
+  colorKeys: OrbVColorKeys
   colorAttributes: { [Key in Color]: `color-${Key}` }
   presets: Record<Preset, Record<Color, string>>
   byState: Record<State, { contrast: number; saturation: number }>
@@ -58,27 +58,27 @@ export interface OrbzAppearanceConfiguration {
 
 /** Compatibility input for the preset identifier accidentally published in 1.0.1. */
 interface LegacyAppearanceConfiguration
-  extends Omit<OrbzAppearanceConfiguration, 'defaultPreset' | 'presetNames' | 'presets'> {
+  extends Omit<OrbVAppearanceConfiguration, 'defaultPreset' | 'presetNames' | 'presets'> {
   defaultPreset: LegacyPresetNames[number]
   presetNames: LegacyPresetNames
   presets: Record<LegacyPresetNames[number], Record<Color, string>>
 }
 
-interface OrbzRuntimeAppearanceConfiguration extends OrbzAppearanceConfiguration {
-  presets: OrbzAppearanceConfiguration['presets'] & {
+interface OrbVRuntimeAppearanceConfiguration extends OrbVAppearanceConfiguration {
+  presets: OrbVAppearanceConfiguration['presets'] & {
     /** @deprecated Use neongate; retained as a non-enumerable palette alias. */
     gojhonny: Record<Color, string>
   }
 }
 
-export interface OrbzMotionConfigurationSource {
+export interface OrbVMotionConfigurationSource {
   animatedStyleProperties: readonly string[]
   easings: { easeInOut: string; easeOut: string; linear: string }
-  full: Record<State, Record<Layer, OrbzSerializedLayerMotion>>
-  reduced: Record<State, Record<Layer, OrbzSerializedLayerMotion>>
+  full: Record<State, Record<Layer, OrbVSerializedLayerMotion>>
+  reduced: Record<State, Record<Layer, OrbVSerializedLayerMotion>>
 }
 
-export interface OrbzSpeechConfiguration {
+export interface OrbVSpeechConfiguration {
   defaultVoiceModel: null | 'web-speech' | 'openai-speech' | 'openai-realtime'
   models: readonly ['web-speech', 'openai-speech', 'openai-realtime']
   /** Package defaults intentionally contain no consumer conversation copy. */
@@ -105,7 +105,7 @@ export interface OrbzSpeechConfiguration {
   }
 }
 
-export interface OrbzRealtimeConfiguration {
+export interface OrbVRealtimeConfiguration {
   maxEventBytes: number
   maxTranscriptLength: number
   openai: {
@@ -118,40 +118,40 @@ export interface OrbzRealtimeConfiguration {
 }
 
 /** Compact build input; legacy internal overrides remain supported. */
-export interface OrbzConfigurationSource {
-  component: OrbzComponentConfiguration
+export interface OrbVConfigurationSource {
+  component: OrbVComponentConfiguration
   appearance: (
-    | Omit<OrbzAppearanceConfiguration, 'byState'>
+    | Omit<OrbVAppearanceConfiguration, 'byState'>
     | Omit<LegacyAppearanceConfiguration, 'byState'>
   ) & {
-    byState?: OrbzAppearanceConfiguration['byState']
+    byState?: OrbVAppearanceConfiguration['byState']
   }
-  motion?: OrbzMotionConfigurationSource
-  speech?: OrbzSpeechConfiguration
-  realtime: OrbzRealtimeConfiguration
+  motion?: OrbVMotionConfigurationSource
+  speech?: OrbVSpeechConfiguration
+  realtime: OrbVRealtimeConfiguration
 }
 
 /** Validated source after composing omitted internal defaults. */
-export interface OrbzResolvedConfigurationSource
-  extends Omit<OrbzConfigurationSource, 'appearance' | 'motion' | 'speech'> {
-  appearance: OrbzAppearanceConfiguration
-  motion: OrbzMotionConfigurationSource
-  speech: OrbzSpeechConfiguration
+export interface OrbVResolvedConfigurationSource
+  extends Omit<OrbVConfigurationSource, 'appearance' | 'motion' | 'speech'> {
+  appearance: OrbVAppearanceConfiguration
+  motion: OrbVMotionConfigurationSource
+  speech: OrbVSpeechConfiguration
 }
 
-export interface OrbzMotionConfiguration
-  extends Omit<OrbzMotionConfigurationSource, 'full' | 'reduced'> {
-  full: Record<State, OrbzMotionProfile>
-  reduced: Record<State, OrbzMotionProfile>
+export interface OrbVMotionConfiguration
+  extends Omit<OrbVMotionConfigurationSource, 'full' | 'reduced'> {
+  full: Record<State, OrbVMotionProfile>
+  reduced: Record<State, OrbVMotionProfile>
 }
 
-export interface OrbzRuntimeConfiguration
-  extends Omit<OrbzResolvedConfigurationSource, 'appearance' | 'motion'> {
-  appearance: OrbzRuntimeAppearanceConfiguration
-  motion: OrbzMotionConfiguration
+export interface OrbVRuntimeConfiguration
+  extends Omit<OrbVResolvedConfigurationSource, 'appearance' | 'motion'> {
+  appearance: OrbVRuntimeAppearanceConfiguration
+  motion: OrbVMotionConfiguration
 }
 
-export type OrbzConfiguration = OrbzDeepReadonly<OrbzRuntimeConfiguration>
+export type OrbVConfiguration = OrbVDeepReadonly<OrbVRuntimeConfiguration>
 
 /** The bundled defaults retain the same accurate configurable contracts. */
-export type OrbzBundledConfiguration = OrbzConfiguration
+export type OrbVBundledConfiguration = OrbVConfiguration

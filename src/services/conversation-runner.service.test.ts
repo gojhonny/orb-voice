@@ -1,19 +1,19 @@
-import type { OrbzConversationHandlers } from '@ports/conversation.port'
+import type { OrbVConversationHandlers } from '@ports/conversation.port'
 import { describe, expect, it, vi } from 'vitest'
 
-import { OrbzConversationRunnerService } from './conversation-runner.service'
+import { OrbVConversationRunnerService } from './conversation-runner.service'
 
 describe('service/conversation-runner', () => {
   it('ignores events and rejection from a superseded startup', async () => {
     const handlers = { onStateChange: vi.fn(), onTranscript: vi.fn(), onError: vi.fn() }
-    const runner = new OrbzConversationRunnerService(handlers)
+    const runner = new OrbVConversationRunnerService(handlers)
     let rejectStartup: (error: Error) => void = () => {}
     const pending = new Promise<void>((_resolve, reject) => {
       rejectStartup = reject
     })
-    let oldHandlers: OrbzConversationHandlers | undefined
+    let oldHandlers: OrbVConversationHandlers | undefined
     const first = {
-      start: vi.fn((callbacks: OrbzConversationHandlers) => {
+      start: vi.fn((callbacks: OrbVConversationHandlers) => {
         oldHandlers = callbacks
         callbacks.onStateChange('connecting')
         return pending
@@ -23,7 +23,7 @@ describe('service/conversation-runner', () => {
     }
     const firstStart = runner.start(first)
     const second = {
-      start: vi.fn(async (callbacks: OrbzConversationHandlers) => {
+      start: vi.fn(async (callbacks: OrbVConversationHandlers) => {
         callbacks.onStateChange('listening')
       }),
       stop: vi.fn(),
@@ -48,10 +48,10 @@ describe('service/conversation-runner', () => {
 
   it('retires a failed startup before late callbacks or interruption can reach it', async () => {
     const handlers = { onStateChange: vi.fn(), onTranscript: vi.fn(), onError: vi.fn() }
-    const runner = new OrbzConversationRunnerService(handlers)
-    let failedHandlers: OrbzConversationHandlers | undefined
+    const runner = new OrbVConversationRunnerService(handlers)
+    let failedHandlers: OrbVConversationHandlers | undefined
     const conversation = {
-      start: vi.fn(async (callbacks: OrbzConversationHandlers) => {
+      start: vi.fn(async (callbacks: OrbVConversationHandlers) => {
         failedHandlers = callbacks
         throw new Error('Private provider diagnostic')
       }),
@@ -59,7 +59,7 @@ describe('service/conversation-runner', () => {
       interrupt: vi.fn()
     }
 
-    await expect(runner.start(conversation)).rejects.toThrow('Orbz conversation could not start.')
+    await expect(runner.start(conversation)).rejects.toThrow('OrbV conversation could not start.')
     failedHandlers?.onStateChange('speaking')
     failedHandlers?.onTranscript({ role: 'assistant', text: 'Late response', final: true })
     failedHandlers?.onError(new Error('Late failure'))

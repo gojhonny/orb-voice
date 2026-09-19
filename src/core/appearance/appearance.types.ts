@@ -1,13 +1,13 @@
-import type { ORBZ_PRESET_NAMES, ORBZ_REDUCED_MOTION_MODES, ORBZ_STATES } from '@core/config.data'
+import type { ORBV_PRESET_NAMES, ORBV_REDUCED_MOTION_MODES, ORBV_STATES } from '@core/config.data'
 
-export type OrbzState = (typeof ORBZ_STATES)[number]
-export type OrbzReducedMotion = (typeof ORBZ_REDUCED_MOTION_MODES)[number]
+export type OrbVState = (typeof ORBV_STATES)[number]
+export type OrbVReducedMotion = (typeof ORBV_REDUCED_MOTION_MODES)[number]
 /** @deprecated Use neongate; the accidentally published name remains accepted. */
 type LegacyPresetName = 'gojhonny'
-export type OrbzPresetName = (typeof ORBZ_PRESET_NAMES)[number] | LegacyPresetName
-export type OrbzSize = number | string
+export type OrbVPresetName = (typeof ORBV_PRESET_NAMES)[number] | LegacyPresetName
+export type OrbVSize = number | string
 
-export interface OrbzColors {
+export interface OrbVColors {
   accent: string
   background: string
   highlight: string
@@ -15,18 +15,18 @@ export interface OrbzColors {
   secondary: string
 }
 
-export type OrbzColorOverrides = Partial<OrbzColors>
+export type OrbVColorOverrides = Partial<OrbVColors>
 
-export interface OrbzPresetOptions {
+export interface OrbVPresetOptions {
   colorAccent?: never
   colorBackground?: never
   colorHighlight?: never
   colorPrimary?: never
   colorSecondary?: never
-  preset?: OrbzPresetName
+  preset?: OrbVPresetName
 }
 
-export interface OrbzCustomColorOptions {
+export interface OrbVCustomColorOptions {
   colorAccent?: string
   colorBackground?: string
   colorHighlight?: string
@@ -35,16 +35,16 @@ export interface OrbzCustomColorOptions {
   preset?: never
 }
 
-export type OrbzColorSelection = OrbzPresetOptions | OrbzCustomColorOptions
+export type OrbVColorSelection = OrbVPresetOptions | OrbVCustomColorOptions
 
-export interface OrbzBaseOptions {
+export interface OrbVBaseOptions {
   elevated?: boolean
   paused?: boolean
-  reducedMotion?: OrbzReducedMotion
-  size?: OrbzSize
+  reducedMotion?: OrbVReducedMotion
+  size?: OrbVSize
   speech?: string
   speed?: number
-  state?: OrbzState
+  state?: OrbVState
 }
 
-export type OrbzOptions = OrbzBaseOptions & OrbzColorSelection
+export type OrbVOptions = OrbVBaseOptions & OrbVColorSelection

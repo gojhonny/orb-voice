@@ -1,6 +1,6 @@
-import type { OrbzState } from '@core/appearance/appearance.types'
-import { ORBZ_STATES } from '@core/config.data'
+import type { OrbVState } from '@core/appearance/appearance.types'
+import { ORBV_STATES } from '@core/config.data'
 
-export function isOrbzState(value: unknown): value is OrbzState {
-  return typeof value === 'string' && (ORBZ_STATES as readonly string[]).includes(value)
+export function isOrbVState(value: unknown): value is OrbVState {
+  return typeof value === 'string' && (ORBV_STATES as readonly string[]).includes(value)
 }

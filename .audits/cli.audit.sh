@@ -9,7 +9,7 @@ pass() { printf 'PASS  %s\n' "$1"; }
 fail() { printf 'FAIL  %s\n' "$1" >&2; failures=$((failures + 1)); }
 
 for path in \
-  cli/orb \
+  cli/orbv \
   cli/readme.md \
   cli/src/orb.sh \
   cli/src/core/common.sh \
@@ -38,18 +38,18 @@ do
   if [ -f "$path" ]; then pass "$path"; else fail "missing $path"; fi
 done
 
-for executable in cli/orb cli/src/orb.sh cli/src/commands/*.sh cli/src/core/shell-syntax.sh; do
+for executable in cli/orbv cli/src/orb.sh cli/src/commands/*.sh cli/src/core/shell-syntax.sh; do
   if [ -x "$executable" ]; then pass "$executable is executable"; else fail "$executable is not executable"; fi
 done
 
 shell_failures=0
-for shell_file in cli/orb cli/src/*.sh cli/src/core/*.sh cli/src/commands/*.sh; do
+for shell_file in cli/orbv cli/src/*.sh cli/src/core/*.sh cli/src/commands/*.sh; do
   if ! /bin/sh -n "$shell_file"; then
     printf 'FAIL  invalid shell syntax: %s\n' "$shell_file" >&2
     shell_failures=$((shell_failures + 1))
   fi
 done
-if [ "$shell_failures" -eq 0 ]; then pass 'all Orb shell files pass /bin/sh -n'; else failures=$((failures + shell_failures)); fi
+if [ "$shell_failures" -eq 0 ]; then pass 'all OrbV shell files pass /bin/sh -n'; else failures=$((failures + shell_failures)); fi
 
 if find cli -type f \( -name '*.mjs' -o -name '*.js' -o -name '*.ts' \) -print | grep . >/dev/null 2>&1; then
   fail 'CLI contains a non-shell implementation file'
@@ -74,17 +74,17 @@ if find cli .agents .audits .husky .github README.md AGENTS.md package.json .lin
   >/dev/null 2>&1; then
   fail 'legacy CLI naming remains in the active repository surface'
 else
-  pass 'CLI naming is consistently Orb'
+  pass 'CLI naming is consistently OrbV'
 fi
 
 if grep -R -n -i -E 'k8s|container orchestrator|workspace task graph|product changelog|environment template' cli >/dev/null 2>&1; then
   fail 'CLI retains unrelated application or infrastructure behavior'
 else
-  pass 'CLI scope is specific to the Orbz library'
+  pass 'CLI scope is specific to the OrbV library'
 fi
 
 for command in bootstrap setup doctor cleanup lint typecheck test build audit check help 'git setup' 'git doctor' 'git pre-commit' 'git commit-message' 'git lint' 'git version-check'; do
-  if TERM=dumb ./cli/orb help | grep -F "$command" >/dev/null 2>&1; then
+  if TERM=dumb ./cli/orbv help | grep -F "$command" >/dev/null 2>&1; then
     pass "help documents $command"
   else
     fail "help does not document $command"
@@ -101,16 +101,16 @@ if (JSON.stringify(actual) !== JSON.stringify(expected)) {
   console.error(`FAIL  package scripts must be exactly ${expected.join(', ')}; found ${actual.join(', ')}`)
   process.exit(1)
 }
-if (scripts['pnpm:devPreinstall'] !== './cli/orb setup --launcher --bootstrap') {
-  console.error('FAIL  pnpm:devPreinstall must provision the managed Orb launcher')
+if (scripts['pnpm:devPreinstall'] !== './cli/orbv setup --launcher --bootstrap') {
+  console.error('FAIL  pnpm:devPreinstall must provision the managed OrbV launcher')
   process.exit(1)
 }
-if (scripts.setup !== './cli/orb setup --launcher') {
-  console.error('FAIL  setup script must delegate to Orb launcher setup')
+if (scripts.setup !== './cli/orbv setup --launcher') {
+  console.error('FAIL  setup script must delegate to OrbV launcher setup')
   process.exit(1)
 }
-if (scripts.prepack !== './cli/orb check') {
-  console.error('FAIL  prepack must delegate to Orb check')
+if (scripts.prepack !== './cli/orbv check') {
+  console.error('FAIL  prepack must delegate to OrbV check')
   process.exit(1)
 }
 for (const forbidden of ['preinstall', 'install', 'postinstall', 'prepare']) {
@@ -119,23 +119,23 @@ for (const forbidden of ['preinstall', 'install', 'postinstall', 'prepare']) {
     process.exit(1)
   }
 }
-if (pkg.bin?.orb !== './cli/orb' || Object.keys(pkg.bin).length !== 1) {
-  console.error('FAIL  package must expose exactly one orb binary')
+if (pkg.bin?.orbv !== './cli/orbv' || Object.keys(pkg.bin).length !== 1) {
+  console.error('FAIL  package must expose exactly one orbv binary')
   process.exit(1)
 }
-console.log('PASS  source install provisions Orb while consumer lifecycle hooks stay clean')
+console.log('PASS  source install provisions OrbV while consumer lifecycle hooks stay clean')
 NODE
 
-if grep -F '# managed-by: orbz-orb' cli/src/commands/setup-launcher.sh >/dev/null 2>&1; then
-  pass 'launcher uses the Orbz-managed marker'
+if grep -F '# managed-by: orbv' cli/src/commands/setup-launcher.sh >/dev/null 2>&1; then
+  pass 'launcher uses the OrbV-managed marker'
 else
-  fail 'launcher marker is not Orbz-specific'
+  fail 'launcher marker is not OrbV-specific'
 fi
 
-if grep -E 'pnpm exec[[:space:]]+orb|npm exec --[[:space:]]+orb' README.md cli/readme.md >/dev/null 2>&1; then
-  fail 'active documentation requires a package-manager executable runner for Orb'
+if grep -E 'pnpm exec[[:space:]]+orbv|npm exec --[[:space:]]+orbv' README.md cli/readme.md >/dev/null 2>&1; then
+  fail 'active documentation requires a package-manager executable runner for OrbV'
 else
-  pass 'active documentation uses direct orb commands'
+  pass 'active documentation uses direct orbv commands'
 fi
 
 if grep -F '.agents' cli/src/commands/cleanup.sh >/dev/null 2>&1 && grep -F '.audits' cli/src/commands/cleanup.sh >/dev/null 2>&1; then
@@ -152,33 +152,33 @@ else
   fail 'terminal ORB logo is missing neon color channels'
 fi
 
-orb_tmp=${TMPDIR:-/tmp}/orb-cli-audit.$$
+orb_tmp=${TMPDIR:-/tmp}/orbv-cli-audit.$$
 trap 'rm -rf "$orb_tmp"' 0 1 2 15
 mkdir -p "$orb_tmp/bin" "$orb_tmp/package/cli" "$orb_tmp/project" "$orb_tmp/direct-bin"
-ln -s "$ROOT/cli/orb" "$orb_tmp/bin/orb"
-if "$orb_tmp/bin/orb" --version | grep -Fx "orb $(node -p "require('./package.json').version")" >/dev/null 2>&1; then
+ln -s "$ROOT/cli/orbv" "$orb_tmp/bin/orbv"
+if "$orb_tmp/bin/orbv" --version | grep -Fx "orbv $(node -p "require('./package.json').version")" >/dev/null 2>&1; then
   pass 'package-manager style symlink resolves the real CLI location'
 else
   fail 'CLI entry point fails through a symlink'
 fi
 
-if ORB_BIN_DIR="$orb_tmp/direct-bin" CI= ./cli/orb setup --launcher --bootstrap >/dev/null 2>&1 &&
-   PATH="$orb_tmp/direct-bin:$PATH" orb --version | grep -Fx "orb $(node -p "require('./package.json').version")" >/dev/null 2>&1; then
-  pass 'managed launcher exposes orb directly on PATH'
+if ORB_BIN_DIR="$orb_tmp/direct-bin" CI= ./cli/orbv setup --launcher --bootstrap >/dev/null 2>&1 &&
+   PATH="$orb_tmp/direct-bin:$PATH" orbv --version | grep -Fx "orbv $(node -p "require('./package.json').version")" >/dev/null 2>&1; then
+  pass 'managed launcher exposes orbv directly on PATH'
 else
-  fail 'managed launcher does not expose a direct orb command'
+  fail 'managed launcher does not expose a direct orbv command'
 fi
 
 cp package.json "$orb_tmp/package/package.json"
 cp -R cli "$orb_tmp/package/"
 cat > "$orb_tmp/project/package.json" <<'JSON'
 {
-  "name": "orb-consumer-audit",
+  "name": "orbv-consumer-audit",
   "private": true,
   "packageManager": "pnpm@10.32.1"
 }
 JSON
-if (cd "$orb_tmp/project" && "$orb_tmp/package/cli/orb" --dry-run) | grep -F 'pnpm add @neongate-ai/orbz@' >/dev/null 2>&1; then
+if (cd "$orb_tmp/project" && "$orb_tmp/package/cli/orbv" --dry-run) | grep -F 'pnpm add orbv@' >/dev/null 2>&1; then
   pass 'published CLI routes directly to project setup and detects pnpm'
 else
   fail 'published CLI does not select project setup correctly'
@@ -186,15 +186,15 @@ fi
 
 cat > "$orb_tmp/project/package.json" <<'JSON'
 {
-  "name": "orb-consumer-audit",
+  "name": "orbv-consumer-audit",
   "private": true,
   "dependencies": {
-    "@neongate-ai/orbz": "^0.4.0"
+    "orbv": "^0.4.0"
   }
 }
 JSON
 before=$(find "$orb_tmp/project" -type f -exec basename {} \; | LC_ALL=C sort)
-if (cd "$orb_tmp/project" && "$orb_tmp/package/cli/orb") >/dev/null 2>&1; then
+if (cd "$orb_tmp/project" && "$orb_tmp/package/cli/orbv") >/dev/null 2>&1; then
   after=$(find "$orb_tmp/project" -type f -exec basename {} \; | LC_ALL=C sort)
   if [ "$before" = "$after" ]; then
     pass 'default published setup is idempotent and creates no source files'
@@ -227,7 +227,7 @@ orb_good_merge=$(printf 'docs: merge valid branch\n\n%s\n' "$orb_long_body" | or
 orb_bad_merge=$(printf 'docs: merge invalid branch\n' | orb_fixture_commit -p "$orb_base" -p "$orb_invalid")
 for orb_history_command in lint commits; do
   git -C "$orb_history" update-ref HEAD "$orb_invalid"
-  if "$orb_history/cli/orb" git "$orb_history_command" --last >"$orb_tmp/history.log" 2>&1; then
+  if "$orb_history/cli/orbv" git "$orb_history_command" --last >"$orb_tmp/history.log" 2>&1; then
     fail "$orb_history_command accepts a non-merge with an invalid body"
   elif grep -F 'body-max-line-length' "$orb_tmp/history.log" >/dev/null 2>&1; then
     pass "$orb_history_command strictly checks a merge-looking non-merge"
@@ -241,7 +241,7 @@ for orb_history_command in lint commits; do
     else
       set -- --from "$orb_base" --to HEAD
     fi
-    if "$orb_history/cli/orb" git "$orb_history_command" "$@" >"$orb_tmp/history.log" 2>&1; then
+    if "$orb_history/cli/orbv" git "$orb_history_command" "$@" >"$orb_tmp/history.log" 2>&1; then
       pass "$orb_history_command $orb_history_mode accepts an integration envelope with valid changes"
     else
       fail "$orb_history_command $orb_history_mode rejects a valid introduced history"
@@ -255,7 +255,7 @@ for orb_history_command in lint commits; do
     else
       set -- --from "$orb_base" --to HEAD
     fi
-    if "$orb_history/cli/orb" git "$orb_history_command" "$@" >"$orb_tmp/history.log" 2>&1; then
+    if "$orb_history/cli/orbv" git "$orb_history_command" "$@" >"$orb_tmp/history.log" 2>&1; then
       fail "$orb_history_command $orb_history_mode hides an invalid introduced commit"
     elif grep -F 'body-max-line-length' "$orb_tmp/history.log" >/dev/null 2>&1; then
       pass "$orb_history_command $orb_history_mode rejects invalid introduced history"

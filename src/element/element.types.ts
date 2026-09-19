@@ -1,16 +1,16 @@
 import type {
-  OrbzPresetName,
-  OrbzReducedMotion,
-  OrbzSize,
-  OrbzState
+  OrbVPresetName,
+  OrbVReducedMotion,
+  OrbVSize,
+  OrbVState
 } from '@core/appearance/appearance.types'
-import type { OrbzIntelligencePort } from '@ports/intelligence.port'
-import type { OrbzConversationState } from '@ports/conversation.port'
-import type { OrbzVoiceEnginePort } from '@ports/voice-engine.port'
-import type { OrbzTalkContext, OrbzTalkStep } from '@talk/talk.types'
-import type { OrbzRealtimeSession, OrbzVoiceModel } from '@talk/voice-model.types'
+import type { OrbVIntelligencePort } from '@ports/intelligence.port'
+import type { OrbVConversationState } from '@ports/conversation.port'
+import type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
+import type { OrbVTalkContext, OrbVTalkStep } from '@talk/talk.types'
+import type { OrbVRealtimeSession, OrbVVoiceModel } from '@talk/voice-model.types'
 
-export interface OrbzAnimationLayers {
+export interface OrbVAnimationLayers {
   aura: HTMLElement
   core: HTMLElement
   field: HTMLElement
@@ -19,51 +19,51 @@ export interface OrbzAnimationLayers {
   root: HTMLElement
 }
 
-export interface OrbzAnimationSettings {
+export interface OrbVAnimationSettings {
   paused: boolean
   reduced: boolean
   speed: number
-  state: OrbzState
+  state: OrbVState
 }
 
-export interface OrbzShadowTree {
-  layers: OrbzAnimationLayers
+export interface OrbVShadowTree {
+  layers: OrbVAnimationLayers
   root: HTMLElement
 }
 
-export interface OrbzVoiceOptions {
-  intelligence?: OrbzIntelligencePort
-  talkFlow?: readonly OrbzTalkStep[]
+export interface OrbVVoiceOptions {
+  intelligence?: OrbVIntelligencePort
+  talkFlow?: readonly OrbVTalkStep[]
   speech?: string
-  voiceEngine?: OrbzVoiceEnginePort
-  voiceModel?: OrbzVoiceModel
-  realtimeSession?: OrbzRealtimeSession
+  voiceEngine?: OrbVVoiceEnginePort
+  voiceModel?: OrbVVoiceModel
+  realtimeSession?: OrbVRealtimeSession
 }
 
-export interface OrbzElement extends HTMLElement {
-  readonly conversationState: OrbzConversationState
+export interface OrbVElement extends HTMLElement {
+  readonly conversationState: OrbVConversationState
   elevated: boolean
-  intelligence: OrbzIntelligencePort | undefined
+  intelligence: OrbVIntelligencePort | undefined
   paused: boolean
-  get preset(): OrbzPresetName
-  set preset(value: OrbzPresetName | null | undefined)
-  reducedMotion: OrbzReducedMotion
-  size: OrbzSize
+  get preset(): OrbVPresetName
+  set preset(value: OrbVPresetName | null | undefined)
+  reducedMotion: OrbVReducedMotion
+  size: OrbVSize
   get speech(): string | undefined
   set speech(value: string | null | undefined)
   speed: number
-  state: OrbzState
-  readonly talkContext: Readonly<OrbzTalkContext>
-  get talkFlow(): readonly OrbzTalkStep[]
-  set talkFlow(value: readonly OrbzTalkStep[] | undefined)
-  get voiceEngine(): OrbzVoiceEnginePort | undefined
-  set voiceEngine(value: OrbzVoiceEnginePort | undefined)
+  state: OrbVState
+  readonly talkContext: Readonly<OrbVTalkContext>
+  get talkFlow(): readonly OrbVTalkStep[]
+  set talkFlow(value: readonly OrbVTalkStep[] | undefined)
+  get voiceEngine(): OrbVVoiceEnginePort | undefined
+  set voiceEngine(value: OrbVVoiceEnginePort | undefined)
   /** Public model options only; this property is not reflected into attributes. */
-  get voiceModel(): Readonly<OrbzVoiceModel> | undefined
-  set voiceModel(value: OrbzVoiceModel | null | undefined)
+  get voiceModel(): Readonly<OrbVVoiceModel> | undefined
+  set voiceModel(value: OrbVVoiceModel | null | undefined)
   /** Application authorization boundary; never pass provider keys or tokens. */
-  get realtimeSession(): OrbzRealtimeSession | undefined
-  set realtimeSession(value: OrbzRealtimeSession | undefined)
+  get realtimeSession(): OrbVRealtimeSession | undefined
+  set realtimeSession(value: OrbVRealtimeSession | undefined)
   pause(): void
   play(): void
   receive(input: string): Promise<void>
@@ -75,8 +75,8 @@ export interface OrbzElement extends HTMLElement {
   interruptConversation(): void
 }
 
-export type OrbzElementConstructor = CustomElementConstructor & {
-  new (): OrbzElement
+export type OrbVElementConstructor = CustomElementConstructor & {
+  new (): OrbVElement
   readonly observedAttributes: readonly string[]
-  readonly prototype: OrbzElement
+  readonly prototype: OrbVElement
 }
