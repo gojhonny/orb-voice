@@ -1,6 +1,6 @@
 {
   "name": "orbv",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A framework-agnostic, customizable AI voice orb built as a strict, SSR-safe web component.",
   "type": "module",
   "license": "MIT",
