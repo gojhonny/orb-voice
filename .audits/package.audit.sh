@@ -24,8 +24,8 @@ else fail('package files must contain exactly dist and cli')
 if (!pkg.dependencies || Object.keys(pkg.dependencies).length === 0) pass('package has no runtime dependencies')
 else fail('unexpected runtime dependencies detected')
 
-if (pkg.bin?.orbv === './cli/orbv' && Object.keys(pkg.bin).length === 1) pass('package exposes exactly the orbv binary')
-else fail('package bin must expose only orbv -> ./cli/orbv')
+if (pkg.bin?.['orb-voice'] === './cli/orb-voice' && Object.keys(pkg.bin).length === 1) pass('package exposes exactly the orb-voice binary')
+else fail('package bin must expose only orb-voice -> ./cli/orb-voice')
 
 for (const entry of ['.', './browser', './react-types', './standalone', './index.css', './package.json']) {
   if (entry in pkg.exports) pass(`export ${entry}`)
@@ -39,15 +39,15 @@ if (JSON.stringify(Object.keys(scripts).sort()) === JSON.stringify(expectedScrip
 } else {
   fail(`unexpected package script aliases: ${Object.keys(scripts).sort().join(', ')}`)
 }
-if (scripts['pnpm:devPreinstall'] === './cli/orbv setup --launcher --bootstrap') {
-  pass('local pnpm install provisions the managed OrbV launcher')
+if (scripts['pnpm:devPreinstall'] === './cli/orb-voice setup --launcher --bootstrap') {
+  pass('local pnpm install provisions the managed Orb Voice launcher')
 } else {
-  fail('pnpm:devPreinstall must provision the managed OrbV launcher')
+  fail('pnpm:devPreinstall must provision the managed Orb Voice launcher')
 }
-if (scripts.setup === './cli/orbv setup --launcher') pass('setup recovery bridge delegates to OrbV')
-else fail('setup recovery bridge must delegate to OrbV launcher setup')
-if (scripts.prepack === './cli/orbv check') pass('prepack delegates to complete OrbV check')
-else fail('prepack must delegate to ./cli/orbv check')
+if (scripts.setup === './cli/orb-voice setup --launcher') pass('setup recovery bridge delegates to Orb Voice')
+else fail('setup recovery bridge must delegate to Orb Voice launcher setup')
+if (scripts.prepack === './cli/orb-voice check') pass('prepack delegates to complete Orb Voice check')
+else fail('prepack must delegate to ./cli/orb-voice check')
 for (const forbidden of ['preinstall', 'install', 'postinstall', 'prepare']) {
   if (!(forbidden in scripts)) pass(`no ${forbidden} setup side effect`)
   else fail(`${forbidden} must not trigger setup`)
@@ -95,7 +95,7 @@ if (failures.length > 0) {
 console.log('\nPackage metadata audit passed.')
 NODE
 
-if [ -x cli/orbv ] && /bin/sh -n cli/orbv; then
+if [ -x cli/orb-voice ] && /bin/sh -n cli/orb-voice; then
   printf 'PASS  package bin is executable POSIX shell\n'
 else
   printf 'FAIL  package bin must be executable POSIX shell\n' >&2
@@ -111,8 +111,8 @@ for hook in .husky/pre-commit .husky/commit-msg; do
   fi
 done
 
-if grep -F 'orbv git pre-commit' .husky/pre-commit >/dev/null 2>&1; then printf 'PASS  pre-commit delegates to OrbV\n'; else printf 'FAIL  pre-commit must delegate to OrbV\n' >&2; exit 1; fi
-if grep -F 'orbv git commit-message' .husky/commit-msg >/dev/null 2>&1; then printf 'PASS  commit-msg delegates to OrbV\n'; else printf 'FAIL  commit-msg must delegate to OrbV\n' >&2; exit 1; fi
+if grep -F 'orb-voice git pre-commit' .husky/pre-commit >/dev/null 2>&1; then printf 'PASS  pre-commit delegates to Orb Voice\n'; else printf 'FAIL  pre-commit must delegate to Orb Voice\n' >&2; exit 1; fi
+if grep -F 'orb-voice git commit-message' .husky/commit-msg >/dev/null 2>&1; then printf 'PASS  commit-msg delegates to Orb Voice\n'; else printf 'FAIL  commit-msg must delegate to Orb Voice\n' >&2; exit 1; fi
 
 for config in tsdown.config.ts tsdown.standalone.config.ts; do
   if grep -E 'sourcemap:[[:space:]]*false' "$config" >/dev/null 2>&1; then

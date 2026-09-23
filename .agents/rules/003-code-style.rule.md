@@ -1,5 +1,5 @@
 ---
-description: Scopes TypeScript, JavaScript, configuration, formatting, import-order, typing, and secret-handling conventions for OrbV engineering changes.
+description: Scopes TypeScript, JavaScript, configuration, formatting, import-order, typing, and secret-handling conventions for Orb Voice engineering changes.
 globs:
   - "src/**"
   - "test/**"

@@ -1,6 +1,6 @@
 # Engineering skills
 
-Skills are reusable procedures for common OrbV work. They guide execution but do
+Skills are reusable procedures for common Orb Voice work. They guide execution but do
 not replace specifications, ADRs, or rules.
 
 Available skills cover accessibility, code review, context engineering,

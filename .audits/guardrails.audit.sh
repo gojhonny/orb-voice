@@ -66,18 +66,18 @@ for workflow in regression-fix review release harness-improvement; do
   if [ -f ".agents/workflows/$workflow.md" ]; then pass "workflow $workflow"; else fail "missing workflow $workflow"; fi
 done
 
-if grep -F 'name: orbv-reviewer' .cursor/agents/orbv-reviewer.md >/dev/null 2>&1 && \
-   grep -F 'description:' .cursor/agents/orbv-reviewer.md >/dev/null 2>&1; then
-  pass 'OrbV reviewer subagent metadata'
+if grep -F 'name: orb-voice-reviewer' .cursor/agents/orb-voice-reviewer.md >/dev/null 2>&1 && \
+   grep -F 'description:' .cursor/agents/orb-voice-reviewer.md >/dev/null 2>&1; then
+  pass 'Orb Voice reviewer subagent metadata'
 else
-  fail 'OrbV reviewer subagent lacks name/description metadata'
+  fail 'Orb Voice reviewer subagent lacks name/description metadata'
 fi
 
 
 if grep -F 'harness-score@1.5.2' cli/src/commands/harness.sh >/dev/null 2>&1; then
-  pass 'OrbV harness command pins harness-score 1.5.2'
+  pass 'Orb Voice harness command pins harness-score 1.5.2'
 else
-  fail 'OrbV harness command must pin harness-score 1.5.2'
+  fail 'Orb Voice harness command must pin harness-score 1.5.2'
 fi
 
 if grep -F 'uses: paladini/harness-score@v1' .github/workflows/harness-score.yml >/dev/null 2>&1 &&

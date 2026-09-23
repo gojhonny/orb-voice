@@ -5,7 +5,7 @@ set -eu
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Git setup help does not accept additional arguments.' 2
-    printf 'Usage: orbv git setup\n'
+    printf 'Usage: orb-voice git setup\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Git setup does not accept arguments.' 2 ;;
@@ -13,20 +13,20 @@ case "${1:-}" in
 esac
 
 orb_need git
-orb_git_checkout || orb_die 'Git setup must run inside the OrbV checkout.'
+orb_git_checkout || orb_die 'Git setup must run inside the Orb Voice checkout.'
 
 mkdir -p "$ORB_PROJECT_ROOT/.husky"
 cat >"$ORB_PROJECT_ROOT/.husky/pre-commit" <<'HOOK'
 #!/bin/sh
-exec ./cli/orbv git pre-commit "$@"
+exec ./cli/orb-voice git pre-commit "$@"
 HOOK
 cat >"$ORB_PROJECT_ROOT/.husky/commit-msg" <<'HOOK'
 #!/bin/sh
-exec ./cli/orbv git commit-message "$@"
+exec ./cli/orb-voice git commit-message "$@"
 HOOK
 chmod 755 "$ORB_PROJECT_ROOT/.husky/pre-commit" "$ORB_PROJECT_ROOT/.husky/commit-msg"
 
 orb_need pnpm
 cd "$ORB_PROJECT_ROOT"
 pnpm exec husky >/dev/null
-orb_print_success 'Husky hooks configured for OrbV'
+orb_print_success 'Husky hooks configured for Orb Voice'

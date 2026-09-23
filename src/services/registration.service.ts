@@ -1,24 +1,24 @@
-import { orbvElementClassFactory } from '@factories/element-class.factory'
-import type { OrbVElementConstructor } from '@element/element.types'
-import { ORBV_TAG_NAME } from '@element/element.data'
+import { orbVoiceElementClassFactory } from '@factories/element-class.factory'
+import type { OrbVoiceElementConstructor } from '@element/element.types'
+import { ORB_VOICE_TAG_NAME } from '@element/element.data'
 
-/** Defines `<orb-v>` once in the active Custom Element registry. */
-export function defineOrbV(): OrbVElementConstructor | undefined {
+/** Defines `<orb-voice>` once in the active Custom Element registry. */
+export function defineOrbVoice(): OrbVoiceElementConstructor | undefined {
   if (typeof globalThis.customElements === 'undefined') {
     return undefined
   }
 
-  const existing = globalThis.customElements.get(ORBV_TAG_NAME)
+  const existing = globalThis.customElements.get(ORB_VOICE_TAG_NAME)
   if (existing) {
-    return existing as OrbVElementConstructor
+    return existing as OrbVoiceElementConstructor
   }
 
-  const elementConstructor = orbvElementClassFactory()
+  const elementConstructor = orbVoiceElementClassFactory()
   if (!elementConstructor) {
     return undefined
   }
 
-  globalThis.customElements.define(ORBV_TAG_NAME, elementConstructor)
+  globalThis.customElements.define(ORB_VOICE_TAG_NAME, elementConstructor)
 
   return elementConstructor
 }

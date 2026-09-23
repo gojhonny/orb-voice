@@ -1,17 +1,17 @@
-import type { OrbVVoiceModel } from './voice-model.types'
+import type { OrbVoiceVoiceModel } from './voice-model.types'
 
 /** Keep executable authorization and undeclared properties out of the public model. */
 export function normalizeVoiceModel(
-  value: OrbVVoiceModel | null | undefined
-): Readonly<OrbVVoiceModel> | undefined {
+  value: OrbVoiceVoiceModel | null | undefined
+): Readonly<OrbVoiceVoiceModel> | undefined {
   if (value === undefined || value === null) {
     return undefined
   }
   if (typeof value !== 'object') {
-    throw new TypeError('OrbV voiceModel must be a provider configuration.')
+    throw new TypeError('Orb Voice voiceModel must be a provider configuration.')
   }
 
-  let selection: OrbVVoiceModel
+  let selection: OrbVoiceVoiceModel
   switch (value.provider) {
     case 'web-speech':
       selection = {
@@ -30,7 +30,7 @@ export function normalizeVoiceModel(
       break
     case 'openai-speech':
       if (!String(value.endpoint ?? '').trim()) {
-        throw new TypeError('OrbV OpenAI speech selection requires an application endpoint.')
+        throw new TypeError('Orb Voice OpenAI speech selection requires an application endpoint.')
       }
       selection = {
         provider: value.provider,
@@ -54,14 +54,14 @@ export function normalizeVoiceModel(
       }
       break
     default:
-      throw new TypeError('OrbV voiceModel provider is not supported.')
+      throw new TypeError('Orb Voice voiceModel provider is not supported.')
   }
 
   for (const key of Object.keys(value)) {
     if (!(key in selection)) {
       // Explicit undefined optional options are harmless; extra properties are not copied.
       if (Reflect.get(value, key) !== undefined) {
-        throw new TypeError('OrbV voiceModel contains an unsupported option.')
+        throw new TypeError('Orb Voice voiceModel contains an unsupported option.')
       }
     }
   }

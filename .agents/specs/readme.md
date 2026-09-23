@@ -87,8 +87,11 @@ status only when the corresponding evidence is available.
   Preserve explicit npx consumer setup and do not add standard package dependency
   install lifecycles.
 
-## OrbV product identity
+## Orb Voice distribution
 
-- [SPEC-030](030-orbz-to-orbv-identity.spec.md): implemented; migrate current
-  product identity to OrbV, npm `orbv`, `<orb-v>`, public CLI `orbv`, and
-  GitHub `gojhonny/orbv`. Do not publish, tag, or deprecate `@neongate-ai/orbz`.
+- [SPEC-030](030-orbz-to-orbv-identity.spec.md): implemented, then superseded for
+  distribution by SPEC-031. Historical record of selecting npm `orbv` and
+  `<orb-v>`.
+- [SPEC-031](031-publish-orb-voice.spec.md): publish Orb Voice as npm
+  `orb-voice@1.1.1` with public CLI `orb-voice` and element `<orb-voice>`.
+  Do not move `v1.1.0` or publish from a local machine.

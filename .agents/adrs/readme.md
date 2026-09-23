@@ -34,5 +34,9 @@ launcher part of local pnpm setup so repository engineering uses `orbv <command>
 directly, while keeping application dependency installation and explicit npx
 consumer setup separate. Public command spelling is `orbv` (ADR-0021).
 
-[ADR-0021](0021-orbv-canonical-identity.adr.md) makes OrbV the canonical product,
-npm, GitHub, custom-element, and public CLI identity.
+[ADR-0021](0021-orbv-canonical-identity.adr.md) recorded OrbV, npm `orbv`,
+`<orb-v>`, and the `orbv` CLI. ADR-0022 supersedes that distribution identity.
+
+[ADR-0022](0022-orb-voice-distribution.adr.md) makes `orb-voice` the npm
+package, public CLI, and `<orb-voice>` element. GitHub metadata targets
+`gojhonny/orb-voice`.

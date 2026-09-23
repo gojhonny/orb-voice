@@ -1,8 +1,8 @@
 # ADR-0021: OrbV is the canonical product identity
 
-- Status: Accepted
+- Status: Accepted; npm, element, and CLI identity superseded by ADR-0022
 - Created: 2026-09-19
-- Updated: 2026-09-19
+- Updated: 2026-09-22
 - Mode: Prospective
 
 ## Context

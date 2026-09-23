@@ -1,18 +1,18 @@
-# OrbV engineering CLI
+# Orb Voice engineering CLI
 
-OrbV is the POSIX shell command surface for `orbv`. It has two
+Orb Voice is the POSIX shell command surface for `orb-voice`. It has two
 strictly separated execution contexts:
 
-1. **Repository mode** operates on an OrbV source checkout.
+1. **Repository mode** operates on an Orb Voice source checkout.
 2. **Consumer setup mode** is the published npm binary used by
-   `npx orbv --setup`.
+   `npx orb-voice --setup`.
 
 There is no Node, MJS, TypeScript, or framework-based command runner. Small
 inline Node programs are used only where reliable JSON parsing is required.
 
-## Source checkout: use `orbv` directly
+## Source checkout: use `orb-voice` directly
 
-After cloning OrbV, install the dependency graph normally:
+After cloning Orb Voice, install the dependency graph normally:
 
 ```bash
 pnpm install
@@ -23,17 +23,17 @@ launcher before dependencies are installed. From that point forward, the
 canonical engineering interface is always the direct command:
 
 ```bash
-orbv help
-orbv doctor
-orbv lint
-orbv typecheck
-orbv test
-orbv build
-orbv audit
-orbv check
+orb-voice help
+orb-voice doctor
+orb-voice lint
+orb-voice typecheck
+orb-voice test
+orb-voice build
+orb-voice audit
+orb-voice check
 ```
 
-Do not wrap repository OrbV commands in a package-manager executable runner.
+Do not wrap repository Orb Voice commands in a package-manager executable runner.
 The launcher points at the source checkout that most recently configured it and
 works from any current working directory.
 
@@ -41,31 +41,31 @@ If launcher provisioning was disabled or its destination is not on `PATH`, use
 the checked-in entry point only as a recovery path:
 
 ```bash
-./cli/orbv setup --launcher
+./cli/orb-voice setup --launcher
 ```
 
 The launcher destination is selected from `--bin-dir`, `ORB_BIN_DIR`,
-`PNPM_HOME`, `XDG_BIN_HOME`, then `$HOME/.local/bin`. OrbV reports when the
+`PNPM_HOME`, `XDG_BIN_HOME`, then `$HOME/.local/bin`. Orb Voice reports when the
 selected directory is not on `PATH`; it never edits shell profiles. Existing
-OrbV-managed launchers can be refreshed, while unmanaged files, symlinks, and
+Orb Voice-managed launchers can be refreshed, while unmanaged files, symlinks, and
 non-regular paths are never replaced.
 
 The source-install lifecycle is intentionally `pnpm:devPreinstall`, which pnpm
-runs only for the root project during a local install. OrbV does not use
+runs only for the root project during a local install. Orb Voice does not use
 `preinstall`, `install`, `postinstall`, or `prepare` to provision repository
 state for package consumers.
 
 ## Command behavior
 
-With no arguments, repository OrbV shows help. Find command details with
-`orbv help setup`, `orbv help git lint`, or `orbv git lint --help`. `orbv git` and
-`orbv git help` show the Git command catalog. Help stays local and does not
+With no arguments, repository Orb Voice shows help. Find command details with
+`orb-voice help setup`, `orb-voice help git lint`, or `orb-voice git lint --help`. `orb-voice git` and
+`orb-voice git help` show the Git command catalog. Help stays local and does not
 execute the selected command.
 
 `--logs` is repeatable before or immediately after a command and at each Git
-command level, for example `orbv --logs doctor`, `orbv doctor --logs`, or
-`orbv git doctor --logs --ci`. Diagnostics go to stderr. Arguments following
-command options are left for that command or its delegated utility; put OrbV's
+command level, for example `orb-voice --logs doctor`, `orb-voice doctor --logs`, or
+`orb-voice git doctor --logs --ci`. Diagnostics go to stderr. Arguments following
+command options are left for that command or its delegated utility; put Orb Voice's
 diagnostic flag before those options.
 
 Unknown commands, invalid options, missing option values, and incompatible Git
@@ -77,39 +77,39 @@ noninteractive stdout.
 
 | Command | Purpose |
 | --- | --- |
-| `orbv bootstrap` | Install development dependencies, configure hooks and the launcher, then run doctor. |
-| `orbv setup --launcher` | Refresh the user-scoped launcher without editing shell profiles. |
-| `orbv doctor` | Validate Node, pnpm, dependencies, configs, audits, hooks, and local setup. |
-| `orbv cleanup` | Remove untracked generated output and root/nested dependencies; use `--keep-dependencies` for output only or `--dry-run` to preview. |
-| `orbv lint` | Run Biome across the checkout. |
-| `orbv typecheck` | Type-check source and colocated tests. |
-| `orbv test` | Run Vitest once; supports `--watch` and `--coverage`. |
-| `orbv build` | Build the module and standalone distributions. |
-| `orbv harness` | Run the external harness-score utility explicitly. |
-| `orbv audit` | Run all `.audits/*.audit.sh` files through `/bin/sh`. |
-| `orbv check` | Run the complete release quality gate. |
-| `orbv git setup` | Write thin Husky adapters and activate the hooks path. |
-| `orbv git doctor` | Validate Commitlint, lint-staged, Husky, SemVer, and hook wiring. |
-| `orbv git pre-commit` | Validate staged version changes, then run lint-staged. |
-| `orbv git commit-message` | Validate one commit message using Commitlint. |
-| `orbv git lint` | Validate the latest commit or a revision range. |
-| `orbv git version-check` | Require canonical, forward-only SemVer changes. |
+| `orb-voice bootstrap` | Install development dependencies, configure hooks and the launcher, then run doctor. |
+| `orb-voice setup --launcher` | Refresh the user-scoped launcher without editing shell profiles. |
+| `orb-voice doctor` | Validate Node, pnpm, dependencies, configs, audits, hooks, and local setup. |
+| `orb-voice cleanup` | Remove untracked generated output and root/nested dependencies; use `--keep-dependencies` for output only or `--dry-run` to preview. |
+| `orb-voice lint` | Run Biome across the checkout. |
+| `orb-voice typecheck` | Type-check source and colocated tests. |
+| `orb-voice test` | Run Vitest once; supports `--watch` and `--coverage`. |
+| `orb-voice build` | Build the module and standalone distributions. |
+| `orb-voice harness` | Run the external harness-score utility explicitly. |
+| `orb-voice audit` | Run all `.audits/*.audit.sh` files through `/bin/sh`. |
+| `orb-voice check` | Run the complete release quality gate. |
+| `orb-voice git setup` | Write thin Husky adapters and activate the hooks path. |
+| `orb-voice git doctor` | Validate Commitlint, lint-staged, Husky, SemVer, and hook wiring. |
+| `orb-voice git pre-commit` | Validate staged version changes, then run lint-staged. |
+| `orb-voice git commit-message` | Validate one commit message using Commitlint. |
+| `orb-voice git lint` | Validate the latest commit or a revision range. |
+| `orb-voice git version-check` | Require canonical, forward-only SemVer changes. |
 
-`orbv install` is a repository-only alias for `orbv bootstrap`. `orbv clean` aliases
-`orbv cleanup`, and `orbv neon` aliases `orbv harness`. `orbv version`,
-`orbv --version`, and `orbv -V` print the executing package version.
+`orb-voice install` is a repository-only alias for `orb-voice bootstrap`. `orb-voice clean` aliases
+`orb-voice cleanup`, and `orb-voice neon` aliases `orb-voice harness`. `orb-voice version`,
+`orb-voice --version`, and `orb-voice -V` print the executing package version.
 
-`orbv git commit message <file>` and `orbv git commit-msg <file>` are aliases for
-`orbv git commit-message <file>`. `orbv git commits` retains the commit-history
+`orb-voice git commit message <file>` and `orb-voice git commit-msg <file>` are aliases for
+`orb-voice git commit-message <file>`. `orb-voice git commits` retains the commit-history
 validation interface (`--last` or `--from` plus `--to`).
 
 ### Cleanup
 
 ```bash
-orbv cleanup --dry-run            # preview the default cleanup
-orbv cleanup                      # remove output and dependencies recursively
-orbv cleanup --keep-dependencies  # clear output while retaining dependencies
-orbv bootstrap                    # restore the dependency graph afterwards
+orb-voice cleanup --dry-run            # preview the default cleanup
+orb-voice cleanup                      # remove output and dependencies recursively
+orb-voice cleanup --keep-dependencies  # clear output while retaining dependencies
+orb-voice bootstrap                    # restore the dependency graph afterwards
 ```
 
 Cleanup targets `node_modules`, `dist`, `coverage`, `.vitest`, `.cache`, `build`,
@@ -138,7 +138,7 @@ The published package exposes one binary:
 ```json
 {
   "bin": {
-    "orbv": "./cli/orbv"
+    "orb-voice": "./cli/orb-voice"
   }
 }
 ```
@@ -147,24 +147,24 @@ For one-shot consumer setup, use the explicit package-and-binary form so
 execution never depends on npm inferring the binary name:
 
 ```bash
-npx -y --package=orbv@latest orbv
+npx -y --package=orb-voice@latest orb-voice
 ```
 
 With no arguments, the published binary runs project setup. It requires an
 existing `package.json`, detects npm, pnpm, yarn, or bun, installs the executing
-OrbV version into `dependencies`, and prints the registration snippet. It does
+Orb Voice version into `dependencies`, and prints the registration snippet. It does
 not create or overwrite application source files.
 
 Useful variants:
 
 ```bash
-npx -y --package=orbv@latest orbv --package-manager pnpm
-npx -y --package=orbv@latest orbv --project ./apps/web
-npx -y --package=orbv@latest orbv --dry-run
+npx -y --package=orb-voice@latest orb-voice --package-manager pnpm
+npx -y --package=orb-voice@latest orb-voice --project ./apps/web
+npx -y --package=orb-voice@latest orb-voice --dry-run
 ```
 
 This npx flow is separate from the source-checkout engineering launcher. Adding
-OrbV as an application dependency does not install a repository launcher or run
+Orb Voice as an application dependency does not install a repository launcher or run
 repository setup.
 
 ## Package scripts
@@ -172,16 +172,16 @@ repository setup.
 Repository commands are not duplicated as package-script aliases.
 
 - `pnpm:devPreinstall` provisions the managed launcher only for a local root
-  pnpm install of the OrbV source checkout.
+  pnpm install of the Orb Voice source checkout.
 - `setup` is a recovery bridge for manually refreshing that launcher.
-- `prepack` delegates to `./cli/orbv check` so packing and publishing cannot bypass
+- `prepack` delegates to `./cli/orb-voice check` so packing and publishing cannot bypass
   the complete quality gate.
 
-The engineering UX remains `orbv <command>`.
+The engineering UX remains `orb-voice <command>`.
 
 ## Safety
 
-OrbV does not edit shell profiles, overwrite unmanaged launchers, generate
+Orb Voice does not edit shell profiles, overwrite unmanaged launchers, generate
 consumer source files, or publish packages. Network installation is limited to
 explicit repository bootstrap, explicit project setup, and the explicit external
 harness command. Cleanup is limited to generated repository state. Provider

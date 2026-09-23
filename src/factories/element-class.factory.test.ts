@@ -1,25 +1,25 @@
-import { ORBV_TAG_NAME } from '@element/element.data'
-import type { OrbVElement } from '@element/element.types'
-import { defineOrbV } from '@services/registration.service'
+import { ORB_VOICE_TAG_NAME } from '@element/element.data'
+import type { OrbVoiceElement } from '@element/element.types'
+import { defineOrbVoice } from '@services/registration.service'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 
-function createOrbV(): OrbVElement {
-  const element = document.createElement(ORBV_TAG_NAME) as OrbVElement
+function createOrbVoice(): OrbVoiceElement {
+  const element = document.createElement(ORB_VOICE_TAG_NAME) as OrbVoiceElement
   document.body.append(element)
   return element
 }
 
 describe('factory/element-class', () => {
   beforeAll(() => {
-    defineOrbV()
+    defineOrbVoice()
   })
 
   it('keeps the visual shadow tree closed', () => {
-    expect(createOrbV().shadowRoot).toBeNull()
+    expect(createOrbVoice().shadowRoot).toBeNull()
   })
 
   it('uses NeonGate by default and reflects canonical and deprecated preset assignments', () => {
-    const orb = createOrbV()
+    const orb = createOrbVoice()
     expect(orb.preset).toBe('neongate')
     orb.preset = 'neongate'
     expect(orb.getAttribute('preset')).toBe('neongate')
@@ -35,7 +35,7 @@ describe('factory/element-class', () => {
   })
 
   it('normalizes reflected appearance and speech attributes', () => {
-    const orb = createOrbV()
+    const orb = createOrbVoice()
 
     orb.setAttribute('state', 'unknown')
     orb.setAttribute('size', ' 20rem ')
@@ -58,7 +58,7 @@ describe('factory/element-class', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const orb = createOrbV()
+    const orb = createOrbVoice()
     orb.voiceEngine = voiceEngine
 
     await orb.startTalking()
@@ -72,7 +72,7 @@ describe('factory/element-class', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const orb = createOrbV()
+    const orb = createOrbVoice()
     orb.voiceEngine = voiceEngine
     orb.voiceModel = { provider: 'openai-realtime', model: 'gpt-realtime-2' }
     orb.realtimeSession = authorize
@@ -96,11 +96,11 @@ describe('factory/element-class', () => {
       stop: vi.fn()
     }
     const speakingStates: boolean[] = []
-    const orb = createOrbV()
+    const orb = createOrbVoice()
     orb.state = 'thinking'
     orb.speech = 'Olá, mundo.'
     orb.voiceEngine = voiceEngine
-    orb.addEventListener('orbv-speaking-change', (event) => {
+    orb.addEventListener('orb-voice-speaking-change', (event) => {
       speakingStates.push((event as CustomEvent<{ speaking: boolean }>).detail.speaking)
     })
 
@@ -113,14 +113,14 @@ describe('factory/element-class', () => {
 
   it('emits an error when explicit speech has no engine', async () => {
     const errors: unknown[] = []
-    const orb = createOrbV()
+    const orb = createOrbVoice()
     orb.speech = 'Olá.'
-    orb.addEventListener('orbv-talk-error', (event) => {
+    orb.addEventListener('orb-voice-talk-error', (event) => {
       errors.push((event as CustomEvent<{ error: unknown }>).detail.error)
     })
 
     await expect(orb.startTalking()).rejects.toThrow(
-      'OrbV voiceEngine must be configured before startTalking().'
+      'Orb Voice voiceEngine must be configured before startTalking().'
     )
     expect(errors).toHaveLength(1)
   })

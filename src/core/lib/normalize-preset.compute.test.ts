@@ -1,19 +1,19 @@
-import { DEFAULT_ORBV_PRESET } from '@core/config.data'
+import { DEFAULT_ORB_VOICE_PRESET } from '@core/config.data'
 import { describe, expect, it } from 'vitest'
-import { isOrbVPresetName } from './is-preset-name.guard'
-import { normalizeOrbVPreset } from './normalize-preset.compute'
+import { isOrbVoicePresetName } from './is-preset-name.guard'
+import { normalizeOrbVoicePreset } from './normalize-preset.compute'
 
 describe('core/normalize-preset', () => {
   it('normalizes invalid input to the stable default', () => {
-    expect(normalizeOrbVPreset('unknown')).toBe(DEFAULT_ORBV_PRESET)
+    expect(normalizeOrbVoicePreset('unknown')).toBe(DEFAULT_ORB_VOICE_PRESET)
   })
 
   it('accepts NeonGate and normalizes the deprecated published alias', () => {
-    expect(isOrbVPresetName('neongate')).toBe(true)
-    expect(isOrbVPresetName('gojhonny')).toBe(true)
-    expect(normalizeOrbVPreset('neongate')).toBe('neongate')
-    expect(normalizeOrbVPreset('gojhonny')).toBe('neongate')
-    expect(normalizeOrbVPreset('peach')).toBe('peach')
-    expect(isOrbVPresetName('unknown')).toBe(false)
+    expect(isOrbVoicePresetName('neongate')).toBe(true)
+    expect(isOrbVoicePresetName('gojhonny')).toBe(true)
+    expect(normalizeOrbVoicePreset('neongate')).toBe('neongate')
+    expect(normalizeOrbVoicePreset('gojhonny')).toBe('neongate')
+    expect(normalizeOrbVoicePreset('peach')).toBe('peach')
+    expect(isOrbVoicePresetName('unknown')).toBe(false)
   })
 })

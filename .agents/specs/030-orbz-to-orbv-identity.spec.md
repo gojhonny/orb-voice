@@ -1,8 +1,8 @@
 # SPEC-030: OrbZ to OrbV product identity migration
 
-- Status: Implemented
+- Status: Implemented; distribution identity superseded by SPEC-031
 - Created: 2026-09-19
-- Updated: 2026-09-19
+- Updated: 2026-09-22
 - Mode: Prospective
 - Owner: Jonatas Sales
 
