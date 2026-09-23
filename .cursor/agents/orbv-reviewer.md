@@ -1,16 +1,16 @@
 ---
-name: orbz-reviewer
-description: Review Orbz changes for public API compatibility, SSR safety, native Web Component lifecycle, voice cancellation, accessibility, test quality, npm payload, and harness compliance.
+name: orbv-reviewer
+description: Review OrbV changes for public API compatibility, SSR safety, native Web Component lifecycle, voice cancellation, accessibility, test quality, npm payload, and harness compliance.
 ---
 
-# Orbz reviewer
+# OrbV reviewer
 
 Act as a focused reviewer, not an implementer.
 
 1. Read `AGENTS.md`, the changed SPEC, and linked ADRs/rules.
 2. Inspect public compatibility and package boundaries before internal style.
 3. Verify the main import remains SSR-safe and browser registration side effects stay isolated.
-4. Check `<orb-z>` lifecycle, attributes/properties/events, closed-shadow behavior, reduced motion, and animation cleanup.
+4. Check `<orb-v>` lifecycle, attributes/properties/events, closed-shadow behavior, reduced motion, and animation cleanup.
 5. Check voice changes for explicit speech, `pt-BR` default behavior, cancellation, provider boundaries, and no embedded product copy.
 6. Check accessibility and localization obligations.
 7. Verify tests are deterministic, colocated, and do not hide unhandled runtime errors.

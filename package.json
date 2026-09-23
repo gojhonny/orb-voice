@@ -1,17 +1,17 @@
 {
-  "name": "@neongate-ai/orbz",
-  "version": "1.0.3",
+  "name": "orbv",
+  "version": "1.1.0",
   "description": "A framework-agnostic, customizable AI voice orb built as a strict, SSR-safe web component.",
   "type": "module",
   "license": "MIT",
   "author": "gojhonny",
-  "main": "./dist/orbz.js",
-  "module": "./dist/orbz.js",
-  "types": "./dist/orbz.d.ts",
-  "unpkg": "./dist/standalone/orbz.js",
-  "jsdelivr": "./dist/standalone/orbz.js",
+  "main": "./dist/orbv.js",
+  "module": "./dist/orbv.js",
+  "types": "./dist/orbv.d.ts",
+  "unpkg": "./dist/standalone/orbv.js",
+  "jsdelivr": "./dist/standalone/orbv.js",
   "bin": {
-    "orb": "./cli/orb"
+    "orbv": "./cli/orbv"
   },
   "files": [
     "dist",
@@ -23,12 +23,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gojhonny/orbz.git"
+    "url": "git+https://github.com/gojhonny/orbv.git"
   },
   "bugs": {
-    "url": "https://github.com/gojhonny/orbz/issues"
+    "url": "https://github.com/gojhonny/orbv/issues"
   },
-  "homepage": "https://orbz.site",
+  "homepage": "https://neongate.com.br/docs/orbz/overview",
   "keywords": [
     "ai-voice",
     "voice-ui",
@@ -43,9 +43,9 @@
     "custom-elements"
   ],
   "scripts": {
-    "pnpm:devPreinstall": "./cli/orb setup --launcher --bootstrap",
-    "setup": "./cli/orb setup --launcher",
-    "prepack": "./cli/orb check"
+    "pnpm:devPreinstall": "./cli/orbv setup --launcher --bootstrap",
+    "setup": "./cli/orbv setup --launcher",
+    "prepack": "./cli/orbv check"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
@@ -63,9 +63,9 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/orbz.d.ts",
-      "import": "./dist/orbz.js",
-      "default": "./dist/orbz.js"
+      "types": "./dist/orbv.d.ts",
+      "import": "./dist/orbv.js",
+      "default": "./dist/orbv.js"
     },
     "./browser": {
       "types": "./dist/browser.d.ts",
@@ -79,8 +79,8 @@
     },
     "./standalone": {
       "types": "./dist/browser.d.ts",
-      "import": "./dist/standalone/orbz.js",
-      "default": "./dist/standalone/orbz.js"
+      "import": "./dist/standalone/orbv.js",
+      "default": "./dist/standalone/orbv.js"
     },
     "./index.css": "./dist/index.css",
     "./package.json": "./package.json"
@@ -88,7 +88,7 @@
   "sideEffects": [
     "./dist/browser.js",
     "./dist/index.css",
-    "./dist/standalone/orbz.js"
+    "./dist/standalone/orbv.js"
   ],
   "engines": {
     "node": "24.x"

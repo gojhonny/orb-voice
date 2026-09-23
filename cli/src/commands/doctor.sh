@@ -8,7 +8,7 @@ while [ "$#" -gt 0 ]; do
     --ci) ci=true ;;
     --help|-h)
       [ "$#" -eq 1 ] || orb_die 'Doctor help does not accept additional arguments.' 2
-      printf 'Usage: orb doctor [--ci]\n'
+      printf 'Usage: orbv doctor [--ci]\n'
       exit 0
       ;;
     *) orb_die "Unknown doctor option: $1" 2 ;;
@@ -33,7 +33,7 @@ fail() {
 }
 
 orb_print_logo
-printf 'Orbz engineering doctor\n'
+printf 'OrbV engineering doctor\n'
 
 if orb_has node; then
   node_version=$(node --version 2>/dev/null || true)
@@ -53,7 +53,7 @@ fi
 
 if orb_has git; then pass git "$(git --version 2>/dev/null || true)"; else fail git 'not available' 'Install Git.'; fi
 
-for required_file in package.json pnpm-lock.yaml biome.json tsconfig.json tsconfig.test.json vitest.config.ts commitlint.config.cjs .lintstagedrc.json cli/orb; do
+for required_file in package.json pnpm-lock.yaml biome.json tsconfig.json tsconfig.test.json vitest.config.ts commitlint.config.cjs .lintstagedrc.json cli/orbv; do
   if [ -f "$ORB_PROJECT_ROOT/$required_file" ]; then pass "$required_file"; else fail "$required_file" missing 'Restore the repository configuration.'; fi
 done
 
@@ -86,20 +86,20 @@ done
 [ "$audit_count" -gt 0 ] || fail audits missing 'Restore .audits/*.audit.sh.'
 
 if [ "$ci" = true ]; then
-  if "$ORB_CLI_DIR/commands/git-doctor.sh" --ci >/dev/null 2>&1; then pass git-tooling 'CI configuration'; else fail git-tooling 'invalid CI configuration' 'Run orb git doctor --ci.'; fi
+  if "$ORB_CLI_DIR/commands/git-doctor.sh" --ci >/dev/null 2>&1; then pass git-tooling 'CI configuration'; else fail git-tooling 'invalid CI configuration' 'Run orbv git doctor --ci.'; fi
 else
-  if "$ORB_CLI_DIR/commands/git-doctor.sh" >/dev/null 2>&1; then pass git-tooling configured; else fail git-tooling 'not configured' 'Run orb git setup, then orb git doctor.'; fi
+  if "$ORB_CLI_DIR/commands/git-doctor.sh" >/dev/null 2>&1; then pass git-tooling configured; else fail git-tooling 'not configured' 'Run orbv git setup, then orbv git doctor.'; fi
 
   direct_bin=$(orb_default_bin_dir 2>/dev/null || true)
-  if [ -n "$direct_bin" ] && [ -x "$direct_bin/orb" ] && [ "$(sed -n '2p' "$direct_bin/orb" 2>/dev/null || true)" = '# managed-by: orbz-orb' ]; then
-    pass direct-orb "$direct_bin/orb"
+  if [ -n "$direct_bin" ] && [ -x "$direct_bin/orbv" ] && [ "$(sed -n '2p' "$direct_bin/orbv" 2>/dev/null || true)" = '# managed-by: orbv' ]; then
+    pass direct-orbv "$direct_bin/orbv"
   else
-    warn direct-orb 'not configured; run pnpm install or ./cli/orb setup --launcher'
+    warn direct-orbv 'not configured; run pnpm install or ./cli/orbv setup --launcher'
   fi
 fi
 
 if [ "$failures" -gt 0 ]; then
-  orb_print_error "Orb doctor FAIL — $failures required check(s) failed"
+  orb_print_error "OrbV doctor FAIL — $failures required check(s) failed"
   exit 1
 fi
-orb_print_success 'Orb doctor PASS'
+orb_print_success 'OrbV doctor PASS'

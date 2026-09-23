@@ -1,8 +1,8 @@
-import type { OrbzTalkContext } from '@talk/talk.types'
+import type { OrbVTalkContext } from '@talk/talk.types'
 
-export interface OrbzIntelligencePort {
+export interface OrbVIntelligencePort {
   respond(
     input: string,
-    context: Readonly<OrbzTalkContext>
+    context: Readonly<OrbVTalkContext>
   ): Promise<string>
 }

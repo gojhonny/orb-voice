@@ -1,6 +1,6 @@
-# Orbz engineering instructions
+# OrbV engineering instructions
 
-This repository owns only the `@neongate-ai/orbz` npm package.
+This repository owns only the `orbv` npm package.
 
 ## Required reading order
 
@@ -21,23 +21,23 @@ This repository owns only the `@neongate-ai/orbz` npm package.
 
 ## Repository boundaries
 
-- Keep `<orb-z>` as the single runtime UI implementation.
+- Keep `<orb-v>` as the single runtime UI implementation.
 - Keep the package framework-agnostic and SSR-safe.
 - Do not add documentation-site code or framework example applications here.
 - Do not add runtime framework wrappers.
 - Keep provider secrets and product conversation copy outside the package.
 - Treat public API additions as compatibility commitments.
-- Run `orb check` before completing a release-oriented change.
+- Run `orbv check` before completing a release-oriented change.
 
 ## Harness, CLI, and Git gates
 
-- A local root `pnpm install` provisions the managed user-scoped Orb launcher; after source setup, use `orb <command>` directly.
-- `./cli/orb setup --launcher` is a recovery path when the launcher was disabled, moved, or needs refreshing.
-- Do not require package-manager executable runners for repository Orb commands.
+- A local root `pnpm install` provisions the managed user-scoped OrbV launcher; after source setup, use `orbv <command>` directly.
+- `./cli/orbv setup --launcher` is a recovery path when the launcher was disabled, moved, or needs refreshing.
+- Do not require package-manager executable runners for repository OrbV commands.
 - `.agents/` contains context, ADRs, rules, specs, prompts, skills, and explicit workflows.
 - `.audits/` contains deterministic repository checks.
-- `orb help` lists the shell-only local engineering commands.
-- Husky hooks are thin adapters; Orb owns pre-commit and commit-message behavior.
+- `orbv help` lists the shell-only local engineering commands.
+- Husky hooks are thin adapters; OrbV owns pre-commit and commit-message behavior.
 - `.cursor/hooks.json` enforces agent shell guardrails and fast post-edit feedback; release/publication boundaries remain human-controlled.
 - `.agents/workflows/` contains explicit reusable task sequences; use them instead of inventing ad hoc release or regression procedures.
 - Commit messages follow Conventional Commits and package versions follow SemVer.
@@ -48,10 +48,10 @@ This repository owns only the `@neongate-ai/orbz` npm package.
 ## Task routing
 
 - Regression: use `.agents/workflows/regression-fix.md` plus the relevant domain skill.
-- Review: use `.agents/workflows/review.md`; the optional Cursor `orbz-reviewer` subagent is review-only.
+- Review: use `.agents/workflows/review.md`; the optional Cursor `orbv-reviewer` subagent is review-only.
 - Release: use `.agents/workflows/release.md`; agents must stop for human approval at tag/push/publish boundaries.
 - Harness improvement: use `.agents/workflows/harness-improvement.md` and Rule 012.
 
 ## Engineering harness command
 
-Run `orb harness` explicitly when the repository harness needs scoring or reconciliation. Harness tooling is engineering-only and must never run automatically from install, build, test, or CI lifecycle hooks.
+Run `orbv harness` explicitly when the repository harness needs scoring or reconciliation. Harness tooling is engineering-only and must never run automatically from install, build, test, or CI lifecycle hooks.

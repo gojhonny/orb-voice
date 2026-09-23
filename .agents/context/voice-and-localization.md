@@ -11,14 +11,14 @@ Speech and conversations are opt-in and owned by the consumer.
 - Assigning properties, constructing adapters and reading JSON defaults never start media or network work.
 - Missing or blank output-only `speech` produces no default utterance.
 
-Realtime model/voice defaults live in `src/orbz.config.json`; language and
+Realtime model/voice defaults live in `src/orbv.config.json`; language and
 output-only speech defaults live in `src/talk/default-speech.data.ts`. The
 transformer composes both into the runtime configuration (ADR-0016). Web Speech
 defaults to `pt-BR`; consumers may choose another BCP 47 language. The OpenAI speech
 adapter accepts consumer delivery instructions. Realtime session instructions,
 transcription, VAD, tools and context belong to the application server.
 
-Orbz does not invent fallback copy, greetings or persona. An explicitly started
+OrbV does not invent fallback copy, greetings or persona. An explicitly started
 Realtime model generates conversation under the application's configuration.
 The component emits bounded text/state events, while applications own visible
 transcripts, captions, consent, memory forwarding, and language switching.

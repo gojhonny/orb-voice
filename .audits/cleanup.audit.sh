@@ -6,7 +6,7 @@ failures=0
 pass() { printf 'PASS  %s\n' "$1"; }
 fail() { printf 'FAIL  %s\n' "$1" >&2; failures=$((failures + 1)); }
 
-cleanup_tmp=${TMPDIR:-/tmp}/orb-cleanup-audit.$$
+cleanup_tmp=${TMPDIR:-/tmp}/orbv-cleanup-audit.$$
 (umask 077 && mkdir "$cleanup_tmp") || exit 1
 trap 'rm -rf "$cleanup_tmp"' 0
 trap 'exit 130' 2
@@ -67,7 +67,7 @@ ln -s "$cleanup_tmp/external" "$default_fixture/external link"
 ln -s "$cleanup_tmp/external/node_modules" "$default_fixture/linked dependencies/node_modules"
 ln -s "$cleanup_tmp/missing" "$default_fixture/dangling dependencies/node_modules"
 
-if (cd "$cleanup_tmp" && "$default_fixture/cli/orb" cleanup) >"$cleanup_tmp/default.log" 2>&1; then
+if (cd "$cleanup_tmp" && "$default_fixture/cli/orbv" cleanup) >"$cleanup_tmp/default.log" 2>&1; then
   pass 'default cleanup works from another working directory'
 else
   fail 'default cleanup failed'
@@ -120,7 +120,7 @@ if [ -L "$default_fixture/external link" ] && \
 else
   fail 'symlink cleanup is incomplete or changed an external destination'
 fi
-if "$default_fixture/cli/orb" cleanup >"$cleanup_tmp/repeated.log" 2>&1; then
+if "$default_fixture/cli/orbv" cleanup >"$cleanup_tmp/repeated.log" 2>&1; then
   pass 'cleanup is idempotent'
 else
   fail 'repeated cleanup fails'
@@ -134,7 +134,7 @@ mkdir -p "$options_fixture/node_modules/package/src" \
 touch "$options_fixture/nested/result.tgz" "$options_fixture/dist/index.js" \
   "$options_fixture/dist/container/index.js"
 snapshot "$options_fixture" > "$cleanup_tmp/before"
-if "$options_fixture/cli/orb" cleanup --dry-run >"$cleanup_tmp/dry.log" 2>&1 && \
+if "$options_fixture/cli/orbv" cleanup --dry-run >"$cleanup_tmp/dry.log" 2>&1 && \
   grep -F 'would remove node_modules' "$cleanup_tmp/dry.log" >/dev/null; then
   snapshot "$options_fixture" > "$cleanup_tmp/after"
   if cmp -s "$cleanup_tmp/before" "$cleanup_tmp/after"; then
@@ -153,7 +153,7 @@ for mode in unknown conflict reversed help; do
     help) set -- --help ;;
   esac
   option_status=0
-  "$options_fixture/cli/orb" cleanup "$@" >"$cleanup_tmp/option.log" 2>&1 || option_status=$?
+  "$options_fixture/cli/orbv" cleanup "$@" >"$cleanup_tmp/option.log" 2>&1 || option_status=$?
   expected_status=2
   [ "$mode" != help ] || expected_status=0
   snapshot "$options_fixture" > "$cleanup_tmp/after"
@@ -163,7 +163,7 @@ for mode in unknown conflict reversed help; do
     fail "$mode options returned $option_status or changed the checkout"
   fi
 done
-if "$options_fixture/cli/orb" cleanup --keep-dependencies >"$cleanup_tmp/keep.log" 2>&1 && \
+if "$options_fixture/cli/orbv" cleanup --keep-dependencies >"$cleanup_tmp/keep.log" 2>&1 && \
   [ -d "$options_fixture/node_modules/package/src" ] && \
   [ -d "$options_fixture/nested/node_modules" ] && \
   [ -d "$options_fixture/dist/container/node_modules" ] && \
@@ -175,7 +175,7 @@ if "$options_fixture/cli/orb" cleanup --keep-dependencies >"$cleanup_tmp/keep.lo
 else
   fail 'output-only cleanup does not preserve dependencies and remove output'
 fi
-if "$options_fixture/cli/orb" clean --dependencies >"$cleanup_tmp/legacy.log" 2>&1 && \
+if "$options_fixture/cli/orbv" clean --dependencies >"$cleanup_tmp/legacy.log" 2>&1 && \
   [ ! -e "$options_fixture/node_modules" ] && \
   [ ! -e "$options_fixture/nested/node_modules" ]; then
   pass 'clean alias and legacy --dependencies remove dependencies recursively'
@@ -194,7 +194,7 @@ exit 23
 SH
 chmod +x "$cleanup_tmp/failing-bin/rm"
 failure_status=0
-PATH="$cleanup_tmp/failing-bin:$PATH" "$failure_fixture/cli/orb" cleanup >"$cleanup_tmp/failure.log" 2>&1 || failure_status=$?
+PATH="$cleanup_tmp/failing-bin:$PATH" "$failure_fixture/cli/orbv" cleanup >"$cleanup_tmp/failure.log" 2>&1 || failure_status=$?
 if [ "$failure_status" -eq 23 ] && \
   grep -F 'simulated removal failure' "$cleanup_tmp/failure.log" >/dev/null && \
   [ -f "$failure_fixture/dist/preserve.js" ]; then
@@ -203,7 +203,7 @@ else
   fail 'cleanup hides a removal error or loses its exit status'
 fi
 printf 'invalid Git index\n' > "$failure_fixture/.git/index"
-if "$failure_fixture/cli/orb" cleanup >"$cleanup_tmp/index.log" 2>&1; then
+if "$failure_fixture/cli/orbv" cleanup >"$cleanup_tmp/index.log" 2>&1; then
   fail 'cleanup proceeds when tracked-path inspection fails'
 elif [ -f "$failure_fixture/dist/preserve.js" ]; then
   pass 'unreadable tracked state fails closed'
@@ -217,7 +217,7 @@ mkdir -p "$minimal_fixture/node_modules/package/src" "$cleanup_tmp/minimal-bin"
 for utility in dirname git find rm; do
   ln -s "$(command -v "$utility")" "$cleanup_tmp/minimal-bin/$utility"
 done
-if NO_COLOR=1 PATH="$cleanup_tmp/minimal-bin" "$minimal_fixture/cli/orb" cleanup >"$cleanup_tmp/minimal.log" 2>&1 && \
+if NO_COLOR=1 PATH="$cleanup_tmp/minimal-bin" "$minimal_fixture/cli/orbv" cleanup >"$cleanup_tmp/minimal.log" 2>&1 && \
   [ ! -e "$minimal_fixture/node_modules" ]; then
   pass 'cleanup runs with shell utilities and Git, without Node or a package manager'
 else
@@ -228,9 +228,9 @@ mkdir -p "$cleanup_tmp/published"
 cp -R "$ROOT/cli" "$cleanup_tmp/published/"
 cp "$ROOT/package.json" "$cleanup_tmp/published/"
 published_status=0
-"$cleanup_tmp/published/cli/orb" cleanup >"$cleanup_tmp/published.log" 2>&1 || published_status=$?
+"$cleanup_tmp/published/cli/orbv" cleanup >"$cleanup_tmp/published.log" 2>&1 || published_status=$?
 if [ "$published_status" -eq 2 ] && \
-  grep -F 'only from an Orbz source checkout' "$cleanup_tmp/published.log" >/dev/null; then
+  grep -F 'only from an OrbV source checkout' "$cleanup_tmp/published.log" >/dev/null; then
   pass 'published packages reject repository cleanup'
 else
   fail 'published packages permit cleanup or return an unexpected error'

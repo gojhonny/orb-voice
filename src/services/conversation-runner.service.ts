@@ -1,25 +1,25 @@
 import type {
-  OrbzConversationHandlers,
-  OrbzConversationPort,
-  OrbzConversationState
+  OrbVConversationHandlers,
+  OrbVConversationPort,
+  OrbVConversationState
 } from '@ports/conversation.port'
 
 /** Owns session supersession independently of a provider or DOM implementation. */
-export class OrbzConversationRunnerService {
-  readonly #handlers: OrbzConversationHandlers
-  #conversation: OrbzConversationPort | undefined
+export class OrbVConversationRunnerService {
+  readonly #handlers: OrbVConversationHandlers
+  #conversation: OrbVConversationPort | undefined
   #run = 0
-  #state: OrbzConversationState = 'idle'
+  #state: OrbVConversationState = 'idle'
 
-  constructor(handlers: OrbzConversationHandlers) {
+  constructor(handlers: OrbVConversationHandlers) {
     this.#handlers = handlers
   }
 
-  get state(): OrbzConversationState {
+  get state(): OrbVConversationState {
     return this.#state
   }
 
-  async start(conversation: OrbzConversationPort): Promise<void> {
+  async start(conversation: OrbVConversationPort): Promise<void> {
     this.stop()
     const run = ++this.#run
     this.#conversation = conversation
@@ -53,7 +53,7 @@ export class OrbzConversationRunnerService {
       conversation.stop()
       this.#setState('error')
       if (!reportedError) {
-        const safe = new Error('Orbz conversation could not start.')
+        const safe = new Error('OrbV conversation could not start.')
         this.#handlers.onError(safe)
         throw safe
       }
@@ -72,7 +72,7 @@ export class OrbzConversationRunnerService {
     this.#conversation?.interrupt()
   }
 
-  #setState(state: OrbzConversationState): void {
+  #setState(state: OrbVConversationState): void {
     if (this.#state !== state) {
       this.#state = state
       this.#handlers.onStateChange(state)

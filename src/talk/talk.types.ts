@@ -1,9 +1,9 @@
-export interface OrbzTalkContext {
+export interface OrbVTalkContext {
   fullName?: string
   [key: string]: string | undefined
 }
 
-export type OrbzTalkStep =
+export type OrbVTalkStep =
   | {
       id: string
       kind: 'say'

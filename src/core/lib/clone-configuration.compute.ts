@@ -1,12 +1,12 @@
 /** Clone plain JSON data without invoking accessors or sharing caller-owned objects. */
-export function cloneOrbzConfigurationInput(input: unknown): unknown {
+export function cloneOrbVConfigurationInput(input: unknown): unknown {
   const ancestors = new Set<object>()
   let nodes = 0
 
   function clone(value: unknown, depth: number): unknown {
     nodes += 1
     if (depth > 64 || nodes > 50_000) {
-      throw new TypeError('Invalid Orbz configuration at $: JSON structure is too large.')
+      throw new TypeError('Invalid OrbV configuration at $: JSON structure is too large.')
     }
     if (value === null || typeof value === 'string' || typeof value === 'boolean') {
       return value
@@ -15,17 +15,17 @@ export function cloneOrbzConfigurationInput(input: unknown): unknown {
       return value
     }
     if (typeof value !== 'object' || value === null) {
-      throw new TypeError('Invalid Orbz configuration at $: expected finite JSON data.')
+      throw new TypeError('Invalid OrbV configuration at $: expected finite JSON data.')
     }
     if (ancestors.has(value)) {
-      throw new TypeError('Invalid Orbz configuration at $: cyclic references are not JSON.')
+      throw new TypeError('Invalid OrbV configuration at $: cyclic references are not JSON.')
     }
     const array = Array.isArray(value)
     const prototype = Object.getPrototypeOf(value)
     if (
       array ? prototype !== Array.prototype : prototype !== Object.prototype && prototype !== null
     ) {
-      throw new TypeError('Invalid Orbz configuration at $: expected plain JSON objects.')
+      throw new TypeError('Invalid OrbV configuration at $: expected plain JSON objects.')
     }
     ancestors.add(value)
     const entries: [string, unknown][] = []
@@ -34,18 +34,18 @@ export function cloneOrbzConfigurationInput(input: unknown): unknown {
         continue
       }
       if (typeof key !== 'string' || (array && !/^(0|[1-9]\d*)$/.test(key))) {
-        throw new TypeError('Invalid Orbz configuration at $: unsupported JSON property.')
+        throw new TypeError('Invalid OrbV configuration at $: unsupported JSON property.')
       }
       const property = Object.getOwnPropertyDescriptor(value, key)
       if (!property || !property.enumerable || !('value' in property)) {
-        throw new TypeError('Invalid Orbz configuration at $: JSON accessors are not allowed.')
+        throw new TypeError('Invalid OrbV configuration at $: JSON accessors are not allowed.')
       }
       entries.push([key, clone(property.value, depth + 1)])
     }
     ancestors.delete(value)
     if (array) {
       if (entries.length !== value.length) {
-        throw new TypeError('Invalid Orbz configuration at $: sparse arrays are not allowed.')
+        throw new TypeError('Invalid OrbV configuration at $: sparse arrays are not allowed.')
       }
       return entries.map(([, child]) => child)
     }

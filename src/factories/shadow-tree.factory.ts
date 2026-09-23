@@ -1,35 +1,35 @@
-import styles from 'virtual:orbz-styles'
+import styles from 'virtual:orbv-styles'
 
 import {
-  DEFAULT_ORBZ_COLORS,
-  DEFAULT_ORBZ_SIZE,
-  DEFAULT_ORBZ_STATE,
-  ORBZ_COLOR_KEYS
+  DEFAULT_ORBV_COLORS,
+  DEFAULT_ORBV_SIZE,
+  DEFAULT_ORBV_STATE,
+  ORBV_COLOR_KEYS
 } from '@core/config.data'
-import { ORBZ_APPEARANCE_BY_STATE } from '@core/motion/motion.data'
-import type { OrbzAnimationLayers, OrbzShadowTree } from '@element/element.types'
+import { ORBV_APPEARANCE_BY_STATE } from '@core/motion/motion.data'
+import type { OrbVAnimationLayers, OrbVShadowTree } from '@element/element.types'
 
-export function orbzShadowTreeFactory(shadowRoot: ShadowRoot, document: Document): OrbzShadowTree {
+export function orbvShadowTreeFactory(shadowRoot: ShadowRoot, document: Document): OrbVShadowTree {
   const style = document.createElement('style')
   style.textContent = styles
 
-  const root = createLayer(document, 'div', 'orbz-root', 'root')
+  const root = createLayer(document, 'div', 'orbv-root', 'root')
   root.setAttribute('aria-hidden', 'true')
   seedDefaultStyles(root)
 
-  const aura = createLayer(document, 'span', 'orbz-aura', 'aura')
-  const ring = createLayer(document, 'span', 'orbz-ring', 'ring')
-  const sphere = createLayer(document, 'span', 'orbz-sphere')
-  const field = createLayer(document, 'span', 'orbz-field', 'field')
-  const texture = createLayer(document, 'span', 'orbz-texture')
-  const core = createLayer(document, 'span', 'orbz-core', 'core')
-  const highlight = createLayer(document, 'span', 'orbz-highlight', 'highlight')
+  const aura = createLayer(document, 'span', 'orbv-aura', 'aura')
+  const ring = createLayer(document, 'span', 'orbv-ring', 'ring')
+  const sphere = createLayer(document, 'span', 'orbv-sphere')
+  const field = createLayer(document, 'span', 'orbv-field', 'field')
+  const texture = createLayer(document, 'span', 'orbv-texture')
+  const core = createLayer(document, 'span', 'orbv-core', 'core')
+  const highlight = createLayer(document, 'span', 'orbv-highlight', 'highlight')
 
   sphere.append(field, texture, core, highlight)
   root.append(aura, ring, sphere)
   shadowRoot.append(style, root)
 
-  const layers: OrbzAnimationLayers = {
+  const layers: OrbVAnimationLayers = {
     aura,
     core,
     field,
@@ -42,14 +42,14 @@ export function orbzShadowTreeFactory(shadowRoot: ShadowRoot, document: Document
 }
 
 function seedDefaultStyles(root: HTMLElement): void {
-  for (const key of ORBZ_COLOR_KEYS) {
-    root.style.setProperty(`--orbz-${key}`, DEFAULT_ORBZ_COLORS[key])
+  for (const key of ORBV_COLOR_KEYS) {
+    root.style.setProperty(`--orbv-${key}`, DEFAULT_ORBV_COLORS[key])
   }
 
-  const appearance = ORBZ_APPEARANCE_BY_STATE[DEFAULT_ORBZ_STATE]
-  root.style.setProperty('--orbz-contrast', String(appearance.contrast))
-  root.style.setProperty('--orbz-saturation', String(appearance.saturation))
-  root.style.setProperty('--orbz-size', DEFAULT_ORBZ_SIZE)
+  const appearance = ORBV_APPEARANCE_BY_STATE[DEFAULT_ORBV_STATE]
+  root.style.setProperty('--orbv-contrast', String(appearance.contrast))
+  root.style.setProperty('--orbv-saturation', String(appearance.saturation))
+  root.style.setProperty('--orbv-size', DEFAULT_ORBV_SIZE)
 }
 
 function createLayer<K extends keyof HTMLElementTagNameMap>(

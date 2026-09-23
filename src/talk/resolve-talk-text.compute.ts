@@ -1,14 +1,14 @@
-import { orbzConfiguration } from '@core/config.data'
-import type { OrbzTalkContext } from '@talk/talk.types'
+import { orbvConfiguration } from '@core/config.data'
+import type { OrbVTalkContext } from '@talk/talk.types'
 
 const talkTokenPattern = new RegExp(
-  orbzConfiguration.speech.tokenPattern.source,
-  orbzConfiguration.speech.tokenPattern.flags
+  orbvConfiguration.speech.tokenPattern.source,
+  orbvConfiguration.speech.tokenPattern.flags
 )
 
 export function resolveTalkText(
   text: string,
-  context: Readonly<OrbzTalkContext>
+  context: Readonly<OrbVTalkContext>
 ): string {
   return text.replace(talkTokenPattern, (_token, key: string) => {
     return context[key] ?? ''

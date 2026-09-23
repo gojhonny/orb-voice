@@ -1,9 +1,13 @@
 # ADR-0011: Publish Orb as an explicit npx project installer
 
-- Status: Accepted; source-checkout invocation amended by ADR-0020
+- Status: Accepted; source-checkout invocation amended by ADR-0020; public binary name superseded by ADR-0021
 - Created: 2026-09-04
-- Updated: 2026-09-09
+- Updated: 2026-09-19
 - Mode: Current decision
+
+OrbZ was later renamed to OrbV. The published binary is `orbv` and consumer
+setup is `npx orbv --setup` (ADR-0021). This record remains historical evidence
+of the explicit npx installer and the separation from repository commands.
 
 ## Context
 

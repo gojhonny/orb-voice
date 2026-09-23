@@ -1,3 +1,3 @@
 # Documentation and ADR skill
 
-Guidance for maintaining Orbz documentation and durable architecture decisions.
+Guidance for maintaining OrbV documentation and durable architecture decisions.

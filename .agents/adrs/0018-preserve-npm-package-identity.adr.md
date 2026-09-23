@@ -1,9 +1,12 @@
 # ADR-0018: Keep npm identity independent from GitHub ownership
 
-- Status: Accepted
+- Status: Superseded by ADR-0021
 - Created: 2026-09-08
-- Updated: 2026-09-08
+- Updated: 2026-09-19
 - Mode: Prospective
+
+OrbZ was later renamed to OrbV. This record is historical evidence of the
+decision to keep `@neongate-ai/orbz` after SPEC-026. Current identity is ADR-0021.
 
 ## Context
 

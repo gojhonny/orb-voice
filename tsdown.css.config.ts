@@ -1,21 +1,21 @@
 import { readFile } from 'node:fs/promises'
 
-const ORBZ_STYLES_ID = 'virtual:orbz-styles'
-const RESOLVED_ORBZ_STYLES_ID = `\0${ORBZ_STYLES_ID}`
-const ORBZ_STYLES_URL = new URL('./src/element/index.css', import.meta.url)
+const ORBV_STYLES_ID = 'virtual:orbv-styles'
+const RESOLVED_ORBV_STYLES_ID = `\0${ORBV_STYLES_ID}`
+const ORBV_STYLES_URL = new URL('./src/element/index.css', import.meta.url)
 
-export function orbzCssPlugin() {
+export function orbvCssPlugin() {
   return {
-    name: 'orbz-css',
+    name: 'orbv-css',
     resolveId(id: string): string | undefined {
-      return id === ORBZ_STYLES_ID ? RESOLVED_ORBZ_STYLES_ID : undefined
+      return id === ORBV_STYLES_ID ? RESOLVED_ORBV_STYLES_ID : undefined
     },
     async load(id: string): Promise<string | undefined> {
-      if (id !== RESOLVED_ORBZ_STYLES_ID) {
+      if (id !== RESOLVED_ORBV_STYLES_ID) {
         return undefined
       }
 
-      const styles = await readFile(ORBZ_STYLES_URL, 'utf8')
+      const styles = await readFile(ORBV_STYLES_URL, 'utf8')
 
       return `export default ${JSON.stringify(styles)}`
     }

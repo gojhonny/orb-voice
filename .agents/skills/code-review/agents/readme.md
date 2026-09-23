@@ -1,3 +1,3 @@
 # Code review agents
 
-Agent metadata used to invoke the Orbz code-review procedure.
+Agent metadata used to invoke the OrbV code-review procedure.

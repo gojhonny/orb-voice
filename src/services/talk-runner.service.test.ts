@@ -1,12 +1,12 @@
-import { OrbzTalkRunnerService } from '@services/talk-runner.service'
-import type { OrbzTalkStep } from '@talk/talk.types'
+import { OrbVTalkRunnerService } from '@services/talk-runner.service'
+import type { OrbVTalkStep } from '@talk/talk.types'
 import { describe, expect, it, vi } from 'vitest'
 
 describe('service/talk-runner', () => {
   it('treats blank direct speech and an empty flow as silence', async () => {
     const onSpeakingChange = vi.fn()
     const onError = vi.fn()
-    const runner = new OrbzTalkRunnerService(onSpeakingChange, onError)
+    const runner = new OrbVTalkRunnerService(onSpeakingChange, onError)
 
     await runner.speak('   ')
     await runner.start([])
@@ -22,7 +22,7 @@ describe('service/talk-runner', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const runner = new OrbzTalkRunnerService(onSpeakingChange, onError)
+    const runner = new OrbVTalkRunnerService(onSpeakingChange, onError)
     runner.voiceEngine = voiceEngine
 
     await runner.speak('  Olá, Jonny.  ')
@@ -38,8 +38,8 @@ describe('service/talk-runner', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const runner = new OrbzTalkRunnerService(vi.fn(), vi.fn())
-    const flow: readonly OrbzTalkStep[] = [
+    const runner = new OrbVTalkRunnerService(vi.fn(), vi.fn())
+    const flow: readonly OrbVTalkStep[] = [
       {
         id: 'welcome',
         kind: 'say',
@@ -75,10 +75,10 @@ describe('service/talk-runner', () => {
 
   it('reports a missing voice engine only when speech was requested', async () => {
     const onError = vi.fn()
-    const runner = new OrbzTalkRunnerService(vi.fn(), onError)
+    const runner = new OrbVTalkRunnerService(vi.fn(), onError)
 
     await expect(runner.speak('Olá.')).rejects.toThrow(
-      'Orbz voiceEngine must be configured before startTalking().'
+      'OrbV voiceEngine must be configured before startTalking().'
     )
     expect(onError).toHaveBeenCalledOnce()
   })

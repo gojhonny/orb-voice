@@ -1,45 +1,45 @@
-import type { OrbzIntelligencePort } from '@ports/intelligence.port'
-import type { OrbzVoiceEnginePort } from '@ports/voice-engine.port'
+import type { OrbVIntelligencePort } from '@ports/intelligence.port'
+import type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
 import { resolveTalkText } from '@talk/resolve-talk-text.compute'
-import type { OrbzTalkContext, OrbzTalkStep } from '@talk/talk.types'
+import type { OrbVTalkContext, OrbVTalkStep } from '@talk/talk.types'
 
 type SpeakingChangeHandler = (speaking: boolean) => void
 type TalkErrorHandler = (error: unknown) => void
 
-export class OrbzTalkRunnerService {
-  #context: OrbzTalkContext = {}
-  #flow: readonly OrbzTalkStep[] = []
-  #intelligence: OrbzIntelligencePort | undefined
+export class OrbVTalkRunnerService {
+  #context: OrbVTalkContext = {}
+  #flow: readonly OrbVTalkStep[] = []
+  #intelligence: OrbVIntelligencePort | undefined
   #position = 0
   #run = 0
   #speaking = false
   #speech = 0
   readonly #onError: TalkErrorHandler
   readonly #onSpeakingChange: SpeakingChangeHandler
-  #voiceEngine: OrbzVoiceEnginePort | undefined
+  #voiceEngine: OrbVVoiceEnginePort | undefined
 
   constructor(onSpeakingChange: SpeakingChangeHandler, onError: TalkErrorHandler) {
     this.#onSpeakingChange = onSpeakingChange
     this.#onError = onError
   }
 
-  get context(): Readonly<OrbzTalkContext> {
+  get context(): Readonly<OrbVTalkContext> {
     return Object.freeze({ ...this.#context })
   }
 
-  get intelligence(): OrbzIntelligencePort | undefined {
+  get intelligence(): OrbVIntelligencePort | undefined {
     return this.#intelligence
   }
 
-  set intelligence(value: OrbzIntelligencePort | undefined) {
+  set intelligence(value: OrbVIntelligencePort | undefined) {
     this.#intelligence = value
   }
 
-  get voiceEngine(): OrbzVoiceEnginePort | undefined {
+  get voiceEngine(): OrbVVoiceEnginePort | undefined {
     return this.#voiceEngine
   }
 
-  set voiceEngine(value: OrbzVoiceEnginePort | undefined) {
+  set voiceEngine(value: OrbVVoiceEnginePort | undefined) {
     this.stop()
     this.#voiceEngine = value
   }
@@ -55,7 +55,7 @@ export class OrbzTalkRunnerService {
     await this.#speak(normalizedText, this.#run)
   }
 
-  async start(flow: readonly OrbzTalkStep[]): Promise<void> {
+  async start(flow: readonly OrbVTalkStep[]): Promise<void> {
     if (flow.length === 0) {
       return
     }
@@ -131,7 +131,7 @@ export class OrbzTalkRunnerService {
   }
 
   async #respond(
-    step: Extract<OrbzTalkStep, { kind: 'respond' }>,
+    step: Extract<OrbVTalkStep, { kind: 'respond' }>,
     input: string,
     run: number
   ): Promise<void> {
@@ -196,5 +196,5 @@ export class OrbzTalkRunnerService {
 }
 
 function createVoiceEngineNotConfiguredError(): Error {
-  return new Error('Orbz voiceEngine must be configured before startTalking().')
+  return new Error('OrbV voiceEngine must be configured before startTalking().')
 }

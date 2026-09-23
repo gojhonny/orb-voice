@@ -1,9 +1,13 @@
 # ADR-0019: Keep NeonGate preset branding independent from GitHub ownership
 
-- Status: Accepted
+- Status: Accepted; npm/GitHub identity superseded by ADR-0021
 - Created: 2026-09-08
-- Updated: 2026-09-08
+- Updated: 2026-09-19
 - Mode: Prospective
+
+OrbZ was later renamed to OrbV. Package identity is unscoped `orbv` and GitHub
+`gojhonny/orbv` (ADR-0021). This record remains the NeonGate preset decision;
+do not rename the `neongate` preset.
 
 ## Context
 

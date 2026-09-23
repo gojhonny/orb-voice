@@ -1,3 +1,3 @@
 # To-spec agents
 
-Agent metadata used to invoke the Orbz specification procedure.
+Agent metadata used to invoke the OrbV specification procedure.

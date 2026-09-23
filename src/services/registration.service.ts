@@ -1,24 +1,24 @@
-import { orbzElementClassFactory } from '@factories/element-class.factory'
-import type { OrbzElementConstructor } from '@element/element.types'
-import { ORBZ_TAG_NAME } from '@element/element.data'
+import { orbvElementClassFactory } from '@factories/element-class.factory'
+import type { OrbVElementConstructor } from '@element/element.types'
+import { ORBV_TAG_NAME } from '@element/element.data'
 
-/** Defines `<orb-z>` once in the active Custom Element registry. */
-export function defineOrbz(): OrbzElementConstructor | undefined {
+/** Defines `<orb-v>` once in the active Custom Element registry. */
+export function defineOrbV(): OrbVElementConstructor | undefined {
   if (typeof globalThis.customElements === 'undefined') {
     return undefined
   }
 
-  const existing = globalThis.customElements.get(ORBZ_TAG_NAME)
+  const existing = globalThis.customElements.get(ORBV_TAG_NAME)
   if (existing) {
-    return existing as OrbzElementConstructor
+    return existing as OrbVElementConstructor
   }
 
-  const elementConstructor = orbzElementClassFactory()
+  const elementConstructor = orbvElementClassFactory()
   if (!elementConstructor) {
     return undefined
   }
 
-  globalThis.customElements.define(ORBZ_TAG_NAME, elementConstructor)
+  globalThis.customElements.define(ORBV_TAG_NAME, elementConstructor)
 
   return elementConstructor
 }

@@ -1,8 +1,8 @@
-import type { OrbzAppearanceConfiguration } from '@core/config.types'
-import { deepFreezeOrbzConfiguration } from '@core/lib/deep-freeze.compute'
+import type { OrbVAppearanceConfiguration } from '@core/config.types'
+import { deepFreezeOrbVConfiguration } from '@core/lib/deep-freeze.compute'
 
 /** Internal defaults restored from the pre-SPEC-025 configuration. */
-export const ORBZ_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbzConfiguration({
+export const ORBV_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbVConfiguration({
   idle: {
     contrast: 1.48,
     saturation: 1.28
@@ -23,4 +23,4 @@ export const ORBZ_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbzConfiguration({
     contrast: 1.22,
     saturation: 0.72
   }
-} satisfies OrbzAppearanceConfiguration['byState'])
+} satisfies OrbVAppearanceConfiguration['byState'])

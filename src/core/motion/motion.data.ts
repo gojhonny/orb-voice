@@ -1,5 +1,5 @@
-import { orbzConfiguration } from '@core/config.data'
+import { orbvConfiguration } from '@core/config.data'
 
-export const ORBZ_APPEARANCE_BY_STATE = orbzConfiguration.appearance.byState
-export const ORBZ_MOTION_BY_STATE = orbzConfiguration.motion.full
-export const REDUCED_ORBZ_MOTION_BY_STATE = orbzConfiguration.motion.reduced
+export const ORBV_APPEARANCE_BY_STATE = orbvConfiguration.appearance.byState
+export const ORBV_MOTION_BY_STATE = orbvConfiguration.motion.full
+export const REDUCED_ORBV_MOTION_BY_STATE = orbvConfiguration.motion.reduced

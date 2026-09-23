@@ -1,5 +1,5 @@
-import { orbzConfiguration } from '@core/config.data'
-import type { OrbzVoiceEnginePort } from '@ports/voice-engine.port'
+import { orbvConfiguration } from '@core/config.data'
+import type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
 
 import type {
   OpenAISpeechAdapterOptions,
@@ -24,7 +24,7 @@ class SpeechAdapterError extends Error {
  * The endpoint keeps the OpenAI API key outside the browser and should accept
  * the same JSON fields as OpenAI's audio speech endpoint.
  */
-export class OpenAISpeechAdapter implements OrbzVoiceEnginePort {
+export class OpenAISpeechAdapter implements OrbVVoiceEnginePort {
   #activeAudio: ActiveAudio | undefined
   #abortController: AbortController | undefined
   readonly #credentials: RequestCredentials
@@ -44,7 +44,7 @@ export class OpenAISpeechAdapter implements OrbzVoiceEnginePort {
       throw new TypeError('OpenAI speech endpoint must not be empty.')
     }
 
-    const defaults = orbzConfiguration.speech.openaiSpeech
+    const defaults = orbvConfiguration.speech.openaiSpeech
     this.#credentials = options.credentials ?? defaults.credentials
     this.#endpoint = endpoint
     this.#fetch = options.fetch ?? globalThis.fetch
@@ -271,6 +271,6 @@ function supportsInstructions(model: OpenAISpeechModel): boolean {
 }
 
 function defaultVoiceForModel(model: OpenAISpeechModel): OpenAISpeechVoice {
-  const defaults = orbzConfiguration.speech.openaiSpeech
+  const defaults = orbvConfiguration.speech.openaiSpeech
   return model === 'tts-1' || model === 'tts-1-hd' ? defaults.legacyVoice : defaults.voice
 }
