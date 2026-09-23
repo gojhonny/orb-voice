@@ -17,54 +17,54 @@
   box-sizing: border-box;
 }
 
-.orbv-root {
-  --orbv-angle: 0deg;
+.orb-voice-root {
+  --orb-voice-angle: 0deg;
 
   display: grid;
-  height: var(--orbv-size);
+  height: var(--orb-voice-size);
   place-items: center;
   position: relative;
   transform-origin: center;
-  width: var(--orbv-size);
+  width: var(--orb-voice-size);
 }
 
-.orbv-aura,
-.orbv-ring,
-.orbv-field,
-.orbv-texture,
-.orbv-core,
-.orbv-highlight {
+.orb-voice-aura,
+.orb-voice-ring,
+.orb-voice-field,
+.orb-voice-texture,
+.orb-voice-core,
+.orb-voice-highlight {
   pointer-events: none;
   position: absolute;
   transform-origin: center;
 }
 
-.orbv-aura {
+.orb-voice-aura {
   background: radial-gradient(
     circle at 50% 52%,
-    color-mix(in srgb, var(--orbv-accent) 40%, var(--orbv-primary)) 0%,
+    color-mix(in srgb, var(--orb-voice-accent) 40%, var(--orb-voice-primary)) 0%,
     transparent 66%
   );
   border-radius: 9999px;
-  filter: blur(calc(var(--orbv-size) * 0.22));
+  filter: blur(calc(var(--orb-voice-size) * 0.22));
   inset: -16%;
 }
 
-.orbv-ring {
-  border: 1px solid color-mix(in srgb, var(--orbv-secondary) 58%, var(--orbv-primary));
+.orb-voice-ring {
+  border: 1px solid color-mix(in srgb, var(--orb-voice-secondary) 58%, var(--orb-voice-primary));
   border-radius: 9999px;
-  box-shadow: 0 0 calc(var(--orbv-size) * 0.11)
-    color-mix(in srgb, var(--orbv-accent) 24%, transparent);
+  box-shadow: 0 0 calc(var(--orb-voice-size) * 0.11)
+    color-mix(in srgb, var(--orb-voice-accent) 24%, transparent);
   inset: -7%;
 }
 
-.orbv-sphere {
-  background: var(--orbv-background);
+.orb-voice-sphere {
+  background: var(--orb-voice-background);
   border-radius: 9999px;
   box-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 10%),
-    0 0 calc(var(--orbv-size) * 0.17) color-mix(in srgb, var(--orbv-primary) 18%, transparent),
-    0 0 calc(var(--orbv-size) * 0.34) color-mix(in srgb, var(--orbv-accent) 8%, transparent);
+    0 0 calc(var(--orb-voice-size) * 0.17) color-mix(in srgb, var(--orb-voice-primary) 18%, transparent),
+    0 0 calc(var(--orb-voice-size) * 0.34) color-mix(in srgb, var(--orb-voice-accent) 8%, transparent);
   display: grid;
   height: 100%;
   isolation: isolate;
@@ -74,96 +74,96 @@
   width: 100%;
 }
 
-:host([elevated]) .orbv-sphere {
+:host([elevated]) .orb-voice-sphere {
   box-shadow:
-    0 0 calc(var(--orbv-size) * 0.075) calc(var(--orbv-size) * 0.016) rgb(0 0 0 / 30%),
-    0 0 calc(var(--orbv-size) * 0.14) calc(var(--orbv-size) * 0.008) rgb(0 0 0 / 18%),
+    0 0 calc(var(--orb-voice-size) * 0.075) calc(var(--orb-voice-size) * 0.016) rgb(0 0 0 / 30%),
+    0 0 calc(var(--orb-voice-size) * 0.14) calc(var(--orb-voice-size) * 0.008) rgb(0 0 0 / 18%),
     inset 0 0 0 1px rgb(255 255 255 / 10%),
-    0 0 calc(var(--orbv-size) * 0.17) color-mix(in srgb, var(--orbv-primary) 18%, transparent),
-    0 0 calc(var(--orbv-size) * 0.34) color-mix(in srgb, var(--orbv-accent) 8%, transparent);
+    0 0 calc(var(--orb-voice-size) * 0.17) color-mix(in srgb, var(--orb-voice-primary) 18%, transparent),
+    0 0 calc(var(--orb-voice-size) * 0.34) color-mix(in srgb, var(--orb-voice-accent) 8%, transparent);
 }
 
-.orbv-field {
+.orb-voice-field {
   background:
     conic-gradient(
-      from calc(var(--orbv-angle) * 2) at 25% 70%,
-      var(--orbv-primary),
+      from calc(var(--orb-voice-angle) * 2) at 25% 70%,
+      var(--orb-voice-primary),
       transparent 20% 80%,
-      var(--orbv-primary)
+      var(--orb-voice-primary)
     ),
     conic-gradient(
-      from calc(var(--orbv-angle) * 2) at 45% 75%,
-      var(--orbv-secondary),
+      from calc(var(--orb-voice-angle) * 2) at 45% 75%,
+      var(--orb-voice-secondary),
       transparent 30% 60%,
-      var(--orbv-secondary)
+      var(--orb-voice-secondary)
     ),
     conic-gradient(
-      from calc(var(--orbv-angle) * -3) at 80% 20%,
-      var(--orbv-highlight),
+      from calc(var(--orb-voice-angle) * -3) at 80% 20%,
+      var(--orb-voice-highlight),
       transparent 40% 60%,
-      var(--orbv-highlight)
+      var(--orb-voice-highlight)
     ),
     conic-gradient(
-      from calc(var(--orbv-angle) * 1.5) at 60% 35%,
-      var(--orbv-accent),
+      from calc(var(--orb-voice-angle) * 1.5) at 60% 35%,
+      var(--orb-voice-accent),
       transparent 25% 75%,
-      var(--orbv-accent)
+      var(--orb-voice-accent)
     ),
     conic-gradient(
-      from calc(var(--orbv-angle) * 2) at 15% 5%,
-      var(--orbv-secondary),
+      from calc(var(--orb-voice-angle) * 2) at 15% 5%,
+      var(--orb-voice-secondary),
       transparent 10% 90%,
-      var(--orbv-secondary)
+      var(--orb-voice-secondary)
     ),
     conic-gradient(
-      from var(--orbv-angle) at 20% 80%,
-      var(--orbv-highlight),
+      from var(--orb-voice-angle) at 20% 80%,
+      var(--orb-voice-highlight),
       transparent 10% 90%,
-      var(--orbv-highlight)
+      var(--orb-voice-highlight)
     ),
     conic-gradient(
-      from calc(var(--orbv-angle) * -2) at 85% 10%,
-      var(--orbv-primary),
+      from calc(var(--orb-voice-angle) * -2) at 85% 10%,
+      var(--orb-voice-primary),
       transparent 20% 80%,
-      var(--orbv-primary)
+      var(--orb-voice-primary)
     );
   border-radius: 9999px;
-  filter: blur(calc(var(--orbv-size) * 0.014)) contrast(var(--orbv-contrast))
-    saturate(var(--orbv-saturation));
+  filter: blur(calc(var(--orb-voice-size) * 0.014)) contrast(var(--orb-voice-contrast))
+    saturate(var(--orb-voice-saturation));
   inset: 0;
   will-change: filter;
 }
 
-.orbv-texture {
+.orb-voice-texture {
   -webkit-mask-image: radial-gradient(black 20%, transparent 76%);
-  backdrop-filter: blur(calc(var(--orbv-size) * 0.025)) contrast(1.55);
+  backdrop-filter: blur(calc(var(--orb-voice-size) * 0.025)) contrast(1.55);
   background: radial-gradient(
     circle at center,
-    var(--orbv-background) calc(var(--orbv-size) * 0.004),
-    transparent calc(var(--orbv-size) * 0.005)
+    var(--orb-voice-background) calc(var(--orb-voice-size) * 0.004),
+    transparent calc(var(--orb-voice-size) * 0.005)
   );
-  background-size: calc(var(--orbv-size) * 0.01) calc(var(--orbv-size) * 0.01);
+  background-size: calc(var(--orb-voice-size) * 0.01) calc(var(--orb-voice-size) * 0.01);
   border-radius: 9999px;
   inset: 0;
   mask-image: radial-gradient(black 20%, transparent 76%);
   mix-blend-mode: overlay;
 }
 
-.orbv-core {
+.orb-voice-core {
   background: radial-gradient(
     circle at 48% 46%,
-    color-mix(in srgb, var(--orbv-secondary) 54%, white) 0%,
-    color-mix(in srgb, var(--orbv-primary) 44%, var(--orbv-accent)) 38%,
+    color-mix(in srgb, var(--orb-voice-secondary) 54%, white) 0%,
+    color-mix(in srgb, var(--orb-voice-primary) 44%, var(--orb-voice-accent)) 38%,
     transparent 72%
   );
   border-radius: 9999px;
-  filter: blur(calc(var(--orbv-size) * 0.075));
+  filter: blur(calc(var(--orb-voice-size) * 0.075));
   inset: 18%;
   mix-blend-mode: screen;
   z-index: 1;
 }
 
-.orbv-highlight {
+.orb-voice-highlight {
   background:
     radial-gradient(circle at 32% 22%, rgb(255 255 255 / 19%), transparent 29%),
     radial-gradient(circle at 72% 76%, rgb(255 255 255 / 4%), transparent 48%);

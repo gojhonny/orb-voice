@@ -1,14 +1,14 @@
-import { orbvConfiguration } from '@core/config.data'
-import type { OrbVConversationPort } from '@ports/conversation.port'
-import type { OrbVVoiceEnginePort } from '@ports/voice-engine.port'
+import { orbVoiceConfiguration } from '@core/config.data'
+import type { OrbVoiceConversationPort } from '@ports/conversation.port'
+import type { OrbVoiceVoiceEnginePort } from '@ports/voice-engine.port'
 import { OpenAIRealtimeAdapter } from '@talk/openai-realtime.adapter'
 import { OpenAISpeechAdapter } from '@talk/openai-speech.adapter'
-import type { OrbVRealtimeSession, OrbVVoiceModel } from '@talk/voice-model.types'
+import type { OrbVoiceRealtimeSession, OrbVoiceVoiceModel } from '@talk/voice-model.types'
 import { WebSpeechAdapter } from '@talk/web-speech.adapter'
 
 /** Resolve only at element construction; explicitly clearing a selection stays cleared. */
-export function createDefaultOrbVVoiceModel(): Readonly<OrbVVoiceModel> | undefined {
-  const provider = orbvConfiguration.speech.defaultVoiceModel
+export function createDefaultOrbVoiceVoiceModel(): Readonly<OrbVoiceVoiceModel> | undefined {
+  const provider = orbVoiceConfiguration.speech.defaultVoiceModel
   if (provider === 'web-speech' || provider === 'openai-realtime') {
     return Object.freeze({ provider })
   }
@@ -18,9 +18,9 @@ export function createDefaultOrbVVoiceModel(): Readonly<OrbVVoiceModel> | undefi
 }
 
 /** Resolution creates inert adapters; activation belongs to explicit start methods. */
-export function createOrbVVoiceEngine(
-  model: Readonly<OrbVVoiceModel> | undefined
-): OrbVVoiceEnginePort | undefined {
+export function createOrbVoiceVoiceEngine(
+  model: Readonly<OrbVoiceVoiceModel> | undefined
+): OrbVoiceVoiceEnginePort | undefined {
   switch (model?.provider) {
     case 'web-speech':
       return new WebSpeechAdapter(model)
@@ -31,15 +31,15 @@ export function createOrbVVoiceEngine(
   }
 }
 
-export function createOrbVConversation(
-  model: Readonly<OrbVVoiceModel> | undefined,
-  session: OrbVRealtimeSession | undefined
-): OrbVConversationPort {
+export function createOrbVoiceConversation(
+  model: Readonly<OrbVoiceVoiceModel> | undefined,
+  session: OrbVoiceRealtimeSession | undefined
+): OrbVoiceConversationPort {
   if (model?.provider !== 'openai-realtime') {
-    throw new Error('OrbV startConversation() requires a Realtime voiceModel.')
+    throw new Error('Orb Voice startConversation() requires a Realtime voiceModel.')
   }
   if (!session) {
-    throw new Error('OrbV realtimeSession must be configured before startConversation().')
+    throw new Error('Orb Voice realtimeSession must be configured before startConversation().')
   }
   return new OpenAIRealtimeAdapter({ ...model, session })
 }

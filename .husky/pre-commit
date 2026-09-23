@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ./cli/orbv git pre-commit "$@"
+exec ./cli/orb-voice git pre-commit "$@"

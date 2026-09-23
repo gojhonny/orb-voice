@@ -1,7 +1,7 @@
-import type { OrbVReducedMotion } from '@core/appearance/appearance.types'
-import { DEFAULT_ORBV_REDUCED_MOTION } from '@core/config.data'
-import { isOrbVReducedMotion } from '@core/motion/is-reduced-motion.guard'
+import type { OrbVoiceReducedMotion } from '@core/appearance/appearance.types'
+import { DEFAULT_ORB_VOICE_REDUCED_MOTION } from '@core/config.data'
+import { isOrbVoiceReducedMotion } from '@core/motion/is-reduced-motion.guard'
 
-export function normalizeOrbVReducedMotion(value: unknown): OrbVReducedMotion {
-  return isOrbVReducedMotion(value) ? value : DEFAULT_ORBV_REDUCED_MOTION
+export function normalizeOrbVoiceReducedMotion(value: unknown): OrbVoiceReducedMotion {
+  return isOrbVoiceReducedMotion(value) ? value : DEFAULT_ORB_VOICE_REDUCED_MOTION
 }

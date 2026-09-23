@@ -1,13 +1,13 @@
-import { orbvConfiguration } from '@core/config.data'
+import { orbVoiceConfiguration } from '@core/config.data'
 
-import type { OrbVTalkStep } from './talk.types'
+import type { OrbVoiceTalkStep } from './talk.types'
 
-export const DEFAULT_SPEECH_LANGUAGE = orbvConfiguration.speech.webSpeech.language
+export const DEFAULT_SPEECH_LANGUAGE = orbVoiceConfiguration.speech.webSpeech.language
 
 /**
- * OrbV ships without product copy. Consumers may provide an explicit talk flow,
+ * Orb Voice ships without product copy. Consumers may provide an explicit talk flow,
  * but the package never invents a greeting, persona, or fallback conversation.
  */
-export const talk: Readonly<Record<string, OrbVTalkStep>> = orbvConfiguration.speech.talk
+export const talk: Readonly<Record<string, OrbVoiceTalkStep>> = orbVoiceConfiguration.speech.talk
 
-export const DEFAULT_TALK_FLOW: readonly OrbVTalkStep[] = orbvConfiguration.speech.defaultTalkFlow
+export const DEFAULT_TALK_FLOW: readonly OrbVoiceTalkStep[] = orbVoiceConfiguration.speech.defaultTalkFlow

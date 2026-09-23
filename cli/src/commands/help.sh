@@ -12,9 +12,9 @@ if [ "$#" -gt 0 ]; then
       [ "$#" -eq 0 ] || shift
       case "$orb_help_subcommand" in
         ''|help|--help|-h)
-          [ "$#" -eq 0 ] || orb_die 'Usage: orbv help git [subcommand]' 2
+          [ "$#" -eq 0 ] || orb_die 'Usage: orb-voice help git [subcommand]' 2
           cat <<'EOF_GIT'
-Usage: orbv git [--logs] <command> [--logs] [arguments]
+Usage: orb-voice git [--logs] <command> [--logs] [arguments]
 
 Commands:
   setup                         Install Husky hook adapters
@@ -29,7 +29,7 @@ Aliases:
   commit-msg <file>, commit message <file>  Same as commit-message
   commits [arguments]                      Same commit-history validation as lint
 
-Run 'orbv help git <command>' or 'orbv git <command> --help' for details.
+Run 'orb-voice help git <command>' or 'orb-voice git <command> --help' for details.
 EOF_GIT
           exit 0
           ;;
@@ -37,25 +37,25 @@ EOF_GIT
           case "${1:-}" in
             message|help|--help|-h) shift ;;
           esac
-          [ "$#" -eq 0 ] || orb_die 'Usage: orbv help git commit [message]' 2
-          printf 'Usage: orbv git commit message <message-file>\n'
+          [ "$#" -eq 0 ] || orb_die 'Usage: orb-voice help git commit [message]' 2
+          printf 'Usage: orb-voice git commit message <message-file>\n'
           exit 0
           ;;
         setup|doctor|pre-commit|commit-message|commit-msg|lint|commits|version-check)
-          [ "$#" -eq 0 ] || orb_die "Usage: orbv help git $orb_help_subcommand" 2
+          [ "$#" -eq 0 ] || orb_die "Usage: orb-voice help git $orb_help_subcommand" 2
           exec "$ORB_CLI_DIR/orb.sh" git "$orb_help_subcommand" --help
           ;;
-        *) orb_die "Unknown git help topic: $orb_help_subcommand. Run 'orbv help git'." 2 ;;
+        *) orb_die "Unknown git help topic: $orb_help_subcommand. Run 'orb-voice help git'." 2 ;;
       esac
       ;;
     bootstrap|install|setup|--setup|doctor|cleanup|clean|lint|typecheck|test|build|harness|neon|audit|check|version|--version|-V)
-      [ "$#" -eq 0 ] || orb_die "Usage: orbv help $orb_help_command" 2
+      [ "$#" -eq 0 ] || orb_die "Usage: orb-voice help $orb_help_command" 2
       exec "$ORB_CLI_DIR/orb.sh" "$orb_help_command" --help
       ;;
     help|--help|-h)
-      [ "$#" -eq 0 ] || orb_die 'Usage: orbv help [command]' 2
+      [ "$#" -eq 0 ] || orb_die 'Usage: orb-voice help [command]' 2
       ;;
-    *) orb_die "Unknown help topic: $orb_help_command. Run 'orbv help'." 2 ;;
+    *) orb_die "Unknown help topic: $orb_help_command. Run 'orb-voice help'." 2 ;;
   esac
 fi
 
@@ -63,24 +63,24 @@ orb_print_logo
 
 if ! orb_is_repository_source; then
   cat <<'EOF_PUBLIC'
-OrbV project installer
+Orb Voice project installer
 
 Usage:
-  npx orbv --setup
-  orbv setup [options]
+  npx orb-voice --setup
+  orb-voice setup [options]
 
 Options:
   --setup                               Same as setup; the canonical consumer form
   --project <directory>                 Target project; defaults to the current directory
   --package-manager <npm|pnpm|yarn|bun> Override package-manager detection
-  --package-spec <specifier>            Override the OrbV package/version to install
-  --force                               Reinstall even when OrbV is already declared
+  --package-spec <specifier>            Override the Orb Voice package/version to install
+  --force                               Reinstall even when Orb Voice is already declared
   --dry-run                             Print the installation command without executing it
   --logs                                Print operational diagnostics to stderr
   --help, -h                            Show this guide
-  --version, -V                         Print the executing OrbV version
+  --version, -V                         Print the executing Orb Voice version
 
-The default command is setup. It adds orbv to an existing project
+The default command is setup. It adds orb-voice to an existing project
 and prints the framework-neutral registration snippet. It does not generate or
 overwrite application source files.
 EOF_PUBLIC
@@ -88,21 +88,21 @@ EOF_PUBLIC
 fi
 
 cat <<'EOF_REPOSITORY'
-OrbV repository engineering CLI
+Orb Voice repository engineering CLI
 
 Usage:
-  orbv [--logs] <command> [arguments]
-  ./cli/orbv <command> [arguments]
-  orbv help <command>
-  orbv help git <command>
+  orb-voice [--logs] <command> [arguments]
+  ./cli/orb-voice <command> [arguments]
+  orb-voice help <command>
+  orb-voice help git <command>
 
 Commands:
   help [command]                        Show this guide or command-specific help
-  --version                             Print the local OrbV/OrbV version
+  --version                             Print the local Orb Voice/Orb Voice version
   bootstrap                             Install dependencies and configure the checkout
-  setup [--launcher] [--bin-dir <dir>]  Install the user-scoped orbv launcher
-  setup --project <dir> [options]       Install OrbV into an existing consumer project
-  doctor [--ci]                         Diagnose the OrbV engineering environment
+  setup [--launcher] [--bin-dir <dir>]  Install the user-scoped orb-voice launcher
+  setup --project <dir> [options]       Install Orb Voice into an existing consumer project
+  doctor [--ci]                         Diagnose the Orb Voice engineering environment
   cleanup [options]                     Remove generated state and dependencies
   lint [--write|--staged]               Run Biome or staged-file checks
   typecheck                             Type-check source and colocated tests
@@ -138,14 +138,14 @@ Use --logs before or immediately after a command or Git subcommand.
 Use '<command> --help' or 'help <command>' for command-specific options.
 
 First checkout:
-  ./cli/orbv bootstrap
+  ./cli/orb-voice bootstrap
 
 Install only the user-scoped launcher:
   pnpm run setup
 
 Consumer installation test:
-  npx orbv --setup
+  npx orb-voice --setup
 
-OrbV is implemented entirely with POSIX shell scripts. Package commands are
-owned by OrbV; package.json keeps only the setup bridge and npm lifecycle gates.
+Orb Voice is implemented entirely with POSIX shell scripts. Package commands are
+owned by Orb Voice; package.json keeps only the setup bridge and npm lifecycle gates.
 EOF_REPOSITORY

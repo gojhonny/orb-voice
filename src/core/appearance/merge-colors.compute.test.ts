@@ -1,17 +1,17 @@
 import {
-  DEFAULT_ORBV_COLORS,
-  DEFAULT_ORBV_PRESET,
-  ORBV_PRESET_NAMES,
-  ORBV_PRESETS,
-  orbvConfiguration
+  DEFAULT_ORB_VOICE_COLORS,
+  DEFAULT_ORB_VOICE_PRESET,
+  ORB_VOICE_PRESET_NAMES,
+  ORB_VOICE_PRESETS,
+  orbVoiceConfiguration
 } from '@core/config.data'
 import { describe, expect, it } from 'vitest'
-import { mergeOrbVColors } from './merge-colors.compute'
+import { mergeOrbVoiceColors } from './merge-colors.compute'
 
 describe('core/merge-colors', () => {
   it('preserves the established NeonGate name and five-color palette', () => {
-    expect(DEFAULT_ORBV_PRESET).toBe('neongate')
-    expect(mergeOrbVColors()).toEqual({
+    expect(DEFAULT_ORB_VOICE_PRESET).toBe('neongate')
+    expect(mergeOrbVoiceColors()).toEqual({
       accent: '#FF4DDE',
       background: '#14142B',
       highlight: '#FFB07A',
@@ -21,7 +21,7 @@ describe('core/merge-colors', () => {
   })
 
   it('enumerates six canonical presets while preserving the deprecated palette alias', () => {
-    expect(ORBV_PRESET_NAMES).toEqual([
+    expect(ORB_VOICE_PRESET_NAMES).toEqual([
       'neongate',
       'periwinkle',
       'magenta',
@@ -29,18 +29,18 @@ describe('core/merge-colors', () => {
       'mocha',
       'ivory'
     ])
-    expect(Object.keys(ORBV_PRESETS)).toEqual(ORBV_PRESET_NAMES)
-    expect(ORBV_PRESETS.gojhonny).toBe(ORBV_PRESETS.neongate)
-    expect(orbvConfiguration.appearance.presets).toBe(ORBV_PRESETS)
-    expect(Object.isFrozen(ORBV_PRESETS.gojhonny)).toBe(true)
-    expect(Reflect.set(ORBV_PRESETS, 'gojhonny', {})).toBe(false)
-    expect(Reflect.set(ORBV_PRESETS.gojhonny, 'primary', '#000000')).toBe(false)
+    expect(Object.keys(ORB_VOICE_PRESETS)).toEqual(ORB_VOICE_PRESET_NAMES)
+    expect(ORB_VOICE_PRESETS.gojhonny).toBe(ORB_VOICE_PRESETS.neongate)
+    expect(orbVoiceConfiguration.appearance.presets).toBe(ORB_VOICE_PRESETS)
+    expect(Object.isFrozen(ORB_VOICE_PRESETS.gojhonny)).toBe(true)
+    expect(Reflect.set(ORB_VOICE_PRESETS, 'gojhonny', {})).toBe(false)
+    expect(Reflect.set(ORB_VOICE_PRESETS.gojhonny, 'primary', '#000000')).toBe(false)
   })
 
   it('merges an override without mutating the default preset', () => {
-    const colors = mergeOrbVColors({ primary: '#000000' })
+    const colors = mergeOrbVoiceColors({ primary: '#000000' })
 
-    expect(colors).toEqual({ ...DEFAULT_ORBV_COLORS, primary: '#000000' })
-    expect(ORBV_PRESETS.neongate.primary).not.toBe('#000000')
+    expect(colors).toEqual({ ...DEFAULT_ORB_VOICE_COLORS, primary: '#000000' })
+    expect(ORB_VOICE_PRESETS.neongate.primary).not.toBe('#000000')
   })
 })

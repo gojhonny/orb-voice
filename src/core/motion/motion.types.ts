@@ -1,18 +1,18 @@
-export type OrbVAnimationScalar = number | string
+export type OrbVoiceAnimationScalar = number | string
 
-export type OrbVAnimationSeries = OrbVAnimationScalar | readonly OrbVAnimationScalar[]
+export type OrbVoiceAnimationSeries = OrbVoiceAnimationScalar | readonly OrbVoiceAnimationScalar[]
 
-export interface OrbVAnimationValues {
-  '--orbv-angle'?: OrbVAnimationSeries
-  opacity?: OrbVAnimationSeries
-  rotate?: OrbVAnimationSeries
-  scale?: OrbVAnimationSeries
-  x?: OrbVAnimationSeries
-  y?: OrbVAnimationSeries
+export interface OrbVoiceAnimationValues {
+  '--orb-voice-angle'?: OrbVoiceAnimationSeries
+  opacity?: OrbVoiceAnimationSeries
+  rotate?: OrbVoiceAnimationSeries
+  scale?: OrbVoiceAnimationSeries
+  x?: OrbVoiceAnimationSeries
+  y?: OrbVoiceAnimationSeries
 }
 
-export interface OrbVTransition {
-  /** Duration in seconds, matching the original OrbV motion profiles. */
+export interface OrbVoiceTransition {
+  /** Duration in seconds, matching the original Orb Voice motion profiles. */
   duration: number
   ease?: 'easeInOut' | 'easeOut' | 'linear'
   repeat?: number
@@ -20,18 +20,18 @@ export interface OrbVTransition {
   times?: readonly number[]
 }
 
-export interface OrbVLayerMotion {
-  animate: OrbVAnimationValues
-  transition: OrbVTransition
+export interface OrbVoiceLayerMotion {
+  animate: OrbVoiceAnimationValues
+  transition: OrbVoiceTransition
 }
 
-export interface OrbVMotionProfile {
-  aura: OrbVLayerMotion
+export interface OrbVoiceMotionProfile {
+  aura: OrbVoiceLayerMotion
   contrast: number
-  core: OrbVLayerMotion
-  field: OrbVLayerMotion
-  highlight: OrbVLayerMotion
-  ring: OrbVLayerMotion
-  root: OrbVLayerMotion
+  core: OrbVoiceLayerMotion
+  field: OrbVoiceLayerMotion
+  highlight: OrbVoiceLayerMotion
+  ring: OrbVoiceLayerMotion
+  root: OrbVoiceLayerMotion
   saturation: number
 }

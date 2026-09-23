@@ -6,7 +6,7 @@ orb_require_repository_source
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Typecheck help does not accept additional arguments.' 2
-    printf 'Usage: orbv typecheck\n'
+    printf 'Usage: orb-voice typecheck\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Typecheck does not accept arguments.' 2 ;;

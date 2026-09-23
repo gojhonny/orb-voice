@@ -1,25 +1,25 @@
 import type {
-  OrbVConversationHandlers,
-  OrbVConversationPort,
-  OrbVConversationState
+  OrbVoiceConversationHandlers,
+  OrbVoiceConversationPort,
+  OrbVoiceConversationState
 } from '@ports/conversation.port'
 
 /** Owns session supersession independently of a provider or DOM implementation. */
-export class OrbVConversationRunnerService {
-  readonly #handlers: OrbVConversationHandlers
-  #conversation: OrbVConversationPort | undefined
+export class OrbVoiceConversationRunnerService {
+  readonly #handlers: OrbVoiceConversationHandlers
+  #conversation: OrbVoiceConversationPort | undefined
   #run = 0
-  #state: OrbVConversationState = 'idle'
+  #state: OrbVoiceConversationState = 'idle'
 
-  constructor(handlers: OrbVConversationHandlers) {
+  constructor(handlers: OrbVoiceConversationHandlers) {
     this.#handlers = handlers
   }
 
-  get state(): OrbVConversationState {
+  get state(): OrbVoiceConversationState {
     return this.#state
   }
 
-  async start(conversation: OrbVConversationPort): Promise<void> {
+  async start(conversation: OrbVoiceConversationPort): Promise<void> {
     this.stop()
     const run = ++this.#run
     this.#conversation = conversation
@@ -53,7 +53,7 @@ export class OrbVConversationRunnerService {
       conversation.stop()
       this.#setState('error')
       if (!reportedError) {
-        const safe = new Error('OrbV conversation could not start.')
+        const safe = new Error('Orb Voice conversation could not start.')
         this.#handlers.onError(safe)
         throw safe
       }
@@ -72,7 +72,7 @@ export class OrbVConversationRunnerService {
     this.#conversation?.interrupt()
   }
 
-  #setState(state: OrbVConversationState): void {
+  #setState(state: OrbVoiceConversationState): void {
     if (this.#state !== state) {
       this.#state = state
       this.#handlers.onStateChange(state)

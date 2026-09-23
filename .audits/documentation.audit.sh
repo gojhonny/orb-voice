@@ -20,7 +20,7 @@ fail() {
 # ---------------------------------------------------------------------------
 
 for image in \
-  assets/images/orbv-tagline.svg \
+  assets/images/orb-voice-tagline.svg \
   assets/images/readme-banner.png
 do
   if [ -s "$image" ]; then
@@ -30,7 +30,7 @@ do
   fi
 done
 
-tagline_line=$(grep -n -m1 'assets/images/orbv-tagline.svg' README.md | cut -d: -f1 || true)
+tagline_line=$(grep -n -m1 'assets/images/orb-voice-tagline.svg' README.md | cut -d: -f1 || true)
 banner_line=$(grep -n -m1 'assets/images/readme-banner.png' README.md | cut -d: -f1 || true)
 badges_line=$(grep -n -m1 'badge-l4.svg' README.md | cut -d: -f1 || true)
 product_line=$(grep -n -m1 '^## Give your AI voice a presence$' README.md | cut -d: -f1 || true)
@@ -51,8 +51,8 @@ fi
 
 for token in \
   'paladini.github.io/harness-score/maturity/badge-l4.svg' \
-  'github/actions/workflow/status/gojhonny/orbv/ci.yml' \
-  'img.shields.io/npm/v/orbv'
+  'github/actions/workflow/status/gojhonny/orb-voice/ci.yml' \
+  'img.shields.io/npm/v/orb-voice'
 do
   if grep -F "$token" README.md >/dev/null 2>&1; then
     pass "README contains badge $token"
@@ -66,7 +66,7 @@ done
 if awk '
   BEGIN {
     expected[1] = "<a href=\"https://neongate.com.br/docs/orbz/overview\"><strong>Documentation</strong></a>"
-    expected[2] = "<a href=\"https://www.npmjs.com/package/orbv\"><strong>npm</strong></a>"
+    expected[2] = "<a href=\"https://www.npmjs.com/package/orb-voice\"><strong>npm</strong></a>"
     expected[3] = "<a href=\"./LICENSE\"><strong>MIT License</strong></a>"
   }
   /^[[:space:]]*<p align="center">[[:space:]]*$/ {
@@ -122,8 +122,8 @@ do
 done
 
 for token in \
-  'orbv/browser' \
-  '<orb-v' \
+  'orb-voice/browser' \
+  '<orb-voice' \
   voiceModel \
   realtimeSession \
   voiceEngine \
@@ -146,8 +146,8 @@ for token in \
   en-US \
   color-primary \
   reduced-motion \
-  defineOrbV \
-  'npx orbv --setup'
+  defineOrbVoice \
+  'npx orb-voice --setup'
 do
   if grep -F "$token" README.md >/dev/null 2>&1; then
     pass "README documents consumer API token $token"
@@ -179,9 +179,9 @@ done
 for forbidden in \
   '## Contributing' \
   '## Release review' \
-  './cli/orbv bootstrap' \
-  'orbv cleanup --dry-run' \
-  'orbv git setup' \
+  './cli/orb-voice bootstrap' \
+  'orb-voice cleanup --dry-run' \
+  'orb-voice git setup' \
   'lint-staged' \
   'Commitlint' \
   '.agents/' \
@@ -196,16 +196,16 @@ do
 done
 
 # ---------------------------------------------------------------------------
-# Engineering CLI documentation: direct OrbV is canonical
+# Engineering CLI documentation: direct Orb Voice is canonical
 # ---------------------------------------------------------------------------
 
 for token in \
-  '## Source checkout: use `orbv` directly' \
-  'orbv doctor' \
-  'orbv test' \
-  'orbv check' \
+  '## Source checkout: use `orb-voice` directly' \
+  'orb-voice doctor' \
+  'orb-voice test' \
+  'orb-voice check' \
   'pnpm:devPreinstall' \
-  './cli/orbv setup --launcher'
+  './cli/orb-voice setup --launcher'
 do
   if grep -F "$token" cli/readme.md >/dev/null 2>&1; then
     pass "CLI guide documents $token"
@@ -214,16 +214,16 @@ do
   fi
 done
 
-if grep -E 'pnpm exec[[:space:]]+orbv|npm exec --[[:space:]]+orbv' README.md cli/readme.md >/dev/null 2>&1; then
-  fail 'active documentation requires a package-manager executable runner for OrbV'
+if grep -E 'pnpm exec[[:space:]]+orb-voice|npm exec --[[:space:]]+orb-voice' README.md cli/readme.md >/dev/null 2>&1; then
+  fail 'active documentation requires a package-manager executable runner for Orb Voice'
 else
-  pass 'active documentation uses orbv directly for engineering commands'
+  pass 'active documentation uses orb-voice directly for engineering commands'
 fi
 
-if grep -E 'pnpm (orbv|check|version:check)' README.md cli/readme.md >/dev/null 2>&1; then
+if grep -E 'pnpm (orb-voice|check|version:check)' README.md cli/readme.md >/dev/null 2>&1; then
   fail 'documentation retains removed package-script command aliases'
 else
-  pass 'documentation keeps OrbV as the engineering command surface'
+  pass 'documentation keeps Orb Voice as the engineering command surface'
 fi
 
 # ---------------------------------------------------------------------------

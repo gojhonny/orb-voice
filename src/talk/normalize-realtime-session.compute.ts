@@ -1,16 +1,16 @@
 import type {
-  OrbVRealtimeSession,
-  OrbVRealtimeSessionAuthorizer,
-  OrbVRealtimeSessionEndpoint
+  OrbVoiceRealtimeSession,
+  OrbVoiceRealtimeSessionAuthorizer,
+  OrbVoiceRealtimeSessionEndpoint
 } from './voice-model.types'
 
 /** Copy public transport options only; application authorization stays opaque. */
-export function normalizeRealtimeSession(value: unknown): OrbVRealtimeSession | undefined {
+export function normalizeRealtimeSession(value: unknown): OrbVoiceRealtimeSession | undefined {
   if (value === undefined) {
     return undefined
   }
   if (typeof value === 'function') {
-    return value as OrbVRealtimeSessionAuthorizer
+    return value as OrbVoiceRealtimeSessionAuthorizer
   }
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
     throw invalidSession()
@@ -53,7 +53,7 @@ export function normalizeRealtimeSession(value: unknown): OrbVRealtimeSession | 
     throw invalidSession()
   }
 
-  const session: OrbVRealtimeSessionEndpoint = {
+  const session: OrbVoiceRealtimeSessionEndpoint = {
     endpoint,
     ...(credentials === undefined ? {} : { credentials }),
     ...(fetcher === undefined ? {} : { fetch: fetcher as typeof globalThis.fetch })
@@ -63,6 +63,6 @@ export function normalizeRealtimeSession(value: unknown): OrbVRealtimeSession | 
 
 function invalidSession(): TypeError {
   return new TypeError(
-    'OrbV realtimeSession requires an authorizer or endpoint with optional fetch policy and function only.'
+    'Orb Voice realtimeSession requires an authorizer or endpoint with optional fetch policy and function only.'
   )
 }

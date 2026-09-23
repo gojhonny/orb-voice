@@ -1,38 +1,38 @@
 import configuration from '@configuration'
-import { ORBV_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
-import type { OrbVConfigurationSource } from '@core/config.types'
-import { ORBV_DEFAULT_MOTION } from '@core/motion/default-motion.data'
-import { ORBV_DEFAULT_SPEECH } from '@talk/default-speech.data'
+import { ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
+import type { OrbVoiceConfigurationSource } from '@core/config.types'
+import { ORB_VOICE_DEFAULT_MOTION } from '@core/motion/default-motion.data'
+import { ORB_VOICE_DEFAULT_SPEECH } from '@talk/default-speech.data'
 import { describe, expect, it, vi } from 'vitest'
 
-import { transformOrbVConfiguration } from './transform-configuration.compute'
-import { readOrbVConfigurationSource } from './validate-configuration.compute'
+import { transformOrbVoiceConfiguration } from './transform-configuration.compute'
+import { readOrbVoiceConfigurationSource } from './validate-configuration.compute'
 
 describe('core/transform-configuration', () => {
   function legacySource() {
-    return readOrbVConfigurationSource({
+    return readOrbVoiceConfigurationSource({
       ...configuration,
-      appearance: { ...configuration.appearance, byState: ORBV_DEFAULT_APPEARANCE_BY_STATE },
-      motion: ORBV_DEFAULT_MOTION,
-      speech: ORBV_DEFAULT_SPEECH
+      appearance: { ...configuration.appearance, byState: ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE },
+      motion: ORB_VOICE_DEFAULT_MOTION,
+      speech: ORB_VOICE_DEFAULT_SPEECH
     })
   }
 
   it('composes compact JSON into the same isolated runtime as the legacy complete source', () => {
     const input = structuredClone(configuration)
     const before = structuredClone(input)
-    const result = transformOrbVConfiguration(input)
-    const next = transformOrbVConfiguration(input)
+    const result = transformOrbVoiceConfiguration(input)
+    const next = transformOrbVoiceConfiguration(input)
 
     expect(Object.keys(input)).toEqual(['component', 'appearance', 'realtime'])
     expect(input.appearance).not.toHaveProperty('byState')
-    expect(result).toEqual(transformOrbVConfiguration(legacySource()))
-    expect(result.speech).toEqual(ORBV_DEFAULT_SPEECH)
-    expect(result.appearance.byState).toEqual(ORBV_DEFAULT_APPEARANCE_BY_STATE)
+    expect(result).toEqual(transformOrbVoiceConfiguration(legacySource()))
+    expect(result.speech).toEqual(ORB_VOICE_DEFAULT_SPEECH)
+    expect(result.appearance.byState).toEqual(ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE)
     expect(result.speech.defaultVoiceModel).toBeNull()
     expect(result.speech.defaultTalkFlow).toEqual([])
     expect(result.motion.full.idle.root.transition.repeat).toBe(Number.POSITIVE_INFINITY)
-    expect(result.speech).not.toBe(ORBV_DEFAULT_SPEECH)
+    expect(result.speech).not.toBe(ORB_VOICE_DEFAULT_SPEECH)
     expect(result.speech).not.toBe(next.speech)
     expect(Object.isFrozen(result.speech.webSpeech.preferredVoices)).toBe(true)
     expect(Object.isFrozen(result.motion.reduced.idle.root.animate)).toBe(true)
@@ -43,18 +43,18 @@ describe('core/transform-configuration', () => {
     'motion',
     'speech'
   ])('rejects an explicitly invalid %s instead of using defaults', (key) => {
-    expect(() => transformOrbVConfiguration({ ...configuration, [key]: null })).toThrow(
-      `Invalid OrbV configuration at $.${key}: expected an object.`
+    expect(() => transformOrbVoiceConfiguration({ ...configuration, [key]: null })).toThrow(
+      `Invalid Orb Voice configuration at $.${key}: expected an object.`
     )
   })
 
   it('rejects invalid explicit state appearance instead of using defaults', () => {
     expect(() =>
-      transformOrbVConfiguration({
+      transformOrbVoiceConfiguration({
         ...configuration,
         appearance: { ...configuration.appearance, byState: null }
       })
-    ).toThrow('Invalid OrbV configuration at $.appearance.byState: expected an object.')
+    ).toThrow('Invalid Orb Voice configuration at $.appearance.byState: expected an object.')
   })
 
   it('derives editable defaults into an isolated immutable runtime configuration', () => {
@@ -65,7 +65,7 @@ describe('core/transform-configuration', () => {
     input.motion.full.listening.root.transition.repeat = 'infinite'
     const before = structuredClone(input)
 
-    const result = transformOrbVConfiguration(input)
+    const result = transformOrbVoiceConfiguration(input)
 
     expect(result.component.defaultSize).toBe('32rem')
     expect(result.appearance.defaultPreset).toBe('peach')
@@ -92,8 +92,8 @@ describe('core/transform-configuration', () => {
     const input = structuredClone(configuration)
     input.appearance.defaultPreset = 'missing-palette'
 
-    expect(() => transformOrbVConfiguration(input)).toThrow(
-      'Invalid OrbV configuration at $.appearance.defaultPreset: unsupported value or reference.'
+    expect(() => transformOrbVoiceConfiguration(input)).toThrow(
+      'Invalid Orb Voice configuration at $.appearance.defaultPreset: unsupported value or reference.'
     )
   })
 
@@ -108,9 +108,9 @@ describe('core/transform-configuration', () => {
         presetNames: ['gojhonny', 'periwinkle', 'magenta', 'peach', 'mocha', 'ivory'],
         presets: { gojhonny: { ...neongate, primary: '#123456' }, ...presets }
       }
-    } satisfies OrbVConfigurationSource
+    } satisfies OrbVoiceConfigurationSource
     const before = structuredClone(input)
-    const result = transformOrbVConfiguration(input)
+    const result = transformOrbVoiceConfiguration(input)
 
     expect(result.appearance.defaultPreset).toBe('neongate')
     expect(result.appearance.presetNames[0]).toBe('neongate')
@@ -123,16 +123,16 @@ describe('core/transform-configuration', () => {
 
     // Both compact source and the older complete configuration remain supported.
     const { motion: _motion, speech: _speech, ...compact } = input
-    expect(transformOrbVConfiguration(compact).appearance).toEqual(result.appearance)
+    expect(transformOrbVoiceConfiguration(compact).appearance).toEqual(result.appearance)
     const alternate = { ...input, appearance: { ...input.appearance, defaultPreset: 'peach' } }
-    expect(transformOrbVConfiguration(alternate).appearance.defaultPreset).toBe('peach')
+    expect(transformOrbVoiceConfiguration(alternate).appearance.defaultPreset).toBe('peach')
   })
 
   it('rejects ambiguous duplicate palette declarations instead of silently choosing colors', () => {
     const input = structuredClone(configuration)
     Object.assign(input.appearance.presets, { gojhonny: input.appearance.presets.neongate })
-    expect(() => transformOrbVConfiguration(input)).toThrow(
-      'Invalid OrbV configuration at $.appearance.presets: unknown configuration field.'
+    expect(() => transformOrbVoiceConfiguration(input)).toThrow(
+      'Invalid Orb Voice configuration at $.appearance.presets: unknown configuration field.'
     )
   })
 
@@ -140,8 +140,8 @@ describe('core/transform-configuration', () => {
     const input = structuredClone(configuration)
     Object.assign(input.realtime.openai, { apiKey: 'private-configuration-value' })
 
-    expect(() => transformOrbVConfiguration(input)).toThrow(
-      new TypeError('Invalid OrbV configuration at $.realtime.openai: unknown configuration field.')
+    expect(() => transformOrbVoiceConfiguration(input)).toThrow(
+      new TypeError('Invalid Orb Voice configuration at $.realtime.openai: unknown configuration field.')
     )
   })
 
@@ -150,8 +150,8 @@ describe('core/transform-configuration', () => {
     const getter = vi.fn(() => 2)
     Object.defineProperty(input.component, 'defaultSpeed', { enumerable: true, get: getter })
 
-    expect(() => transformOrbVConfiguration(input)).toThrow(
-      new TypeError('Invalid OrbV configuration at $: JSON accessors are not allowed.')
+    expect(() => transformOrbVoiceConfiguration(input)).toThrow(
+      new TypeError('Invalid Orb Voice configuration at $: JSON accessors are not allowed.')
     )
     expect(getter).not.toHaveBeenCalled()
   })
@@ -160,8 +160,8 @@ describe('core/transform-configuration', () => {
     const input = legacySource()
     Object.assign(input.motion.reduced.listening.root.transition, { repeat: 'infinite' })
 
-    expect(() => transformOrbVConfiguration(input)).toThrow(
-      'Invalid OrbV configuration at $.motion.reduced.listening.root.transition.repeat'
+    expect(() => transformOrbVoiceConfiguration(input)).toThrow(
+      'Invalid Orb Voice configuration at $.motion.reduced.listening.root.transition.repeat'
     )
   })
 })

@@ -5,7 +5,7 @@ set -eu
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Audit help does not accept additional arguments.' 2
-    printf 'Usage: orbv audit\n'
+    printf 'Usage: orb-voice audit\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Audit does not accept arguments.' 2 ;;
@@ -23,4 +23,4 @@ for audit_file in "$ORB_PROJECT_ROOT"/.audits/*.audit.sh; do
 done
 
 [ "$found" = true ] || orb_die 'No audits were found under .audits/.'
-printf '\nAll OrbV audits passed.\n'
+printf '\nAll Orb Voice audits passed.\n'

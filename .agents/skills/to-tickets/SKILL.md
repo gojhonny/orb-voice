@@ -1,6 +1,6 @@
 ---
 name: to-tickets
-description: Use when a ready OrbV SPEC needs to be decomposed into vertical GitHub issues with explicit scope, acceptance evidence, and blocking edges.
+description: Use when a ready Orb Voice SPEC needs to be decomposed into vertical GitHub issues with explicit scope, acceptance evidence, and blocking edges.
 disable-model-invocation: true
 ---
 

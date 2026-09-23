@@ -5,7 +5,7 @@ set -eu
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Pre-commit help does not accept additional arguments.' 2
-    printf 'Usage: orbv git pre-commit\n'
+    printf 'Usage: orb-voice git pre-commit\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Git pre-commit does not accept arguments.' 2 ;;
@@ -14,7 +14,7 @@ esac
 
 orb_need pnpm
 orb_need git
-orb_git_checkout || orb_die 'Git pre-commit must run inside the OrbV checkout.'
+orb_git_checkout || orb_die 'Git pre-commit must run inside the Orb Voice checkout.'
 
 cd "$ORB_PROJECT_ROOT"
 "$ORB_CLI_DIR/commands/git-version-check.sh" --staged

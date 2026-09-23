@@ -8,7 +8,7 @@ while [ "$#" -gt 0 ]; do
     --ci) ci=true ;;
     --help|-h)
       [ "$#" -eq 1 ] || orb_die 'Git doctor help does not accept additional arguments.' 2
-      printf 'Usage: orbv git doctor [--ci]\n'
+      printf 'Usage: orb-voice git doctor [--ci]\n'
       exit 0
       ;;
     *) orb_die "Unknown git doctor option: $1" 2 ;;
@@ -29,15 +29,15 @@ done
 if [ -x "$ORB_PROJECT_ROOT/.husky/pre-commit" ]; then pass '.husky/pre-commit is executable'; else fail '.husky/pre-commit is not executable'; fi
 if [ -x "$ORB_PROJECT_ROOT/.husky/commit-msg" ]; then pass '.husky/commit-msg is executable'; else fail '.husky/commit-msg is not executable'; fi
 
-if grep -F 'orbv git pre-commit' "$ORB_PROJECT_ROOT/.husky/pre-commit" >/dev/null 2>&1; then
-  pass 'pre-commit is a thin OrbV adapter'
+if grep -F 'orb-voice git pre-commit' "$ORB_PROJECT_ROOT/.husky/pre-commit" >/dev/null 2>&1; then
+  pass 'pre-commit is a thin Orb Voice adapter'
 else
-  fail 'pre-commit is not a thin OrbV adapter'
+  fail 'pre-commit is not a thin Orb Voice adapter'
 fi
-if grep -F 'orbv git commit-message' "$ORB_PROJECT_ROOT/.husky/commit-msg" >/dev/null 2>&1; then
-  pass 'commit-msg is a thin OrbV adapter'
+if grep -F 'orb-voice git commit-message' "$ORB_PROJECT_ROOT/.husky/commit-msg" >/dev/null 2>&1; then
+  pass 'commit-msg is a thin Orb Voice adapter'
 else
-  fail 'commit-msg is not a thin OrbV adapter'
+  fail 'commit-msg is not a thin Orb Voice adapter'
 fi
 
 for git_dependency in @commitlint/cli @commitlint/config-conventional husky lint-staged semver; do
@@ -59,7 +59,7 @@ if [ "$ci" = false ] && orb_has git && orb_git_checkout; then
   if [ "$hooks_path" = .husky/_ ]; then
     pass 'core.hooksPath=.husky/_'
   else
-    fail "core.hooksPath is '${hooks_path:-unset}'; run orbv git setup"
+    fail "core.hooksPath is '${hooks_path:-unset}'; run orb-voice git setup"
   fi
 fi
 

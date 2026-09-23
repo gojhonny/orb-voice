@@ -1,23 +1,23 @@
 <p align="center">
   <img
-    src="./assets/images/orbv-tagline.svg"
+    src="./assets/images/orb-voice-tagline.svg"
     alt="One native voice-presence component for every web stack."
   >
 </p>
 
 <p align="center">
-  <img src="./assets/images/readme-banner.png" alt="OrbV voice presence component" width="100%">
+  <img src="./assets/images/readme-banner.png" alt="Orb Voice voice presence component" width="100%">
 </p>
 
 <p align="center">
   <a href="https://paladini.io/harness-score/guide/maturity-model.html"><img alt="Harness Score L4" src="https://paladini.github.io/harness-score/maturity/badge-l4.svg" height="20"></a>
-  <a href="https://github.com/gojhonny/orbv/actions/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/gojhonny/orbv/ci.yml?branch=main&label=tests&logo=github" height="20"></a>
-  <a href="https://www.npmjs.com/package/orbv"><img alt="npm version" src="https://img.shields.io/npm/v/orbv?logo=npm" height="20"></a>
+  <a href="https://github.com/gojhonny/orb-voice/actions/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/gojhonny/orb-voice/ci.yml?branch=main&label=tests&logo=github" height="20"></a>
+  <a href="https://www.npmjs.com/package/orb-voice"><img alt="npm version" src="https://img.shields.io/npm/v/orb-voice?logo=npm" height="20"></a>
 </p>
 
 <p align="center">
   <a href="https://neongate.com.br/docs/orbz/overview"><strong>Documentation</strong></a>&nbsp;&nbsp;&nbsp;
-  <a href="https://www.npmjs.com/package/orbv"><strong>npm</strong></a>&nbsp;&nbsp;&nbsp;
+  <a href="https://www.npmjs.com/package/orb-voice"><strong>npm</strong></a>&nbsp;&nbsp;&nbsp;
   <a href="./LICENSE"><strong>MIT License</strong></a>
 </p>
 
@@ -25,18 +25,18 @@
 
 ## Give your AI voice a presence
 
-`orbv` is a framework-agnostic, SSR-safe Web Component for AI voice
+`orb-voice` is a framework-agnostic, SSR-safe Web Component for AI voice
 interfaces. It gives a voice experience a visible identity through expressive
 motion, conversation states, configurable palettes, and provider-neutral voice
 APIs without requiring a framework-specific UI package.
 
-OrbV renders the native `<orb-v>` element. Your application keeps ownership of
+Orb Voice renders the native `<orb-voice>` element. Your application keeps ownership of
 the persona, transcript UI, authentication, backend, memory, tools, quotas, and
 product logic.
 
-| Capability | What OrbV provides |
+| Capability | What Orb Voice provides |
 | --- | --- |
-| Native Web Component | One `<orb-v>` element for React, Next.js, Vue, Svelte, Angular, vanilla JS, and mixed stacks |
+| Native Web Component | One `<orb-voice>` element for React, Next.js, Vue, Svelte, Angular, vanilla JS, and mixed stacks |
 | Voice output | Browser speech, application-hosted TTS, or a custom voice engine |
 | Realtime voice | Built-in OpenAI Realtime browser integration with an application-owned authorization boundary |
 | Bring your own model | Public model and voice selection, including provider-specific model identifiers |
@@ -51,49 +51,49 @@ product logic.
 ## Install
 
 ```bash
-npm install orbv
+npm install orb-voice
 ```
 
 Or:
 
 ```bash
-pnpm add orbv
+pnpm add orb-voice
 ```
 
 Project setup from the published CLI:
 
 ```bash
-npx orbv --setup
+npx orb-voice --setup
 ```
 
 <br>
 
 ## Quick start
 
-Register `<orb-v>` from browser-only code:
+Register `<orb-voice>` from browser-only code:
 
 ```ts
-import 'orbv/browser'
+import 'orb-voice/browser'
 ```
 
 Then use it as a native element:
 
 ```html
-<orb-v
+<orb-voice
   role="img"
   aria-label="Voice assistant"
   preset="neongate"
   state="idle"
-></orb-v>
+></orb-voice>
 ```
 
 For typed JavaScript access:
 
 ```ts
-import type { OrbVElement } from 'orbv'
-import 'orbv/browser'
+import type { OrbVoiceElement } from 'orb-voice'
+import 'orb-voice/browser'
 
-const orb = document.querySelector<OrbVElement>('orb-v')!
+const orb = document.querySelector<OrbVoiceElement>('orb-voice')!
 
 orb.state = 'listening'
 orb.size = '18rem'
@@ -132,7 +132,7 @@ conversation APIs that should not be serialized into HTML attributes.
 
 | Property | Type / role |
 | --- | --- |
-| `state` | Visual `OrbVState` |
+| `state` | Visual `OrbVoiceState` |
 | `size` | `number | string` |
 | `speed` | Animation speed multiplier |
 | `paused` | Animation pause state |
@@ -166,7 +166,7 @@ conversation APIs that should not be serialized into HTML attributes.
 
 ## Voice integrations
 
-OrbV keeps visual presence and voice transport separate from your application's
+Orb Voice keeps visual presence and voice transport separate from your application's
 persona and backend. You can use the built-in browser/TTS/Realtime integrations
 or provide your own voice engine.
 
@@ -177,19 +177,19 @@ or provide your own voice engine.
 | `openai-realtime` | `voiceModel` + `realtimeSession` | `startConversation()` | Your session endpoint/authorizer, provider credential, instructions, tools, and policy |
 | Custom | `voiceEngine` | `startTalking()` | Any implementation of `speak(text)` and `stop()` |
 
-Selecting a model is silent. OrbV does not automatically start playback or open
+Selecting a model is silent. Orb Voice does not automatically start playback or open
 a microphone session when `voiceModel`, `speech`, or `voiceEngine` changes.
 
 ### Browser speech
 
 ```ts
 import {
-  type OrbVElement,
+  type OrbVoiceElement,
   WebSpeechAdapter
-} from 'orbv'
-import 'orbv/browser'
+} from 'orb-voice'
+import 'orb-voice/browser'
 
-const orb = document.querySelector<OrbVElement>('orb-v')!
+const orb = document.querySelector<OrbVoiceElement>('orb-voice')!
 
 orb.speech = 'Welcome. How can I help?'
 orb.voiceEngine = new WebSpeechAdapter({
@@ -214,7 +214,7 @@ await orb.startTalking()
 | `preferredVoices` | Ordered browser voice preferences |
 | `voiceLoadTimeoutMs` | Maximum wait for browser voices to become available |
 
-Language selection controls voice matching and pronunciation. OrbV does not
+Language selection controls voice matching and pronunciation. Orb Voice does not
 translate the supplied text.
 
 ### OpenAI text-to-speech through your backend
@@ -223,10 +223,10 @@ Use an application-owned endpoint so the permanent OpenAI API key never reaches
 the browser:
 
 ```ts
-import type { OrbVElement } from 'orbv'
-import 'orbv/browser'
+import type { OrbVoiceElement } from 'orb-voice'
+import 'orb-voice/browser'
 
-const orb = document.querySelector<OrbVElement>('orb-v')!
+const orb = document.querySelector<OrbVoiceElement>('orb-voice')!
 
 orb.speech = 'Your order is ready.'
 orb.voiceModel = {
@@ -257,10 +257,10 @@ provider key to browser code.
 ### OpenAI Realtime
 
 ```ts
-import type { OrbVElement } from 'orbv'
-import 'orbv/browser'
+import type { OrbVoiceElement } from 'orb-voice'
+import 'orb-voice/browser'
 
-const orb = document.querySelector<OrbVElement>('orb-v')!
+const orb = document.querySelector<OrbVoiceElement>('orb-voice')!
 
 orb.voiceModel = {
   provider: 'openai-realtime',
@@ -312,7 +312,7 @@ orb.realtimeSession = async ({ sdp, model, voice, signal }) => {
 }
 ```
 
-For the endpoint form, OrbV posts JSON containing `{ sdp, model, voice }` and
+For the endpoint form, Orb Voice posts JSON containing `{ sdp, model, voice }` and
 expects the SDP answer as text. Your server authenticates the user, enforces the
 models/voices your product allows, talks to the provider with its server-side
 credential, and returns the answer.
@@ -324,12 +324,12 @@ tools, quotas, billing rules, sideband connections, and remote cleanup.
 ### Bring your own voice engine
 
 If you already have a speech provider or your own model gateway, implement the
-small `OrbVVoiceEnginePort` contract:
+small `OrbVoiceVoiceEnginePort` contract:
 
 ```ts
-import type { OrbVVoiceEnginePort } from 'orbv'
+import type { OrbVoiceVoiceEnginePort } from 'orb-voice'
 
-class MyVoiceEngine implements OrbVVoiceEnginePort {
+class MyVoiceEngine implements OrbVoiceVoiceEnginePort {
   async speak(text: string): Promise<void> {
     // Send text to your provider and play the resulting audio.
   }
@@ -353,7 +353,7 @@ Realtime conversation stops output-only speech.
 
 ## Talk flow and application intelligence
 
-OrbV ships without a persona, greeting, fallback copy, or hidden conversation
+Orb Voice ships without a persona, greeting, fallback copy, or hidden conversation
 script. If your UI needs a small explicit talk flow, provide it yourself:
 
 ```ts
@@ -379,7 +379,7 @@ await orb.receive('Ana')
 
 Applications can also supply an `intelligence` object whose `respond(input,
 context)` method returns application-generated text. This is an integration
-boundary, not an embedded OrbV LLM or credential store.
+boundary, not an embedded Orb Voice LLM or credential store.
 
 <br>
 
@@ -396,10 +396,10 @@ Visual `state` controls the orb animation:
 | `asleep` | Inactive or subdued presence |
 
 ```html
-<orb-v state="thinking"></orb-v>
+<orb-voice state="thinking"></orb-voice>
 ```
 
-When OrbV speaks through its talk API, it temporarily switches to `speaking` and
+When Orb Voice speaks through its talk API, it temporarily switches to `speaking` and
 restores the previous visual state when speech completes or is cancelled.
 
 Live Realtime sessions also expose the read-only `conversationState` property:
@@ -421,30 +421,30 @@ The default preset is **NeonGate** (`neongate`).
 | `ivory` | `#F0EEE9` | `#AFC7D3` | `#C8B3D4` | `#FFFFFF` | `#171A20` |
 
 ```html
-<orb-v preset="peach" state="listening"></orb-v>
+<orb-voice preset="peach" state="listening"></orb-voice>
 ```
 
 Or supply your own palette:
 
 ```html
-<orb-v
+<orb-voice
   color-primary="#4F46E5"
   color-secondary="#22D3EE"
   color-accent="#F472B6"
   color-highlight="#FEF3C7"
   color-background="#0F172A"
-></orb-v>
+></orb-voice>
 ```
 
 Presentation controls can be combined independently:
 
 ```html
-<orb-v
+<orb-voice
   size="18rem"
   speed="1.2"
   reduced-motion="system"
   elevated
-></orb-v>
+></orb-voice>
 ```
 
 Use `play()`, `pause()`, and `restart()` for imperative motion control.
@@ -453,17 +453,17 @@ Use `play()`, `pause()`, and `restart()` for imperative motion control.
 
 ## Events
 
-OrbV dispatches native `CustomEvent` instances from the host element.
+Orb Voice dispatches native `CustomEvent` instances from the host element.
 
 | Event | Detail |
 | --- | --- |
-| `orbv-conversation-state-change` | `{ state }` where state is `idle`, `connecting`, `listening`, `thinking`, `speaking`, or `error` |
-| `orbv-transcript` | `{ role, text, final, itemId? }` for user/assistant transcript updates |
-| `orbv-speaking-change` | `{ speaking }` for audible output transitions |
-| `orbv-talk-error` | `{ error }` for sanitized built-in talk/provider errors |
+| `orb-voice-conversation-state-change` | `{ state }` where state is `idle`, `connecting`, `listening`, `thinking`, `speaking`, or `error` |
+| `orb-voice-transcript` | `{ role, text, final, itemId? }` for user/assistant transcript updates |
+| `orb-voice-speaking-change` | `{ speaking }` for audible output transitions |
+| `orb-voice-talk-error` | `{ error }` for sanitized built-in talk/provider errors |
 
 ```ts
-orb.addEventListener('orbv-transcript', (event) => {
+orb.addEventListener('orb-voice-transcript', (event) => {
   const { role, text, final } = (
     event as CustomEvent<{
       role: 'user' | 'assistant'
@@ -476,25 +476,25 @@ orb.addEventListener('orbv-transcript', (event) => {
 })
 ```
 
-OrbV does not store transcript history, conversation memory, or audio history.
+Orb Voice does not store transcript history, conversation memory, or audio history.
 Your application decides whether and where those events are persisted.
 
 <br>
 
 ## React and Next.js
 
-OrbV remains a native custom element. React projects can add JSX typing without
+Orb Voice remains a native custom element. React projects can add JSX typing without
 using a wrapper component:
 
 ```ts
-import 'orbv/react-types'
-import 'orbv/browser'
+import 'orb-voice/react-types'
+import 'orb-voice/browser'
 ```
 
 Then:
 
 ```tsx
-<orb-v
+<orb-voice
   state="listening"
   preset="neongate"
   size="18rem"
@@ -505,7 +505,7 @@ Then:
 
 `voiceModel` and `realtimeSession` are also typed properties for React usage.
 `className` is intentionally excluded because a host class cannot style the
-closed shadow tree. Use OrbV appearance APIs for the component itself and wrap
+closed shadow tree. Use Orb Voice appearance APIs for the component itself and wrap
 the element when you need page-layout styling.
 
 <br>
@@ -516,31 +516,31 @@ The core package is safe to import when `HTMLElement` and `customElements` are
 not available:
 
 ```ts
-import type { OrbVElement } from 'orbv'
+import type { OrbVoiceElement } from 'orb-voice'
 ```
 
 Register the element only inside a browser/client boundary:
 
 ```ts
-await import('orbv/browser')
+await import('orb-voice/browser')
 ```
 
 If you prefer explicit registration instead of the browser side-effect entry:
 
 ```ts
-import { defineOrbV } from 'orbv'
+import { defineOrbVoice } from 'orb-voice'
 
-defineOrbV()
+defineOrbVoice()
 ```
 
-`defineOrbV()` defines `<orb-v>` once and safely returns without registering in
+`defineOrbVoice()` defines `<orb-voice>` once and safely returns without registering in
 a non-browser environment.
 
 <br>
 
 ## Security boundary
 
-OrbV accepts public model configuration and an application authorization
+Orb Voice accepts public model configuration and an application authorization
 boundary. It is not a credential vault.
 
 **Keep permanent provider API keys on your server.** A JavaScript property is
@@ -556,7 +556,7 @@ endpoint call the provider. Do not embed permanent provider keys in URLs,
 attributes, model objects, headers shipped to the client, or custom-element
 properties.
 
-| OrbV owns | Your application owns |
+| Orb Voice owns | Your application owns |
 | --- | --- |
 | Visual presence and animation | Persona and system instructions |
 | Browser-side voice interaction | User authentication and authorization |
@@ -573,7 +573,7 @@ The animated shadow content is visual and hidden from assistive technology. The
 host element gets its meaning from your application.
 
 - For a meaningful visual identity, provide an appropriate role and accessible name.
-- For a decorative orbv, hide the host from assistive technology.
+- For a decorative Orb Voice, hide the host from assistive technology.
 - Keep spoken content available as visible text, captions, or a transcript.
 - Announce listening, thinking, speaking, and errors through application-owned status text or live regions.
 - Keep `reduced-motion="system"` unless your product has an explicit user preference.
@@ -585,13 +585,13 @@ host element gets its meaning from your application.
 
 | Import | Purpose |
 | --- | --- |
-| `orbv` | Types, constants, factories, ports, adapters, and explicit registration API |
-| `orbv/browser` | Main API plus automatic browser registration |
-| `orbv/react-types` | React JSX type augmentation |
-| `orbv/standalone` | Direct-browser/CDN bundle |
-| `orbv/index.css` | Explicit stylesheet export |
+| `orb-voice` | Types, constants, factories, ports, adapters, and explicit registration API |
+| `orb-voice/browser` | Main API plus automatic browser registration |
+| `orb-voice/react-types` | React JSX type augmentation |
+| `orb-voice/standalone` | Direct-browser/CDN bundle |
+| `orb-voice/index.css` | Explicit stylesheet export |
 
-The README is intentionally focused on **using OrbV in an application**. Deeper
+The README is intentionally focused on **using Orb Voice in an application**. Deeper
 integration guides and API documentation are available at
 [neongate.com.br/docs/orbz/overview](https://neongate.com.br/docs/orbz/overview).
 

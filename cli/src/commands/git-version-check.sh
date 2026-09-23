@@ -8,7 +8,7 @@ while [ "$#" -gt 0 ]; do
     --staged) staged=true ;;
     --help|-h)
       [ "$#" -eq 1 ] || orb_die 'Version-check help does not accept additional arguments.' 2
-      printf 'Usage: orbv git version-check [--staged]\n'
+      printf 'Usage: orb-voice git version-check [--staged]\n'
       exit 0
       ;;
     *) orb_die "Unknown version-check option: $1" 2 ;;
@@ -29,7 +29,7 @@ package_changed=false
 
 if [ "$staged" = true ]; then
   orb_need git
-  orb_git_checkout || orb_die 'Staged version validation must run inside the OrbV checkout.'
+  orb_git_checkout || orb_die 'Staged version validation must run inside the Orb Voice checkout.'
 
   if git diff --cached --name-status -- package.json | grep -E '^D[[:space:]]' >/dev/null 2>&1; then
     orb_die 'The staged change deletes package.json.'
