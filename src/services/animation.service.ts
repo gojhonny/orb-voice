@@ -1,16 +1,16 @@
-import { orbuConfiguration } from '@core/config.data'
-import { ORBU_MOTION_BY_STATE, REDUCED_ORBU_MOTION_BY_STATE } from '@core/motion/motion.data'
+import { orbVoiceConfiguration } from '@core/config.data'
+import { ORB_VOICE_MOTION_BY_STATE, REDUCED_ORB_VOICE_MOTION_BY_STATE } from '@core/motion/motion.data'
 import type {
-  OrbuAnimationScalar,
-  OrbuAnimationSeries,
-  OrbuAnimationValues,
-  OrbuLayerMotion,
-  OrbuTransition
+  OrbVoiceAnimationScalar,
+  OrbVoiceAnimationSeries,
+  OrbVoiceAnimationValues,
+  OrbVoiceLayerMotion,
+  OrbVoiceTransition
 } from '@core/motion/motion.types'
-import type { OrbuAnimationLayers, OrbuAnimationSettings } from '@element/element.types'
+import type { OrbVoiceAnimationLayers, OrbVoiceAnimationSettings } from '@element/element.types'
 
-const ANIMATED_STYLE_PROPERTIES = orbuConfiguration.motion.animatedStyleProperties
-const EASINGS = orbuConfiguration.motion.easings
+const ANIMATED_STYLE_PROPERTIES = orbVoiceConfiguration.motion.animatedStyleProperties
+const EASINGS = orbVoiceConfiguration.motion.easings
 
 let anglePropertyRegistration: boolean | undefined
 
@@ -18,7 +18,7 @@ let anglePropertyRegistration: boolean | undefined
  * Registers the angle as a typed custom property so WAAPI interpolates it.
  * The guarded function is safe to import during SSR.
  */
-function registerOrbuAngleProperty(): boolean {
+function registerOrbVoiceAngleProperty(): boolean {
   if (anglePropertyRegistration !== undefined) {
     return anglePropertyRegistration
   }
@@ -35,12 +35,12 @@ function registerOrbuAngleProperty(): boolean {
     globalThis.CSS.registerProperty({
       inherits: true,
       initialValue: '0deg',
-      name: '--orbu-angle',
+      name: '--orb-voice-angle',
       syntax: '<angle>'
     })
     anglePropertyRegistration = true
   } catch (error) {
-    // InvalidModificationError means another Orbu instance registered it.
+    // InvalidModificationError means another Orb Voice instance registered it.
     anglePropertyRegistration =
       typeof error === 'object' &&
       error !== null &&
@@ -51,25 +51,25 @@ function registerOrbuAngleProperty(): boolean {
   return anglePropertyRegistration
 }
 
-export class OrbuAnimationService {
+export class OrbVoiceAnimationService {
   readonly #animations: Animation[] = []
-  readonly #layers: OrbuAnimationLayers
+  readonly #layers: OrbVoiceAnimationLayers
   readonly #styleTarget: HTMLElement
 
-  constructor(styleTarget: HTMLElement, layers: OrbuAnimationLayers) {
+  constructor(styleTarget: HTMLElement, layers: OrbVoiceAnimationLayers) {
     this.#styleTarget = styleTarget
     this.#layers = layers
   }
 
-  render(settings: OrbuAnimationSettings): void {
+  render(settings: OrbVoiceAnimationSettings): void {
     this.cancel()
 
     const profile = settings.reduced
-      ? REDUCED_ORBU_MOTION_BY_STATE[settings.state]
-      : ORBU_MOTION_BY_STATE[settings.state]
+      ? REDUCED_ORB_VOICE_MOTION_BY_STATE[settings.state]
+      : ORB_VOICE_MOTION_BY_STATE[settings.state]
 
-    this.#styleTarget.style.setProperty('--orbu-contrast', String(profile.contrast))
-    this.#styleTarget.style.setProperty('--orbu-saturation', String(profile.saturation))
+    this.#styleTarget.style.setProperty('--orb-voice-contrast', String(profile.contrast))
+    this.#styleTarget.style.setProperty('--orb-voice-saturation', String(profile.saturation))
 
     this.#animateLayer(this.#layers.root, profile.root, settings.speed)
     this.#animateLayer(this.#layers.aura, profile.aura, settings.speed)
@@ -112,7 +112,7 @@ export class OrbuAnimationService {
     this.cancel()
   }
 
-  #animateLayer(element: HTMLElement, motion: OrbuLayerMotion, speed: number): void {
+  #animateLayer(element: HTMLElement, motion: OrbVoiceLayerMotion, speed: number): void {
     const values = motion.animate
 
     this.#animateProperty(
@@ -138,8 +138,8 @@ export class OrbuAnimationService {
 
   #animateTranslate(
     element: HTMLElement,
-    values: OrbuAnimationValues,
-    transition: OrbuTransition,
+    values: OrbVoiceAnimationValues,
+    transition: OrbVoiceTransition,
     speed: number
   ): void {
     if (values.x === undefined && values.y === undefined) {
@@ -160,34 +160,34 @@ export class OrbuAnimationService {
 
   #animateAngle(
     element: HTMLElement,
-    values: OrbuAnimationValues,
-    transition: OrbuTransition,
+    values: OrbVoiceAnimationValues,
+    transition: OrbVoiceTransition,
     speed: number
   ): void {
-    const angle = values['--orbu-angle']
+    const angle = values['--orb-voice-angle']
     if (angle === undefined) {
       return
     }
 
-    if (registerOrbuAngleProperty()) {
-      this.#animateProperty(element, '--orbu-angle', angle, transition, speed, serializeAngle)
+    if (registerOrbVoiceAngleProperty()) {
+      this.#animateProperty(element, '--orb-voice-angle', angle, transition, speed, serializeAngle)
       return
     }
 
     // Older engines cannot interpolate custom properties. Rotating the entire
     // field preserves motion while the first gradient angle remains set.
     const angles = asArray(angle).map(serializeAngle)
-    element.style.setProperty('--orbu-angle', angles[0] ?? '0deg')
+    element.style.setProperty('--orb-voice-angle', angles[0] ?? '0deg')
     this.#animateProperty(element, 'rotate', angles, transition, speed, String)
   }
 
   #animateProperty(
     element: HTMLElement,
     property: string,
-    series: OrbuAnimationSeries | undefined,
-    transition: OrbuTransition,
+    series: OrbVoiceAnimationSeries | undefined,
+    transition: OrbVoiceTransition,
     speed: number,
-    serialize: (value: OrbuAnimationScalar) => string
+    serialize: (value: OrbVoiceAnimationScalar) => string
   ): void {
     if (series === undefined) {
       return
@@ -226,17 +226,17 @@ export class OrbuAnimationService {
   }
 }
 
-function asArray(series: OrbuAnimationSeries): readonly OrbuAnimationScalar[] {
+function asArray(series: OrbVoiceAnimationSeries): readonly OrbVoiceAnimationScalar[] {
   return Array.isArray(series)
-    ? (series as readonly OrbuAnimationScalar[])
-    : [series as OrbuAnimationScalar]
+    ? (series as readonly OrbVoiceAnimationScalar[])
+    : [series as OrbVoiceAnimationScalar]
 }
 
 function valueAt(
-  values: readonly OrbuAnimationScalar[],
+  values: readonly OrbVoiceAnimationScalar[],
   index: number,
   targetLength: number
-): OrbuAnimationScalar {
+): OrbVoiceAnimationScalar {
   if (values.length <= 1 || targetLength <= 1) {
     return values[0] ?? 0
   }
@@ -245,14 +245,14 @@ function valueAt(
   return values[sourceIndex] ?? values[values.length - 1] ?? 0
 }
 
-function serializeNumber(value: OrbuAnimationScalar): string {
+function serializeNumber(value: OrbVoiceAnimationScalar): string {
   return String(value)
 }
 
-function serializeAngle(value: OrbuAnimationScalar): string {
+function serializeAngle(value: OrbVoiceAnimationScalar): string {
   return typeof value === 'number' ? `${value}deg` : value
 }
 
-function serializeDistance(value: OrbuAnimationScalar): string {
+function serializeDistance(value: OrbVoiceAnimationScalar): string {
   return typeof value === 'number' ? `${value}px` : value
 }

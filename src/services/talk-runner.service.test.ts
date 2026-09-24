@@ -1,12 +1,12 @@
-import { OrbuTalkRunnerService } from '@services/talk-runner.service'
-import type { OrbuTalkStep } from '@talk/talk.types'
+import { OrbVoiceTalkRunnerService } from '@services/talk-runner.service'
+import type { OrbVoiceTalkStep } from '@talk/talk.types'
 import { describe, expect, it, vi } from 'vitest'
 
 describe('service/talk-runner', () => {
   it('treats blank direct speech and an empty flow as silence', async () => {
     const onSpeakingChange = vi.fn()
     const onError = vi.fn()
-    const runner = new OrbuTalkRunnerService(onSpeakingChange, onError)
+    const runner = new OrbVoiceTalkRunnerService(onSpeakingChange, onError)
 
     await runner.speak('   ')
     await runner.start([])
@@ -22,7 +22,7 @@ describe('service/talk-runner', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const runner = new OrbuTalkRunnerService(onSpeakingChange, onError)
+    const runner = new OrbVoiceTalkRunnerService(onSpeakingChange, onError)
     runner.voiceEngine = voiceEngine
 
     await runner.speak('  Olá, Jonny.  ')
@@ -38,8 +38,8 @@ describe('service/talk-runner', () => {
       speak: vi.fn(async (_text: string) => undefined),
       stop: vi.fn()
     }
-    const runner = new OrbuTalkRunnerService(vi.fn(), vi.fn())
-    const flow: readonly OrbuTalkStep[] = [
+    const runner = new OrbVoiceTalkRunnerService(vi.fn(), vi.fn())
+    const flow: readonly OrbVoiceTalkStep[] = [
       {
         id: 'welcome',
         kind: 'say',
@@ -75,10 +75,10 @@ describe('service/talk-runner', () => {
 
   it('reports a missing voice engine only when speech was requested', async () => {
     const onError = vi.fn()
-    const runner = new OrbuTalkRunnerService(vi.fn(), onError)
+    const runner = new OrbVoiceTalkRunnerService(vi.fn(), onError)
 
     await expect(runner.speak('Olá.')).rejects.toThrow(
-      'Orbu voiceEngine must be configured before startTalking().'
+      'Orb Voice voiceEngine must be configured before startTalking().'
     )
     expect(onError).toHaveBeenCalledOnce()
   })

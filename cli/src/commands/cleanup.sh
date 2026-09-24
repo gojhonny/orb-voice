@@ -25,7 +25,7 @@ done
 if [ "$show_help" = true ]; then
   [ "$argument_count" -eq 1 ] || orb_die 'Cleanup help does not accept additional arguments.' 2
   cat <<'EOF'
-Usage: orbu cleanup [--keep-dependencies | --dependencies] [--dry-run]
+Usage: orb-voice cleanup [--keep-dependencies | --dependencies] [--dry-run]
 
 Remove untracked root and nested dependencies, generated output and artifacts.
   --keep-dependencies  Preserve every node_modules directory and symlink
@@ -35,7 +35,7 @@ Remove untracked root and nested dependencies, generated output and artifacts.
 Requires a readable Git checkout, but no Node.js or package manager.
 Tracked paths, source, assets, harness metadata and nested repositories are
 protected. Symlink destinations are never followed. Restore dependencies with
-'orbu bootstrap' after the default cleanup.
+'orb-voice bootstrap' after the default cleanup.
 EOF
   exit 0
 fi

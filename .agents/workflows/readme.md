@@ -1,6 +1,6 @@
 # Agent workflows
 
-Workflows are explicit, user-invoked engineering sequences for recurring Orbu tasks.
+Workflows are explicit, user-invoked engineering sequences for recurring Orb Voice tasks.
 They orchestrate existing skills, rules, CLI commands, and audits; they do not
 replace SPECs or introduce a second command surface.
 

@@ -1,6 +1,6 @@
 # Context
 
-Start here before changing Orbu. The files in this directory summarize the
+Start here before changing Orb Voice. The files in this directory summarize the
 package from several engineering perspectives.
 
 - [`product.md`](./product.md): purpose, consumers, and public surface.

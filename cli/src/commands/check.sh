@@ -7,7 +7,7 @@ case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Check help does not accept additional arguments.' 2
     cat <<'HELP'
-Usage: orbu check
+Usage: orb-voice check
 
 Runs lint, source/test type checks, Vitest, both package builds, semantic-version
 validation, and all versioned repository audits.
@@ -33,4 +33,4 @@ orb_run_gate version "$ORB_CLI_DIR/commands/git-version-check.sh"
 orb_run_gate audits "$ORB_CLI_DIR/commands/audit.sh"
 
 printf '\n'
-orb_print_success 'Orbu check passed'
+orb_print_success 'Orb Voice check passed'

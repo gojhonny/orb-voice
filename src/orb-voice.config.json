@@ -1,6 +1,6 @@
 {
   "component": {
-    "tagName": "orb-u",
+    "tagName": "orb-voice",
     "states": ["idle", "listening", "thinking", "speaking", "asleep"],
     "reducedMotionModes": ["system", "always", "never"],
     "defaultState": "idle",

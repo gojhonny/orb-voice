@@ -1,4 +1,4 @@
-declare module 'virtual:orbu-styles' {
+declare module 'virtual:orb-voice-styles' {
   const styles: string
 
   export default styles

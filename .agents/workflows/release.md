@@ -1,15 +1,15 @@
 # Release workflow
 
-Use when preparing a patch, minor, or major Orbu release. Publishing remains a human-controlled action.
+Use when preparing a patch, minor, or major Orb Voice release. Publishing remains a human-controlled action.
 
 1. Read `.agents/context/release.md`, Rule 009, Rule 011, and the release SPEC.
 2. Confirm the working branch is intended for release and the working tree is clean.
 3. Confirm `package.json#version` is the intended canonical SemVer.
-4. Run `orbu doctor`.
-5. Run `orbu lint`.
-6. Run `orbu typecheck`.
-7. Run `orbu test` and require zero unhandled errors.
-8. Run `orbu check`.
+4. Run `orb-voice doctor`.
+5. Run `orb-voice lint`.
+6. Run `orb-voice typecheck`.
+7. Run `orb-voice test` and require zero unhandled errors.
+8. Run `orb-voice check`.
 9. Run `npm pack --dry-run` and inspect the payload.
 10. Confirm local `main` equals `origin/main` before tagging a merged release.
 11. Confirm the target npm version is not already published.
@@ -26,17 +26,16 @@ dispatch from main. It performs the full prepack gate, rejects stale main heads
 and conflicting tags, and publishes the validated tarball. Matching published
 artifacts can be verified on retry; existing tags and npm versions are immutable.
 
-The first publication of `orbu` uses the `NPM_TOKEN` repository secret.
+The first publication of `orb-voice` uses the `NPM_TOKEN` repository secret.
 Trusted publishing can be configured only after that package exists on npm.
 Credentials are never committed or printed.
 
-ADR-0023/SPEC-032 make `orbu` the npm package, public CLI, and `<orb-u>`
-element. GitHub metadata targets `gojhonny/orbu`. ADR-0022/SPEC-031 record
-the previous distribution identity. ADR-0021/SPEC-030 record
-the previous unscoped package name that npm rejected. The release guard runs
-when `github.repository` is `gojhonny/orbu`.
+ADR-0022/SPEC-031 make `orb-voice` the npm package, public CLI, and custom
+element. GitHub metadata targets `gojhonny/orb-voice`. ADR-0021/SPEC-030 record
+the previous unscoped package name that npm rejected. The owner renames the
+GitHub repository to `orb-voice` before merge so the release guard can run.
 
-The workflow publishes and verifies registry integrity and `orbu --help`
+The workflow publishes and verifies registry integrity and `orb-voice --help`
 before it creates the git tag or GitHub release. If npm rejects the package
 name, no tag is created. If tagging fails after a successful publish, rerun the
 workflow; the registry check accepts the same tarball integrity and does not

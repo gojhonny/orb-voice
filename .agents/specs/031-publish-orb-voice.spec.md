@@ -1,6 +1,6 @@
 # SPEC-031: Publish Orb Voice as orb-voice
 
-- Status: Implemented for source; distribution identity superseded by SPEC-032
+- Status: Implemented for source; publication waits on owner merge
 - Created: 2026-09-22
 - Updated: 2026-09-22
 - Mode: Prospective

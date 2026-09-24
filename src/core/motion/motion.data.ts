@@ -1,5 +1,5 @@
-import { orbuConfiguration } from '@core/config.data'
+import { orbVoiceConfiguration } from '@core/config.data'
 
-export const ORBU_APPEARANCE_BY_STATE = orbuConfiguration.appearance.byState
-export const ORBU_MOTION_BY_STATE = orbuConfiguration.motion.full
-export const REDUCED_ORBU_MOTION_BY_STATE = orbuConfiguration.motion.reduced
+export const ORB_VOICE_APPEARANCE_BY_STATE = orbVoiceConfiguration.appearance.byState
+export const ORB_VOICE_MOTION_BY_STATE = orbVoiceConfiguration.motion.full
+export const REDUCED_ORB_VOICE_MOTION_BY_STATE = orbVoiceConfiguration.motion.reduced

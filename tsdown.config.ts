@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown'
 
-import { orbuCssPlugin } from './tsdown.css.config.ts'
+import { orbVoiceCssPlugin } from './tsdown.css.config.ts'
 
 export default defineConfig({
   clean: true,
@@ -17,7 +17,7 @@ export default defineConfig({
   },
   entry: {
     browser: 'src/browser.client.ts',
-    orbu: 'src/index.ts',
+    'orb-voice': 'src/index.ts',
     'react-types': 'src/react.types.ts'
   },
   failOnWarn: true,
@@ -26,7 +26,7 @@ export default defineConfig({
   hash: false,
   minify: false,
   platform: 'neutral',
-  plugins: [orbuCssPlugin()],
+  plugins: [orbVoiceCssPlugin()],
   sourcemap: false,
   target: 'es2022'
 })

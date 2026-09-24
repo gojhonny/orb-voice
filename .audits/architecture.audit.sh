@@ -24,7 +24,7 @@ do
 done
 
 for path in \
-  src/orbu.config.json \
+  src/orb-voice.config.json \
   src/core/config.data.ts \
   src/core/appearance/appearance.types.ts \
   src/core/appearance/merge-colors.compute.ts \
@@ -37,9 +37,9 @@ do
 done
 
 if [ -e src/core/core.data.ts ]; then
-  fail 'legacy src/core/core.data.ts remains; canonical configuration is src/orbu.config.json'
+  fail 'legacy src/core/core.data.ts remains; canonical configuration is src/orb-voice.config.json'
 else
-  pass 'configuration uses src/orbu.config.json with typed compatibility bindings'
+  pass 'configuration uses src/orb-voice.config.json with typed compatibility bindings'
 fi
 
 legacy_core_files='appearance.types.ts is-preset-name.guard.ts is-reduced-motion.guard.ts is-state.guard.ts merge-colors.compute.ts motion.data.ts motion.types.ts normalize-preset.compute.ts normalize-reduced-motion.compute.ts normalize-size.compute.ts normalize-speed.compute.ts normalize-state.compute.ts'
@@ -55,8 +55,8 @@ else
   pass 'core imports use concern paths'
 fi
 
-if find src \( -type f -o -type d \) -name 'orbu*' ! -path src/orbu.config.json -print | grep . >/dev/null 2>&1; then
-  fail 'a source path begins with orbu outside the canonical JSON exception'
+if find src \( -type f -o -type d \) -name 'orb-voice*' ! -path src/orb-voice.config.json -print | grep . >/dev/null 2>&1; then
+  fail 'a source path begins with orb-voice outside the canonical JSON exception'
 else
   pass 'source paths use responsibility names with the canonical JSON exception'
 fi
@@ -67,14 +67,14 @@ else
   pass 'no framework runtime wrapper source'
 fi
 
-if grep -F 'orbuConfiguration.component.observedAttributes' src/element/element.data.ts >/dev/null 2>&1 &&
-  grep -F '"speech"' src/orbu.config.json >/dev/null 2>&1; then
+if grep -F 'orbVoiceConfiguration.component.observedAttributes' src/element/element.data.ts >/dev/null 2>&1 &&
+  grep -F '"speech"' src/orb-voice.config.json >/dev/null 2>&1; then
   pass 'element observed attributes derive from canonical configuration'
 else
   fail 'element observed attributes must derive from canonical configuration including speech'
 fi
 
-if grep -F 'DEFAULT_SPEECH_LANGUAGE = orbuConfiguration.speech.webSpeech.language' src/talk/talk.data.ts >/dev/null 2>&1 &&
+if grep -F 'DEFAULT_SPEECH_LANGUAGE = orbVoiceConfiguration.speech.webSpeech.language' src/talk/talk.data.ts >/dev/null 2>&1 &&
   grep -F "language: 'pt-BR'" src/talk/default-speech.data.ts >/dev/null 2>&1; then
   pass 'Web Speech default language derives from canonical pt-BR configuration'
 else
