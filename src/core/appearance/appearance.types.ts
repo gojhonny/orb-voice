@@ -1,13 +1,13 @@
-import type { ORB_VOICE_PRESET_NAMES, ORB_VOICE_REDUCED_MOTION_MODES, ORB_VOICE_STATES } from '@core/config.data'
+import type { ORBU_PRESET_NAMES, ORBU_REDUCED_MOTION_MODES, ORBU_STATES } from '@core/config.data'
 
-export type OrbVoiceState = (typeof ORB_VOICE_STATES)[number]
-export type OrbVoiceReducedMotion = (typeof ORB_VOICE_REDUCED_MOTION_MODES)[number]
+export type OrbuState = (typeof ORBU_STATES)[number]
+export type OrbuReducedMotion = (typeof ORBU_REDUCED_MOTION_MODES)[number]
 /** @deprecated Use neongate; the accidentally published name remains accepted. */
 type LegacyPresetName = 'gojhonny'
-export type OrbVoicePresetName = (typeof ORB_VOICE_PRESET_NAMES)[number] | LegacyPresetName
-export type OrbVoiceSize = number | string
+export type OrbuPresetName = (typeof ORBU_PRESET_NAMES)[number] | LegacyPresetName
+export type OrbuSize = number | string
 
-export interface OrbVoiceColors {
+export interface OrbuColors {
   accent: string
   background: string
   highlight: string
@@ -15,18 +15,18 @@ export interface OrbVoiceColors {
   secondary: string
 }
 
-export type OrbVoiceColorOverrides = Partial<OrbVoiceColors>
+export type OrbuColorOverrides = Partial<OrbuColors>
 
-export interface OrbVoicePresetOptions {
+export interface OrbuPresetOptions {
   colorAccent?: never
   colorBackground?: never
   colorHighlight?: never
   colorPrimary?: never
   colorSecondary?: never
-  preset?: OrbVoicePresetName
+  preset?: OrbuPresetName
 }
 
-export interface OrbVoiceCustomColorOptions {
+export interface OrbuCustomColorOptions {
   colorAccent?: string
   colorBackground?: string
   colorHighlight?: string
@@ -35,16 +35,16 @@ export interface OrbVoiceCustomColorOptions {
   preset?: never
 }
 
-export type OrbVoiceColorSelection = OrbVoicePresetOptions | OrbVoiceCustomColorOptions
+export type OrbuColorSelection = OrbuPresetOptions | OrbuCustomColorOptions
 
-export interface OrbVoiceBaseOptions {
+export interface OrbuBaseOptions {
   elevated?: boolean
   paused?: boolean
-  reducedMotion?: OrbVoiceReducedMotion
-  size?: OrbVoiceSize
+  reducedMotion?: OrbuReducedMotion
+  size?: OrbuSize
   speech?: string
   speed?: number
-  state?: OrbVoiceState
+  state?: OrbuState
 }
 
-export type OrbVoiceOptions = OrbVoiceBaseOptions & OrbVoiceColorSelection
+export type OrbuOptions = OrbuBaseOptions & OrbuColorSelection

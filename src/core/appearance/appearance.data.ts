@@ -1,8 +1,8 @@
-import type { OrbVoiceAppearanceConfiguration } from '@core/config.types'
-import { deepFreezeOrbVoiceConfiguration } from '@core/lib/deep-freeze.compute'
+import type { OrbuAppearanceConfiguration } from '@core/config.types'
+import { deepFreezeOrbuConfiguration } from '@core/lib/deep-freeze.compute'
 
 /** Internal defaults restored from the pre-SPEC-025 configuration. */
-export const ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbVoiceConfiguration({
+export const ORBU_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbuConfiguration({
   idle: {
     contrast: 1.48,
     saturation: 1.28
@@ -23,4 +23,4 @@ export const ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE = deepFreezeOrbVoiceConfigura
     contrast: 1.22,
     saturation: 0.72
   }
-} satisfies OrbVoiceAppearanceConfiguration['byState'])
+} satisfies OrbuAppearanceConfiguration['byState'])

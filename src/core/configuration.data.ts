@@ -1,9 +1,9 @@
 import bundledSource from '@configuration'
-import { transformOrbVoiceConfiguration } from '@core/lib/transform-configuration.compute'
+import { transformOrbuConfiguration } from '@core/lib/transform-configuration.compute'
 
-import type { OrbVoiceBundledConfiguration } from './config.types'
+import type { OrbuBundledConfiguration } from './config.types'
 
 // The JSON is bundled into every entry point; importing never performs I/O.
-export const orbVoiceConfiguration = transformOrbVoiceConfiguration(
+export const orbuConfiguration = transformOrbuConfiguration(
   bundledSource
-) as OrbVoiceBundledConfiguration
+) as OrbuBundledConfiguration

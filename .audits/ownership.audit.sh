@@ -4,7 +4,7 @@ set -eu
 ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 cd "$ROOT"
 
-orb_tmp=$(mktemp -d "${TMPDIR:-/tmp}/orb-voice-ownership-audit.XXXXXX")
+orb_tmp=$(mktemp -d "${TMPDIR:-/tmp}/orbu-ownership-audit.XXXXXX")
 trap 'rm -rf "$orb_tmp"' 0 1 2 15
 
 node - "$ROOT" "$orb_tmp" <<'NODE'
@@ -18,33 +18,36 @@ const pkg = JSON.parse(read('package.json'))
 const pass = (message) => console.log(`PASS  ${message}`)
 
 try {
-  assert.equal(pkg.name, 'orb-voice', 'package must preserve the published npm identity')
+  assert.equal(pkg.name, 'orbu', 'package must preserve the published npm identity')
   assert.equal(pkg.author, 'gojhonny', 'author must use the owner handle without an invented email')
-  assert.equal(pkg.repository?.url, 'git+https://github.com/gojhonny/orb-voice.git')
-  assert.equal(pkg.bugs?.url, 'https://github.com/gojhonny/orb-voice/issues')
+  assert.equal(pkg.repository?.url, 'git+https://github.com/gojhonny/orbu.git')
+  assert.equal(pkg.bugs?.url, 'https://github.com/gojhonny/orbu/issues')
   assert.equal(pkg.homepage, 'https://neongate.com.br/docs/orbz/overview')
   assert.match(read('LICENSE'), /Copyright \(c\) 2026 gojhonny/)
   pass('npm identity is preserved while GitHub metadata and license identify gojhonny')
 
   const release = read('.github/workflows/release.yml')
   for (const token of [
-    "github.repository == 'gojhonny/orb-voice' && github.ref == 'refs/heads/main'",
-    "name !== 'orb-voice'",
-    'orb-voice-${version}.tgz',
-    'https://registry.npmjs.org/orb-voice/',
-    'npm view "orb-voice@$RELEASE_VERSION" dist.integrity',
-    'npm exec --yes --package="orb-voice@$RELEASE_VERSION" -- orb-voice --help'
+    "github.repository == 'gojhonny/orbu' && github.ref == 'refs/heads/main'",
+    "name !== 'orbu'",
+    'orbu-${version}.tgz',
+    'https://registry.npmjs.org/orbu/',
+    'npm view "orbu@$RELEASE_VERSION" dist.integrity',
+    'npm exec --yes --package="orbu@$RELEASE_VERSION" -- orbu --help'
   ]) {
     assert.ok(release.includes(token), `release identity is missing: ${token}`)
   }
   pass('release owner guard, tarball, registry and public binary use the same package')
 
   // Include new files before staging; keep superseded decisions as historical evidence.
-  // Historical SPECs/ADRs may name OrbZ. Current-state files must not.
+  // Historical SPECs/ADRs may name earlier identities. Current-state files must not.
   const abandonedNpmName = '@' + 'gojhonny/' + 'orbz'
   const stalePublishedName = '@' + 'neongate-ai/' + 'orbz'
   const staleGithubRepo = 'gojhonny/' + 'orbz'
   const abandonedDistributionName = 'orb' + 'v'
+  const retiredPackageName = 'orb' + '-voice'
+  const retiredBrandName = 'Orb' + ' Voice'
+  const retiredSymbolPrefix = 'Orb' + 'Voice'
   const staleGithubOwner = /(?:github\.com[/:]|githubusercontent\.com\/|github\/actions\/workflow\/status\/)neongate(?:-ai)?\//i
   const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
     cwd: root, encoding: 'utf8'
@@ -63,10 +66,13 @@ try {
     assert.ok(!text.includes(stalePublishedName), `previous npm identity remains in active text: ${file}`)
     assert.ok(!text.includes(staleGithubRepo), `previous GitHub identity remains in active text: ${file}`)
     assert.ok(!text.includes(abandonedDistributionName), `abandoned distribution name remains in active text: ${file}`)
+    assert.ok(!text.includes(retiredPackageName), `retired package name remains in active text: ${file}`)
+    assert.ok(!text.includes(retiredBrandName), `retired brand name remains in active text: ${file}`)
+    assert.ok(!text.includes(retiredSymbolPrefix), `retired symbol prefix remains in active text: ${file}`)
   }
-  pass('active text uses Orb Voice identity and rejects obsolete GitHub ownership and retired npm names')
+  pass('active text uses Orbu identity and rejects obsolete GitHub ownership and retired npm names')
 
-  const appearance = JSON.parse(read('src/orb-voice.config.json')).appearance
+  const appearance = JSON.parse(read('src/orbu.config.json')).appearance
   assert.equal(appearance.defaultPreset, 'neongate')
   assert.deepEqual(appearance.presetNames,
     ['neongate', 'periwinkle', 'magenta', 'peach', 'mocha', 'ivory'])
@@ -87,11 +93,11 @@ try {
   fs.mkdirSync(fixtureBin)
   fs.cpSync(path.join(root, 'cli'), path.join(packageDirectory, 'cli'), { recursive: true })
   fs.copyFileSync(path.join(root, 'package.json'), path.join(packageDirectory, 'package.json'))
-  const cli = path.join(packageDirectory, 'cli/orb-voice')
+  const cli = path.join(packageDirectory, 'cli/orbu')
   const manifest = path.join(consumer, 'package.json')
   const source = path.join(consumer, 'app.js')
   fs.writeFileSync(source, 'export const existingApplication = true\n')
-  const initial = { name: 'orb-voice-ownership-consumer', private: true }
+  const initial = { name: 'orbu-ownership-consumer', private: true }
   const reset = () => fs.writeFileSync(manifest, JSON.stringify(initial))
   const env = { ...process.env, PATH: `${fixtureBin}${path.delimiter}${process.env.PATH}`,
     ORB_PACKAGE_SPEC: '', ORB_FIXTURE_SKIP_WRITE: '0', ORB_FIXTURE_VERSION: pkg.version }
@@ -101,12 +107,12 @@ try {
   fs.writeFileSync(npm, `#!/bin/sh
 set -eu
 [ "$#" -eq 3 ] && [ "$1" = install ] && [ "$2" = --save ]
-[ "$3" = "orb-voice@$ORB_FIXTURE_VERSION" ]
+[ "$3" = "orbu@$ORB_FIXTURE_VERSION" ]
 [ "\${ORB_FIXTURE_SKIP_WRITE:-0}" != 1 ] || exit 0
 node <<'FIXTURE'
 const fs = require('node:fs')
 const data = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-data.dependencies = { ...data.dependencies, 'orb-voice': process.env.ORB_FIXTURE_VERSION }
+data.dependencies = { ...data.dependencies, 'orbu': process.env.ORB_FIXTURE_VERSION }
 fs.writeFileSync('package.json', JSON.stringify(data))
 FIXTURE
 `)
@@ -118,7 +124,7 @@ FIXTURE
   const installed = run(['--package-manager', 'npm'])
   assert.equal(installed.status, 0, installed.stderr)
   assert.equal(JSON.parse(fs.readFileSync(manifest, 'utf8')).dependencies?.[pkg.name], pkg.version)
-  assert.ok(installed.stdout.includes("import 'orb-voice/browser'"))
+  assert.ok(installed.stdout.includes("import 'orbu/browser'"))
   assert.ok(installed.stdout.includes('preset="neongate"'))
   assert.equal(fs.readFileSync(source, 'utf8'), 'export const existingApplication = true\n')
   assert.deepEqual(fs.readdirSync(consumer).sort(), ['app.js', 'package.json'])
@@ -139,8 +145,8 @@ FIXTURE
     env: { ...env, ORB_FIXTURE_SKIP_WRITE: '1' }
   })
   assert.equal(noWrite.status, 1, 'setup must reject a manager that did not add the new dependency')
-  assert.ok(noWrite.stderr.includes('without adding orb-voice to dependencies'))
-  for (const packageName of [abandonedNpmName, '@unrelated/orb-voice']) {
+  assert.ok(noWrite.stderr.includes('without adding orbu to dependencies'))
+  for (const packageName of [abandonedNpmName, '@unrelated/orbu']) {
     const wrongPackage = run(['--package-spec', `${packageName}@1.0.0`, '--dry-run'])
     assert.equal(wrongPackage.status, 2, `setup must reject package scope: ${packageName}`)
   }

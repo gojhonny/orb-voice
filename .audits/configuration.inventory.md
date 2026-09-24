@@ -7,12 +7,12 @@ all-defaults-in-JSON inventory; historical specifications retain their evidence.
 
 | Owner | Binding/data | Responsibility |
 | --- | --- | --- |
-| `src/orb-voice.config.json` | `component` | Identity, states, attributes, size, speed and reduced-motion mode |
-| `src/orb-voice.config.json` | `appearance` | Presets, color channels and attributes |
-| `src/orb-voice.config.json` | `realtime` | Realtime model/voice, fetch policy, transport limits |
-| `src/core/appearance/appearance.data.ts` | `ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE` | State contrast and saturation |
-| `src/core/motion/default-motion.data.ts` | `ORB_VOICE_DEFAULT_MOTION` | Full/reduced motion, easings and animated properties |
-| `src/talk/default-speech.data.ts` | `ORB_VOICE_DEFAULT_SPEECH` | Model selector, empty talk/flow, token grammar, browser and TTS defaults |
+| `src/orbu.config.json` | `component` | Identity, states, attributes, size, speed and reduced-motion mode |
+| `src/orbu.config.json` | `appearance` | Presets, color channels and attributes |
+| `src/orbu.config.json` | `realtime` | Realtime model/voice, fetch policy, transport limits |
+| `src/core/appearance/appearance.data.ts` | `ORBU_DEFAULT_APPEARANCE_BY_STATE` | State contrast and saturation |
+| `src/core/motion/default-motion.data.ts` | `ORBU_DEFAULT_MOTION` | Full/reduced motion, easings and animated properties |
+| `src/talk/default-speech.data.ts` | `ORBU_DEFAULT_SPEECH` | Model selector, empty talk/flow, token grammar, browser and TTS defaults |
 
 The internal constants match the previous commit's removed JSON values. They
 import only types and the pure deep-freeze helper, never runtime facades.
@@ -31,8 +31,8 @@ state appearance and repeat Infinity, then freezes the complete runtime.
 
 | Runtime view | Composed source |
 | --- | --- |
-| `core/config.data.ts` component/palette constants and `config` | `orbVoiceConfiguration.component` and `.appearance` |
-| `ORB_VOICE_VOICE_DEFAULTS` | `orbVoiceConfiguration.speech` and `.realtime.openai` |
+| `core/config.data.ts` component/palette constants and `config` | `orbuConfiguration.component` and `.appearance` |
+| `ORBU_VOICE_DEFAULTS` | `orbuConfiguration.speech` and `.realtime.openai` |
 | `core/motion/motion.data.ts` | `.appearance.byState`, `.motion.full` and `.motion.reduced` |
 | `element/element.data.ts` | `.component.tagName` and derived `.observedAttributes` |
 | `talk/talk.data.ts` | `.speech.webSpeech.language`, `.speech.talk`, `.speech.defaultTalkFlow` |

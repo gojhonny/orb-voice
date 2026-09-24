@@ -9,9 +9,9 @@
 orb_die() {
   orb_message=$1
   orb_status=${2:-1}
-  orb_print_error "Orb Voice: $orb_message"
+  orb_print_error "Orbu: $orb_message"
   if [ "$orb_status" -eq 2 ] && [ -n "${ORB_HELP_TOPIC:-}" ]; then
-    printf "Run 'orb-voice help %s' for usage.\n" "$ORB_HELP_TOPIC" >&2
+    printf "Run 'orbu help %s' for usage.\n" "$ORB_HELP_TOPIC" >&2
   fi
   exit "$orb_status"
 }
@@ -23,7 +23,7 @@ orb_require_option_value() {
 }
 
 orb_warn() {
-  orb_print_warning "Orb Voice: $*"
+  orb_print_warning "Orbu: $*"
 }
 
 orb_has() {
@@ -94,7 +94,7 @@ orb_git_checkout() {
 orb_lint_commit_history() {
   orb_need git
   orb_need pnpm
-  orb_git_checkout || orb_die 'Commit history validation must run inside the Orb Voice checkout.'
+  orb_git_checkout || orb_die 'Commit history validation must run inside the Orbu checkout.'
   cd "$ORB_PROJECT_ROOT"
 
   if [ "$1" = last ]; then
@@ -124,7 +124,7 @@ orb_is_repository_source() {
 
 orb_require_repository_source() {
   orb_is_repository_source ||
-    orb_die 'This command is available only from an Orb Voice source checkout.' 2
+    orb_die 'This command is available only from an Orbu source checkout.' 2
 }
 
 orb_default_bin_dir() {

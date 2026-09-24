@@ -2,11 +2,11 @@
 
 ## Entry points
 
-- `orb-voice` is side-effect free and safe to import during SSR.
-- `orb-voice/browser` registers `<orb-voice>` in the active custom-element registry.
-- `orb-voice/react-types` provides type-only JSX augmentation.
-- `orb-voice/standalone` is the direct-browser bundle.
-- `orb-voice/index.css` exposes package CSS when explicitly needed.
+- `orbu` is side-effect free and safe to import during SSR.
+- `orbu/browser` registers `<orb-u>` in the active custom-element registry.
+- `orbu/react-types` provides type-only JSX augmentation.
+- `orbu/standalone` is the direct-browser bundle.
+- `orbu/index.css` exposes package CSS when explicitly needed.
 
 ## Runtime layers
 
@@ -27,7 +27,7 @@ point. No framework runtime is part of the package.
 
 ## Configuration and voice selection
 
-`src/orb-voice.config.json` contains editable component, palette and realtime settings.
+`src/orbu.config.json` contains editable component, palette and realtime settings.
 Internal appearance, motion and speech defaults are uppercase constants in
 concern-owned `.data.ts` files (ADR-0016). The pure transformer fills omitted
 internal groups, validates, clones, derives runtime values and freezes them.
@@ -40,7 +40,7 @@ and non-enumerable runtime palette alias. The transformer normalizes legacy
 source on its own clone; canonical enumeration still exposes six presets.
 
 A native `voiceModel` property selects inert adapters through a service.
-`OrbVoiceVoiceEnginePort` handles output-only speech; `OrbVoiceConversationPort` handles
+`OrbuVoiceEnginePort` handles output-only speech; `OrbuConversationPort` handles
 live audio lifecycle and bounded state/transcript events. Realtime SDP setup
 uses application authorization, followed by direct browser/OpenAI WebRTC.
 No memory runtime, persona, framework wrapper or backend ships here (ADR-0014).

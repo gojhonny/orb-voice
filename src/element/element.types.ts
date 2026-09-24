@@ -1,16 +1,16 @@
 import type {
-  OrbVoicePresetName,
-  OrbVoiceReducedMotion,
-  OrbVoiceSize,
-  OrbVoiceState
+  OrbuPresetName,
+  OrbuReducedMotion,
+  OrbuSize,
+  OrbuState
 } from '@core/appearance/appearance.types'
-import type { OrbVoiceIntelligencePort } from '@ports/intelligence.port'
-import type { OrbVoiceConversationState } from '@ports/conversation.port'
-import type { OrbVoiceVoiceEnginePort } from '@ports/voice-engine.port'
-import type { OrbVoiceTalkContext, OrbVoiceTalkStep } from '@talk/talk.types'
-import type { OrbVoiceRealtimeSession, OrbVoiceVoiceModel } from '@talk/voice-model.types'
+import type { OrbuIntelligencePort } from '@ports/intelligence.port'
+import type { OrbuConversationState } from '@ports/conversation.port'
+import type { OrbuVoiceEnginePort } from '@ports/voice-engine.port'
+import type { OrbuTalkContext, OrbuTalkStep } from '@talk/talk.types'
+import type { OrbuRealtimeSession, OrbuVoiceModel } from '@talk/voice-model.types'
 
-export interface OrbVoiceAnimationLayers {
+export interface OrbuAnimationLayers {
   aura: HTMLElement
   core: HTMLElement
   field: HTMLElement
@@ -19,51 +19,51 @@ export interface OrbVoiceAnimationLayers {
   root: HTMLElement
 }
 
-export interface OrbVoiceAnimationSettings {
+export interface OrbuAnimationSettings {
   paused: boolean
   reduced: boolean
   speed: number
-  state: OrbVoiceState
+  state: OrbuState
 }
 
-export interface OrbVoiceShadowTree {
-  layers: OrbVoiceAnimationLayers
+export interface OrbuShadowTree {
+  layers: OrbuAnimationLayers
   root: HTMLElement
 }
 
-export interface OrbVoiceVoiceOptions {
-  intelligence?: OrbVoiceIntelligencePort
-  talkFlow?: readonly OrbVoiceTalkStep[]
+export interface OrbuVoiceOptions {
+  intelligence?: OrbuIntelligencePort
+  talkFlow?: readonly OrbuTalkStep[]
   speech?: string
-  voiceEngine?: OrbVoiceVoiceEnginePort
-  voiceModel?: OrbVoiceVoiceModel
-  realtimeSession?: OrbVoiceRealtimeSession
+  voiceEngine?: OrbuVoiceEnginePort
+  voiceModel?: OrbuVoiceModel
+  realtimeSession?: OrbuRealtimeSession
 }
 
-export interface OrbVoiceElement extends HTMLElement {
-  readonly conversationState: OrbVoiceConversationState
+export interface OrbuElement extends HTMLElement {
+  readonly conversationState: OrbuConversationState
   elevated: boolean
-  intelligence: OrbVoiceIntelligencePort | undefined
+  intelligence: OrbuIntelligencePort | undefined
   paused: boolean
-  get preset(): OrbVoicePresetName
-  set preset(value: OrbVoicePresetName | null | undefined)
-  reducedMotion: OrbVoiceReducedMotion
-  size: OrbVoiceSize
+  get preset(): OrbuPresetName
+  set preset(value: OrbuPresetName | null | undefined)
+  reducedMotion: OrbuReducedMotion
+  size: OrbuSize
   get speech(): string | undefined
   set speech(value: string | null | undefined)
   speed: number
-  state: OrbVoiceState
-  readonly talkContext: Readonly<OrbVoiceTalkContext>
-  get talkFlow(): readonly OrbVoiceTalkStep[]
-  set talkFlow(value: readonly OrbVoiceTalkStep[] | undefined)
-  get voiceEngine(): OrbVoiceVoiceEnginePort | undefined
-  set voiceEngine(value: OrbVoiceVoiceEnginePort | undefined)
+  state: OrbuState
+  readonly talkContext: Readonly<OrbuTalkContext>
+  get talkFlow(): readonly OrbuTalkStep[]
+  set talkFlow(value: readonly OrbuTalkStep[] | undefined)
+  get voiceEngine(): OrbuVoiceEnginePort | undefined
+  set voiceEngine(value: OrbuVoiceEnginePort | undefined)
   /** Public model options only; this property is not reflected into attributes. */
-  get voiceModel(): Readonly<OrbVoiceVoiceModel> | undefined
-  set voiceModel(value: OrbVoiceVoiceModel | null | undefined)
+  get voiceModel(): Readonly<OrbuVoiceModel> | undefined
+  set voiceModel(value: OrbuVoiceModel | null | undefined)
   /** Application authorization boundary; never pass provider keys or tokens. */
-  get realtimeSession(): OrbVoiceRealtimeSession | undefined
-  set realtimeSession(value: OrbVoiceRealtimeSession | undefined)
+  get realtimeSession(): OrbuRealtimeSession | undefined
+  set realtimeSession(value: OrbuRealtimeSession | undefined)
   pause(): void
   play(): void
   receive(input: string): Promise<void>
@@ -75,8 +75,8 @@ export interface OrbVoiceElement extends HTMLElement {
   interruptConversation(): void
 }
 
-export type OrbVoiceElementConstructor = CustomElementConstructor & {
-  new (): OrbVoiceElement
+export type OrbuElementConstructor = CustomElementConstructor & {
+  new (): OrbuElement
   readonly observedAttributes: readonly string[]
-  readonly prototype: OrbVoiceElement
+  readonly prototype: OrbuElement
 }

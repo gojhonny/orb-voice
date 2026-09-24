@@ -30,7 +30,7 @@ beforeEach(() => {
   vi.stubGlobal('matchMedia', matchMedia)
 
   // Happy DOM 20.14.0 reports Animation.cancel() as an unhandled AbortError.
-  // Component tests only need the WAAPI control surface Orb Voice consumes, so use
+  // Component tests only need the WAAPI control surface Orbu consumes, so use
   // a deterministic animation double and keep browser animation behavior out
   // of the simulated-DOM test boundary.
   if (typeof globalThis.Element !== 'undefined') {

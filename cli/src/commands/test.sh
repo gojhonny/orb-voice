@@ -9,9 +9,9 @@ case "${1:-}" in
     [ "$#" -eq 1 ] || orb_die 'Test help does not accept additional arguments.' 2
     cat <<'USAGE'
 Usage:
-  orb-voice test [vitest arguments]
-  orb-voice test --coverage [vitest arguments]
-  orb-voice test --watch [vitest arguments]
+  orbu test [vitest arguments]
+  orbu test --coverage [vitest arguments]
+  orbu test --watch [vitest arguments]
 
 The default mode executes Vitest once. Positional arguments after the optional
 mode are forwarded to Vitest, so a colocated suite can be targeted directly.

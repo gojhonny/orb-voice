@@ -33,8 +33,8 @@ while [ "$#" -gt 0 ]; do
       [ "$#" -eq 1 ] || orb_die 'Git lint help does not accept additional arguments.' 2
       cat <<'HELP'
 Usage:
-  orb-voice git lint --last
-  orb-voice git lint --from <revision> --to <revision>
+  orbu git lint --last
+  orbu git lint --from <revision> --to <revision>
 
 Validate non-merge commits. For a merge HEAD, --last validates the changes
 introduced relative to its first parent; merge envelopes are not linted.

@@ -1,4 +1,4 @@
-export interface OrbVoiceVoiceEnginePort {
+export interface OrbuVoiceEnginePort {
   speak(text: string): Promise<void>
   stop(): void
 }

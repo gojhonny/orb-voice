@@ -1,5 +1,5 @@
-import { defineOrbVoice } from '@services/registration.service'
+import { defineOrbu } from '@services/registration.service'
 
-export * from '@orb-voice'
+export * from '@orbu'
 
-defineOrbVoice()
+defineOrbu()
