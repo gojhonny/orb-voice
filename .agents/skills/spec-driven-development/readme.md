@@ -1,3 +1,3 @@
 # Spec-driven development skill
 
-Guidance for moving Orbu changes from explicit specification to evidence.
+Guidance for moving Orb Voice changes from explicit specification to evidence.

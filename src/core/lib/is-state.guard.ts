@@ -1,6 +1,6 @@
-import type { OrbuState } from '@core/appearance/appearance.types'
-import { ORBU_STATES } from '@core/config.data'
+import type { OrbVoiceState } from '@core/appearance/appearance.types'
+import { ORB_VOICE_STATES } from '@core/config.data'
 
-export function isOrbuState(value: unknown): value is OrbuState {
-  return typeof value === 'string' && (ORBU_STATES as readonly string[]).includes(value)
+export function isOrbVoiceState(value: unknown): value is OrbVoiceState {
+  return typeof value === 'string' && (ORB_VOICE_STATES as readonly string[]).includes(value)
 }

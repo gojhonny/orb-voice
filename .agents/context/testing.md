@@ -8,7 +8,7 @@ only shared setup and fixtures remain under `test/`.
 Suite names start with the canonical concern prefix followed by a responsibility:
 `core/`, `element/`, `factory/`, `port/`, `service/`, or `talk/`. Tests import
 Vitest APIs explicitly and exercise public behavior. Element tests do not pierce
-a live `<orb-u>` closed shadow root; focused factory tests may inspect a tree
+a live `<orb-voice>` closed shadow root; focused factory tests may inspect a tree
 they construct directly.
 
 Browser emulation is not proof of complete browser interoperability. Changes to

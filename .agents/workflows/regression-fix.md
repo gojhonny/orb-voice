@@ -1,6 +1,6 @@
 # Regression fix workflow
 
-Use when a previously supported Orbu behavior fails or a deterministic test exposes a regression.
+Use when a previously supported Orb Voice behavior fails or a deterministic test exposes a regression.
 
 1. Read `AGENTS.md`, the relevant rules, and the closest existing SPEC/ADR.
 2. Use the `context-engineering` skill to load only the affected concern.
@@ -9,8 +9,8 @@ Use when a previously supported Orbu behavior fails or a deterministic test expo
 5. Use the relevant domain skill (`web-components`, `voice-engineering`, or `accessibility`).
 6. Add the failing colocated test before changing production behavior when feasible.
 7. Implement the narrowest fix without weakening public compatibility or SSR safety.
-8. Run the affected test directly, then `orbu test`.
-9. Run `orbu check` before completion.
+8. Run the affected test directly, then `orb-voice test`.
+9. Run `orb-voice check` before completion.
 10. Record the commands and outcomes in the SPEC evidence section.
 
 Do not suppress unhandled errors globally, bypass hooks, or weaken a guardrail merely to make a test green.

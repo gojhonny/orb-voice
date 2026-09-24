@@ -1,5 +1,5 @@
 ---
-description: Scopes accessibility, localization, reduced motion, host semantics, and closed-shadow behavior for the native orbu Web Component.
+description: Scopes accessibility, localization, reduced motion, host semantics, and closed-shadow behavior for the native orb-voice Web Component.
 globs:
   - "src/element/**"
   - "src/factories/**"
@@ -10,7 +10,7 @@ globs:
 
 - Effective: 2026-08-21
 - Priority: Critical
-- Applies: `<orb-u>` behavior and documentation
+- Applies: `<orb-voice>` behavior and documentation
 
 1. The internal visual tree remains hidden from assistive technology because it conveys appearance, not content.
 2. Consumers must be able to label the host when the orb has semantic meaning.

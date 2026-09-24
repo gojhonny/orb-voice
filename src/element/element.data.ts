@@ -1,5 +1,5 @@
-import { orbuConfiguration } from '@core/config.data'
+import { orbVoiceConfiguration } from '@core/config.data'
 
-export const ORBU_TAG_NAME = orbuConfiguration.component.tagName
+export const ORB_VOICE_TAG_NAME = orbVoiceConfiguration.component.tagName
 
-export const ORBU_OBSERVED_ATTRIBUTES = orbuConfiguration.component.observedAttributes
+export const ORB_VOICE_OBSERVED_ATTRIBUTES = orbVoiceConfiguration.component.observedAttributes

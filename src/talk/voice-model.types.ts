@@ -5,12 +5,12 @@ import type {
   WebSpeechAdapterOptions
 } from './talk.types'
 
-export interface OrbuWebSpeechVoiceModel extends WebSpeechAdapterOptions {
+export interface OrbVoiceWebSpeechVoiceModel extends WebSpeechAdapterOptions {
   provider: 'web-speech'
 }
 
 /** The endpoint belongs to the application and returns audio, never a provider key. */
-export interface OrbuOpenAISpeechVoiceModel {
+export interface OrbVoiceOpenAISpeechVoiceModel {
   provider: 'openai-speech'
   endpoint: string | URL
   model?: OpenAISpeechModel
@@ -21,7 +21,7 @@ export interface OrbuOpenAISpeechVoiceModel {
 
 export type OpenAIRealtimeModel = 'gpt-realtime-2' | (string & {})
 
-export interface OrbuOpenAIRealtimeVoiceModel {
+export interface OrbVoiceOpenAIRealtimeVoiceModel {
   provider: 'openai-realtime'
   model?: OpenAIRealtimeModel
   voice?: string
@@ -29,12 +29,12 @@ export interface OrbuOpenAIRealtimeVoiceModel {
 }
 
 /** Public configuration only, never keys/tokens. Assignment is silent. */
-export type OrbuVoiceModel =
-  | OrbuWebSpeechVoiceModel
-  | OrbuOpenAISpeechVoiceModel
-  | OrbuOpenAIRealtimeVoiceModel
+export type OrbVoiceVoiceModel =
+  | OrbVoiceWebSpeechVoiceModel
+  | OrbVoiceOpenAISpeechVoiceModel
+  | OrbVoiceOpenAIRealtimeVoiceModel
 
-export interface OrbuRealtimeSessionRequest {
+export interface OrbVoiceRealtimeSessionRequest {
   readonly sdp: string
   readonly model: string
   readonly voice: string
@@ -42,9 +42,9 @@ export interface OrbuRealtimeSessionRequest {
 }
 
 /** The application authorizes on its server and returns SDP, never a key or token. */
-export type OrbuRealtimeSessionAuthorizer = (request: OrbuRealtimeSessionRequest) => Promise<string>
+export type OrbVoiceRealtimeSessionAuthorizer = (request: OrbVoiceRealtimeSessionRequest) => Promise<string>
 
-export interface OrbuRealtimeSessionEndpoint {
+export interface OrbVoiceRealtimeSessionEndpoint {
   /** Public application URL; no embedded bearer tokens. POST returns SDP text. */
   endpoint: string | URL
   /** Fetch cookie policy only; never a credential value. */
@@ -54,10 +54,10 @@ export interface OrbuRealtimeSessionEndpoint {
 }
 
 /** Runtime authorization is deliberately separate from JSON/model selection. */
-export type OrbuRealtimeSession = OrbuRealtimeSessionAuthorizer | OrbuRealtimeSessionEndpoint
+export type OrbVoiceRealtimeSession = OrbVoiceRealtimeSessionAuthorizer | OrbVoiceRealtimeSessionEndpoint
 
 export interface OpenAIRealtimeAdapterOptions {
-  session: OrbuRealtimeSession
+  session: OrbVoiceRealtimeSession
   model?: OpenAIRealtimeModel
   voice?: string
   sessionTimeoutMs?: number

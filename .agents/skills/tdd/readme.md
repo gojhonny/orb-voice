@@ -1,3 +1,3 @@
 # TDD skill
 
-Testing procedure and supporting references for Orbu behavioral changes.
+Testing procedure and supporting references for Orb Voice behavioral changes.

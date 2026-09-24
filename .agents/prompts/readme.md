@@ -1,6 +1,6 @@
 # Harness prompts
 
-These prompts are compact authoring aids for Orbu records. They do not override
+These prompts are compact authoring aids for Orb Voice records. They do not override
 `AGENTS.md`, rules, accepted ADRs, or the specification workflow.
 
 - `adr.prompt.md`: durable architectural decision.

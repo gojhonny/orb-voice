@@ -1,6 +1,6 @@
 # ADR-0023: Distribute Orbu as orbu and orb-u
 
-- Status: Accepted
+- Status: Reverted by ADR-0024; npm rejected the unscoped package name
 - Created: 2026-09-24
 - Updated: 2026-09-24
 - Mode: Prospective

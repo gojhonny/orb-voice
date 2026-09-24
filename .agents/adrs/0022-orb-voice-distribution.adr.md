@@ -1,6 +1,6 @@
 # ADR-0022: Distribute Orb Voice as orb-voice
 
-- Status: Accepted; npm, element, and CLI identity superseded by ADR-0023
+- Status: Accepted
 - Created: 2026-09-22
 - Updated: 2026-09-22
 - Mode: Prospective

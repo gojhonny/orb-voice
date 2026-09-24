@@ -1,3 +1,3 @@
 # Context engineering skill
 
-Guidance for maintaining concise, relevant engineering context for Orbu.
+Guidance for maintaining concise, relevant engineering context for Orb Voice.

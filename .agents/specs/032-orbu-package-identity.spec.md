@@ -1,6 +1,6 @@
 # SPEC-032: Orbu package identity
 
-- Status: Implemented for source; publication waits on owner approval
+- Status: Reverted by SPEC-033; npm rejected the unscoped package name
 - Created: 2026-09-24
 - Updated: 2026-09-24
 - Mode: Prospective

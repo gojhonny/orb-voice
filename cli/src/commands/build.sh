@@ -6,7 +6,7 @@ orb_require_repository_source
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Build help does not accept additional arguments.' 2
-    printf 'Usage: orbu build\n'
+    printf 'Usage: orb-voice build\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Build does not accept arguments.' 2 ;;

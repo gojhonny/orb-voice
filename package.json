@@ -1,17 +1,17 @@
 {
-  "name": "orbu",
+  "name": "orb-voice",
   "version": "1.1.1",
-  "description": "Orbu is a framework-agnostic, customizable AI voice orb built as a strict, SSR-safe web component.",
+  "description": "A framework-agnostic, customizable AI voice orb built as a strict, SSR-safe web component.",
   "type": "module",
   "license": "MIT",
   "author": "gojhonny",
-  "main": "./dist/orbu.js",
-  "module": "./dist/orbu.js",
-  "types": "./dist/orbu.d.ts",
-  "unpkg": "./dist/standalone/orbu.js",
-  "jsdelivr": "./dist/standalone/orbu.js",
+  "main": "./dist/orb-voice.js",
+  "module": "./dist/orb-voice.js",
+  "types": "./dist/orb-voice.d.ts",
+  "unpkg": "./dist/standalone/orb-voice.js",
+  "jsdelivr": "./dist/standalone/orb-voice.js",
   "bin": {
-    "orbu": "./cli/orbu"
+    "orb-voice": "./cli/orb-voice"
   },
   "files": [
     "dist",
@@ -23,10 +23,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gojhonny/orbu.git"
+    "url": "git+https://github.com/gojhonny/orb-voice.git"
   },
   "bugs": {
-    "url": "https://github.com/gojhonny/orbu/issues"
+    "url": "https://github.com/gojhonny/orb-voice/issues"
   },
   "homepage": "https://neongate.com.br/docs/orbz/overview",
   "keywords": [
@@ -43,9 +43,9 @@
     "custom-elements"
   ],
   "scripts": {
-    "pnpm:devPreinstall": "./cli/orbu setup --launcher --bootstrap",
-    "setup": "./cli/orbu setup --launcher",
-    "prepack": "./cli/orbu check"
+    "pnpm:devPreinstall": "./cli/orb-voice setup --launcher --bootstrap",
+    "setup": "./cli/orb-voice setup --launcher",
+    "prepack": "./cli/orb-voice check"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
@@ -63,9 +63,9 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/orbu.d.ts",
-      "import": "./dist/orbu.js",
-      "default": "./dist/orbu.js"
+      "types": "./dist/orb-voice.d.ts",
+      "import": "./dist/orb-voice.js",
+      "default": "./dist/orb-voice.js"
     },
     "./browser": {
       "types": "./dist/browser.d.ts",
@@ -79,8 +79,8 @@
     },
     "./standalone": {
       "types": "./dist/browser.d.ts",
-      "import": "./dist/standalone/orbu.js",
-      "default": "./dist/standalone/orbu.js"
+      "import": "./dist/standalone/orb-voice.js",
+      "default": "./dist/standalone/orb-voice.js"
     },
     "./index.css": "./dist/index.css",
     "./package.json": "./package.json"
@@ -88,7 +88,7 @@
   "sideEffects": [
     "./dist/browser.js",
     "./dist/index.css",
-    "./dist/standalone/orbu.js"
+    "./dist/standalone/orb-voice.js"
   ],
   "engines": {
     "node": "24.x"

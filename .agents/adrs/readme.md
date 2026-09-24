@@ -1,6 +1,6 @@
 # Architecture decision records
 
-ADRs preserve durable Orbu decisions. Records `0001` through `0006` were
+ADRs preserve durable OrbV decisions. Records `0001` through `0006` were
 reconstructed retrospectively on **2026-08-21** from the package's intended
 contracts. Records `0007` onward document current decisions from their stated
 creation date. ADR-0010 establishes OrbV as the single repository command
@@ -37,10 +37,12 @@ consumer setup separate. Public command spelling is `orbv` (ADR-0021).
 [ADR-0021](0021-orbv-canonical-identity.adr.md) recorded OrbV, npm `orbv`,
 `<orb-v>`, and the `orbv` CLI. ADR-0022 supersedes that distribution identity.
 
-[ADR-0022](0022-orb-voice-distribution.adr.md) recorded npm `orb-voice`,
-the `orb-voice` CLI, and `<orb-voice>`. ADR-0023 supersedes that distribution
-identity.
+[ADR-0022](0022-orb-voice-distribution.adr.md) makes `orb-voice` the npm
+package, public CLI, and `<orb-voice>` element. GitHub metadata targets
+`gojhonny/orb-voice`.
 
-[ADR-0023](0023-orbu-package-identity.adr.md) makes `orbu` the npm package
-and public CLI, and `<orb-u>` the only custom element. GitHub metadata targets
-`gojhonny/orbu`.
+[ADR-0023](0023-orbu-package-identity.adr.md) attempted npm `orbu` and
+`<orb-u>`. npm rejected that package name. ADR-0024 reverts it.
+
+[ADR-0024](0024-restore-orb-voice-identity.adr.md) restores Orb Voice,
+`orb-voice`, and `<orb-voice>` as the canonical identity.
