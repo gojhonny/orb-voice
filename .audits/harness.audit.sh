@@ -23,9 +23,9 @@ fi
 adr_count=$(find .agents/adrs -type f -name '[0-9][0-9][0-9][0-9]-*.adr.md' | wc -l | tr -d ' ')
 spec_count=$(find .agents/specs -type f -name '[0-9][0-9][0-9]-*.spec.md' | wc -l | tr -d ' ')
 rule_count=$(find .agents/rules -type f -name '[0-9][0-9][0-9]-*.rule.md' | wc -l | tr -d ' ')
-[ "$adr_count" -ge 12 ] && pass "$adr_count ADRs" || fail 'expected at least 12 Orb Voice ADRs'
-[ "$spec_count" -ge 15 ] && pass "$spec_count SPECs" || fail 'expected at least 15 Orb Voice SPECs'
-[ "$rule_count" -ge 12 ] && pass "$rule_count rules" || fail 'expected at least 12 Orb Voice rules'
+[ "$adr_count" -ge 12 ] && pass "$adr_count ADRs" || fail 'expected at least 12 Orbo ADRs'
+[ "$spec_count" -ge 15 ] && pass "$spec_count SPECs" || fail 'expected at least 15 Orbo SPECs'
+[ "$rule_count" -ge 12 ] && pass "$rule_count rules" || fail 'expected at least 12 Orbo rules'
 
 for record in .agents/adrs/000[1-6]-*.adr.md .agents/specs/00[1-7]-*.spec.md; do
   if grep -F 'Created: 2026-08-21' "$record" >/dev/null 2>&1 && grep -F 'Mode: Retrospective reconstruction' "$record" >/dev/null 2>&1; then
@@ -83,7 +83,7 @@ legacy_phrase=$(printf '%s%s' 'yellow' ' project')
 if grep -R -n -i -E "$legacy_name|$legacy_phrase" .agents .audits cli AGENTS.md README.md package.json >/dev/null 2>&1; then
   fail 'repository harness retains unrelated product terminology'
 else
-  pass 'repository harness terminology is Orb Voice-specific'
+  pass 'repository harness terminology is Orbo-specific'
 fi
 
 if grep -R -n -i -E 'container orchestrator|workspace task graph|product changelog|environment template' .agents cli >/dev/null 2>&1; then

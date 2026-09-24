@@ -9,15 +9,15 @@ function resolveProjectPath(relativePath: string): string {
 export default defineConfig({
   resolve: {
     alias: {
-      '@configuration': resolveProjectPath('./src/orb-voice.config.json'),
+      '@configuration': resolveProjectPath('./src/orbo.config.json'),
       '@core': resolveProjectPath('./src/core'),
       '@element': resolveProjectPath('./src/element'),
       '@factories': resolveProjectPath('./src/factories'),
-      '@orb-voice': resolveProjectPath('./src/index.ts'),
+      '@orbo': resolveProjectPath('./src/index.ts'),
       '@ports': resolveProjectPath('./src/ports'),
       '@services': resolveProjectPath('./src/services'),
       '@talk': resolveProjectPath('./src/talk'),
-      'virtual:orb-voice-styles': resolveProjectPath('./test/fixtures/orb-voice-styles.ts')
+      'virtual:orbo-styles': resolveProjectPath('./test/fixtures/orbo-styles.ts')
     }
   },
   test: {

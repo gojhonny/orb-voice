@@ -1,6 +1,6 @@
 # ADR-0024: Restore Orb Voice as the canonical package identity
 
-- Status: Accepted
+- Status: Superseded by ADR-0025
 - Created: 2026-09-24
 - Updated: 2026-09-24
 - Mode: Prospective

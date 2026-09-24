@@ -44,5 +44,9 @@ package, public CLI, and `<orb-voice>` element. GitHub metadata targets
 [ADR-0023](0023-orbu-package-identity.adr.md) attempted npm `orbu` and
 `<orb-u>`. npm rejected that package name. ADR-0024 reverts it.
 
-[ADR-0024](0024-restore-orb-voice-identity.adr.md) restores Orb Voice,
-`orb-voice`, and `<orb-voice>` as the canonical identity.
+[ADR-0024](0024-restore-orb-voice-identity.adr.md) restored Orb Voice,
+`orb-voice`, and `<orb-voice>`. ADR-0025 supersedes that identity.
+
+[ADR-0025](0025-orbo-product-identity.adr.md) makes Orbo the product, `orbo-voice`
+the npm package, `<orb-o>` the element, and `orbo` the CLI. GitHub metadata
+targets `gojhonny/orbo`.

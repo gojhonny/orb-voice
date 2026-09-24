@@ -1,9 +1,9 @@
-import type { OrbVoiceMotionConfigurationSource } from '@core/config.types'
-import { deepFreezeOrbVoiceConfiguration } from '@core/lib/deep-freeze.compute'
+import type { OrboMotionConfigurationSource } from '@core/config.types'
+import { deepFreezeOrboConfiguration } from '@core/lib/deep-freeze.compute'
 
 /** Internal defaults restored from the pre-SPEC-025 configuration. */
-export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
-  animatedStyleProperties: ['--orb-voice-angle', 'opacity', 'rotate', 'scale', 'translate'],
+export const ORBO_DEFAULT_MOTION = deepFreezeOrboConfiguration({
+  animatedStyleProperties: ['--orbo-angle', 'opacity', 'rotate', 'scale', 'translate'],
   easings: {
     easeInOut: 'ease-in-out',
     easeOut: 'ease-out',
@@ -35,7 +35,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': ['0deg', '360deg']
+          '--orbo-angle': ['0deg', '360deg']
         },
         transition: {
           duration: 20,
@@ -106,7 +106,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': ['0deg', '360deg']
+          '--orbo-angle': ['0deg', '360deg']
         },
         transition: {
           duration: 11,
@@ -179,7 +179,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': ['0deg', '720deg']
+          '--orbo-angle': ['0deg', '720deg']
         },
         transition: {
           duration: 8,
@@ -253,7 +253,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': ['0deg', '540deg']
+          '--orbo-angle': ['0deg', '540deg']
         },
         transition: {
           duration: 5.5,
@@ -325,7 +325,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': ['0deg', '18deg']
+          '--orbo-angle': ['0deg', '18deg']
         },
         transition: {
           duration: 16,
@@ -393,7 +393,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': '0deg'
+          '--orbo-angle': '0deg'
         },
         transition: {
           duration: 0
@@ -452,7 +452,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': '36deg'
+          '--orbo-angle': '36deg'
         },
         transition: {
           duration: 0
@@ -513,7 +513,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': '92deg'
+          '--orbo-angle': '92deg'
         },
         transition: {
           duration: 0
@@ -574,7 +574,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': '148deg'
+          '--orbo-angle': '148deg'
         },
         transition: {
           duration: 0
@@ -633,7 +633,7 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       },
       field: {
         animate: {
-          '--orb-voice-angle': '8deg'
+          '--orbo-angle': '8deg'
         },
         transition: {
           duration: 0
@@ -672,4 +672,4 @@ export const ORB_VOICE_DEFAULT_MOTION = deepFreezeOrbVoiceConfiguration({
       }
     }
   }
-} satisfies OrbVoiceMotionConfigurationSource)
+} satisfies OrboMotionConfigurationSource)

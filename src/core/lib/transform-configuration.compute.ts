@@ -1,27 +1,27 @@
 import type {
-  OrbVoiceConfiguration,
-  OrbVoiceMotionConfigurationSource,
-  OrbVoiceResolvedConfigurationSource,
-  OrbVoiceSerializedLayerMotion
+  OrboConfiguration,
+  OrboMotionConfigurationSource,
+  OrboResolvedConfigurationSource,
+  OrboSerializedLayerMotion
 } from '@core/config.types'
-import type { OrbVoiceLayerMotion, OrbVoiceMotionProfile } from '@core/motion/motion.types'
+import type { OrboLayerMotion, OrboMotionProfile } from '@core/motion/motion.types'
 
-import { deepFreezeOrbVoiceConfiguration } from './deep-freeze.compute'
-import { readOrbVoiceConfigurationSource } from './validate-configuration.compute'
+import { deepFreezeOrboConfiguration } from './deep-freeze.compute'
+import { readOrboConfigurationSource } from './validate-configuration.compute'
 
 /**
  * Validate serializable configuration and derive an isolated, deeply readonly
  * runtime tree. Invalid input throws TypeError with a schema path and no values.
  * This function does not read files, fetch resources or initialize browser APIs.
  */
-export function transformOrbVoiceConfiguration(input: unknown): OrbVoiceConfiguration {
-  const source = readOrbVoiceConfigurationSource(input)
+export function transformOrboConfiguration(input: unknown): OrboConfiguration {
+  const source = readOrboConfigurationSource(input)
   // Keep the published palette lookup without exposing a seventh preset.
   const presets = Object.defineProperty(source.appearance.presets, 'gojhonny', {
     value: source.appearance.presets.neongate,
     enumerable: false
-  }) as OrbVoiceConfiguration['appearance']['presets']
-  return deepFreezeOrbVoiceConfiguration({
+  }) as OrboConfiguration['appearance']['presets']
+  return deepFreezeOrboConfiguration({
     ...source,
     appearance: { ...source.appearance, presets },
     component: {
@@ -40,9 +40,9 @@ export function transformOrbVoiceConfiguration(input: unknown): OrbVoiceConfigur
 }
 
 function motionProfiles(
-  profiles: OrbVoiceMotionConfigurationSource['full'],
-  appearance: OrbVoiceResolvedConfigurationSource['appearance']['byState']
-): Record<OrbVoiceResolvedConfigurationSource['component']['states'][number], OrbVoiceMotionProfile> {
+  profiles: OrboMotionConfigurationSource['full'],
+  appearance: OrboResolvedConfigurationSource['appearance']['byState']
+): Record<OrboResolvedConfigurationSource['component']['states'][number], OrboMotionProfile> {
   return Object.fromEntries(
     Object.entries(profiles).map(([state, layers]) => [
       state,
@@ -56,10 +56,10 @@ function motionProfiles(
         root: layerMotion(layers.root)
       }
     ])
-  ) as Record<OrbVoiceResolvedConfigurationSource['component']['states'][number], OrbVoiceMotionProfile>
+  ) as Record<OrboResolvedConfigurationSource['component']['states'][number], OrboMotionProfile>
 }
 
-function layerMotion(layer: OrbVoiceSerializedLayerMotion): OrbVoiceLayerMotion {
+function layerMotion(layer: OrboSerializedLayerMotion): OrboLayerMotion {
   const { repeat, ...transition } = layer.transition
   return {
     animate: layer.animate,

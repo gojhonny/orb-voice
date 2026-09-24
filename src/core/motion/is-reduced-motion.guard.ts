@@ -1,8 +1,8 @@
-import type { OrbVoiceReducedMotion } from '@core/appearance/appearance.types'
-import { ORB_VOICE_REDUCED_MOTION_MODES } from '@core/config.data'
+import type { OrboReducedMotion } from '@core/appearance/appearance.types'
+import { ORBO_REDUCED_MOTION_MODES } from '@core/config.data'
 
-export function isOrbVoiceReducedMotion(value: unknown): value is OrbVoiceReducedMotion {
+export function isOrboReducedMotion(value: unknown): value is OrboReducedMotion {
   return (
-    typeof value === 'string' && (ORB_VOICE_REDUCED_MOTION_MODES as readonly string[]).includes(value)
+    typeof value === 'string' && (ORBO_REDUCED_MOTION_MODES as readonly string[]).includes(value)
   )
 }

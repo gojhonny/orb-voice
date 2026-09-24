@@ -1,6 +1,6 @@
-# Orb Voice engineering harness
+# Orbo engineering harness
 
-This directory is the versioned engineering context for `orb-voice`.
+This directory is the versioned engineering context for Orbo (`orbo-voice`).
 It records product intent, durable decisions, mandatory rules, bounded changes,
 and the evidence used to maintain the package.
 
@@ -12,7 +12,7 @@ and the evidence used to maintain the package.
 4. Read linked decisions in [`adrs/`](./adrs/) and constraints in [`rules/`](./rules/).
 5. Use a procedure from [`skills/`](./skills/) when it matches the task.
 6. Use an explicit sequence from [`workflows/`](./workflows/) for recurring regression, review, release, or harness work.
-7. Run `./cli/orb-voice check`, which includes tests, builds, SemVer validation, and audits.
+7. Run `./cli/orbo check`, which includes tests, builds, SemVer validation, and audits.
 
 ## Record types
 
@@ -21,7 +21,7 @@ and the evidence used to maintain the package.
 - **Rule** is an enforceable repository constraint.
 - **SPEC** defines a bounded change with acceptance criteria and evidence.
 - **Skill** is a reusable on-demand work procedure with activation frontmatter, not a product requirement.
-- **Workflow** is an explicit user-invoked sequence that orchestrates existing skills, rules, and Orb Voice commands.
+- **Workflow** is an explicit user-invoked sequence that orchestrates existing skills, rules, and Orbo commands.
 - **Prompt** is a starter for creating consistent harness records.
 
 Records `ADR-0001` through `ADR-0006` and `SPEC-001` through `SPEC-007` are

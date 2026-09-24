@@ -1,8 +1,8 @@
-import type { OrbVoiceSpeechConfiguration } from '@core/config.types'
-import { deepFreezeOrbVoiceConfiguration } from '@core/lib/deep-freeze.compute'
+import type { OrboSpeechConfiguration } from '@core/config.types'
+import { deepFreezeOrboConfiguration } from '@core/lib/deep-freeze.compute'
 
 /** Internal defaults restored from the pre-SPEC-025 configuration. */
-export const ORB_VOICE_DEFAULT_SPEECH = deepFreezeOrbVoiceConfiguration({
+export const ORBO_DEFAULT_SPEECH = deepFreezeOrboConfiguration({
   defaultVoiceModel: null,
   models: ['web-speech', 'openai-speech', 'openai-realtime'],
   talk: {},
@@ -37,4 +37,4 @@ export const ORB_VOICE_DEFAULT_SPEECH = deepFreezeOrbVoiceConfiguration({
     credentials: 'same-origin',
     requestTimeoutMs: 30000
   }
-} satisfies OrbVoiceSpeechConfiguration)
+} satisfies OrboSpeechConfiguration)

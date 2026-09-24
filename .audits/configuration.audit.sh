@@ -8,7 +8,7 @@ failures=0
 pass() { printf 'PASS  %s\n' "$1"; }
 fail() { printf 'FAIL  %s\n' "$1" >&2; failures=$((failures + 1)); }
 
-for path in src/orb-voice.config.json .audits/configuration.inventory.md; do
+for path in src/orbo.config.json .audits/configuration.inventory.md; do
   if [ -f "$path" ]; then pass "$path"; else fail "missing $path"; fi
 done
 
@@ -16,13 +16,13 @@ done
 # declarations still derive from the composed runtime. Algorithms and mutable
 # objects remain code; the constructor registry retains its exact exemption.
 for owner in \
-  src/core/appearance/appearance.data.ts:ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE \
-  src/core/motion/default-motion.data.ts:ORB_VOICE_DEFAULT_MOTION \
-  src/talk/default-speech.data.ts:ORB_VOICE_DEFAULT_SPEECH; do
+  src/core/appearance/appearance.data.ts:ORBO_DEFAULT_APPEARANCE_BY_STATE \
+  src/core/motion/default-motion.data.ts:ORBO_DEFAULT_MOTION \
+  src/talk/default-speech.data.ts:ORBO_DEFAULT_SPEECH; do
   path=${owner%:*}
   binding=${owner#*:}
   if [ -f "$path" ] &&
-    grep -F "export const $binding = deepFreezeOrbVoiceConfiguration(" "$path" >/dev/null &&
+    grep -F "export const $binding = deepFreezeOrboConfiguration(" "$path" >/dev/null &&
     grep -F 'satisfies ' "$path" >/dev/null &&
     ! grep -E 'configuration.data|@core/config.data|^[[:space:]]*(export[[:space:]]+)?(const|let|var)[[:space:]]+' "$path" | grep -v "export const $binding =" >/dev/null; then
     pass "$path owns its typed frozen internal defaults"
@@ -31,7 +31,7 @@ for owner in \
   fi
 done
 
-if grep -E '"(byState|motion|speech)"[[:space:]]*:' src/orb-voice.config.json >/dev/null; then
+if grep -E '"(byState|motion|speech)"[[:space:]]*:' src/orbo.config.json >/dev/null; then
   fail 'compact JSON must not reintroduce internal appearance, motion or speech blocks'
 fi
 # Compatibility data modules also reject lowercase authored defaults. Their
@@ -57,18 +57,18 @@ if find src -type f -name '*.ts' ! -name '*.test.ts' -exec awk '
     }
     sub(/^[^=]*=[ \t]*/, "", initializer)
     sub(/[ \t]*;?[ \t]*$/, "", initializer)
-    if (initializer ~ /^orbVoiceConfiguration(\.[A-Za-z_][A-Za-z0-9_]*)+(\[[A-Z][A-Z0-9_]*\])?$/) return
-    if (source == "src/core/config.data.ts" && name == "DEFAULT_ORB_VOICE_COLORS" &&
-        initializer == "ORB_VOICE_PRESETS[DEFAULT_ORB_VOICE_PRESET]") return
+    if (initializer ~ /^orboConfiguration(\.[A-Za-z_][A-Za-z0-9_]*)+(\[[A-Z][A-Z0-9_]*\])?$/) return
+    if (source == "src/core/config.data.ts" && name == "DEFAULT_ORBO_COLORS" &&
+        initializer == "ORBO_PRESETS[DEFAULT_ORBO_PRESET]") return
     if (source == "src/factories/element-class.factory.ts" && name == "ELEMENT_CONSTRUCTORS" &&
-        initializer == "new WeakMap<object, OrbVoiceElementConstructor>()") return
+        initializer == "new WeakMap<object, OrboElementConstructor>()") return
     compact = initializer
     gsub(/[ \t\r\n]/, "", compact)
-    if (source == "src/core/config.data.ts" && name == "ORB_VOICE_VOICE_DEFAULTS" &&
-        compact ~ /^deepFreezeOrbVoiceConfiguration\(\{([A-Za-z_][A-Za-z0-9_]*:orbVoiceConfiguration(\.[A-Za-z_][A-Za-z0-9_]*)+,?)+\}\)$/) return
+    if (source == "src/core/config.data.ts" && name == "ORBO_VOICE_DEFAULTS" &&
+        compact ~ /^deepFreezeOrboConfiguration\(\{([A-Za-z_][A-Za-z0-9_]*:orboConfiguration(\.[A-Za-z_][A-Za-z0-9_]*)+,?)+\}\)$/) return
     if (source == "src/core/config.data.ts" && name == "config" &&
-        compact ~ /^deepFreezeOrbVoiceConfiguration\(\{([A-Z][A-Z0-9_]*,?)+\}\)$/) return
-    reject(name " must derive directly from orbVoiceConfiguration; see .audits/configuration.inventory.md")
+        compact ~ /^deepFreezeOrboConfiguration\(\{([A-Z][A-Z0-9_]*,?)+\}\)$/) return
+    reject(name " must derive directly from orboConfiguration; see .audits/configuration.inventory.md")
   }
   FNR == 1 {
     if (pending != "") inspect(pending)
@@ -95,7 +95,7 @@ if find src -type f -name '*.ts' ! -name '*.test.ts' -exec awk '
       source = FILENAME
       sourceLine = FNR
       declaration = substr($0, RSTART)
-      if (declaration ~ /= deepFreezeOrbVoiceConfiguration\(\{[ \t]*$/) {
+      if (declaration ~ /= deepFreezeOrboConfiguration\(\{[ \t]*$/) {
         pending = declaration
         aggregate = 1
       }
@@ -114,23 +114,23 @@ else
 fi
 
 for path in src/core/config.data.ts src/core/motion/motion.data.ts src/element/element.data.ts src/talk/talk.data.ts; do
-  if grep -F 'orbVoiceConfiguration.' "$path" >/dev/null 2>&1; then
+  if grep -F 'orboConfiguration.' "$path" >/dev/null 2>&1; then
     pass "$path uses canonical bindings"
   else
     fail "$path must remain a derived compatibility module"
   fi
 done
 
-if grep -F 'orbVoiceConfiguration.speech.talk' src/talk/talk.data.ts >/dev/null 2>&1 &&
-  grep -F 'orbVoiceConfiguration.speech.defaultTalkFlow' src/talk/talk.data.ts >/dev/null 2>&1 &&
+if grep -F 'orboConfiguration.speech.talk' src/talk/talk.data.ts >/dev/null 2>&1 &&
+  grep -F 'orboConfiguration.speech.defaultTalkFlow' src/talk/talk.data.ts >/dev/null 2>&1 &&
   ! grep -E '(emptyTalkFlow|Object\.freeze)' src/talk/talk.data.ts >/dev/null 2>&1; then
   pass 'talk data retains no independently maintained empty defaults'
 else
   fail 'talk record and empty flow must be canonical bindings'
 fi
 
-if grep -F 'orbVoiceConfiguration.speech.tokenPattern.source' src/talk/resolve-talk-text.compute.ts >/dev/null 2>&1 &&
-  grep -F 'orbVoiceConfiguration.speech.tokenPattern.flags' src/talk/resolve-talk-text.compute.ts >/dev/null 2>&1; then
+if grep -F 'orboConfiguration.speech.tokenPattern.source' src/talk/resolve-talk-text.compute.ts >/dev/null 2>&1 &&
+  grep -F 'orboConfiguration.speech.tokenPattern.flags' src/talk/resolve-talk-text.compute.ts >/dev/null 2>&1; then
   pass 'talk token matcher compiles canonical source and flags'
 else
   fail 'talk token matcher must derive its source and flags from canonical configuration'

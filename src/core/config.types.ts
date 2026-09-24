@@ -1,12 +1,12 @@
 import type {
-  OrbVoiceAnimationValues,
-  OrbVoiceMotionProfile,
-  OrbVoiceTransition
+  OrboAnimationValues,
+  OrboMotionProfile,
+  OrboTransition
 } from '@core/motion/motion.types'
 
-export type OrbVoiceStates = readonly ['idle', 'listening', 'thinking', 'speaking', 'asleep']
-export type OrbVoiceReducedMotionModes = readonly ['system', 'always', 'never']
-export type OrbVoicePresetNames = readonly [
+export type OrboStates = readonly ['idle', 'listening', 'thinking', 'speaking', 'asleep']
+export type OrboReducedMotionModes = readonly ['system', 'always', 'never']
+export type OrboPresetNames = readonly [
   'neongate',
   'periwinkle',
   'magenta',
@@ -15,42 +15,42 @@ export type OrbVoicePresetNames = readonly [
   'ivory'
 ]
 /** @deprecated Use the canonical NeonGate identifier in new configuration. */
-type LegacyPresetNames = readonly ['gojhonny', ...OmitFirst<OrbVoicePresetNames>]
+type LegacyPresetNames = readonly ['gojhonny', ...OmitFirst<OrboPresetNames>]
 type OmitFirst<T extends readonly unknown[]> = T extends readonly [unknown, ...infer Rest]
   ? Rest
   : never
-export type OrbVoiceColorKeys = readonly ['accent', 'background', 'highlight', 'primary', 'secondary']
+export type OrboColorKeys = readonly ['accent', 'background', 'highlight', 'primary', 'secondary']
 
-type State = OrbVoiceStates[number]
-type Preset = OrbVoicePresetNames[number]
-type Color = OrbVoiceColorKeys[number]
+type State = OrboStates[number]
+type Preset = OrboPresetNames[number]
+type Color = OrboColorKeys[number]
 type Layer = 'aura' | 'core' | 'field' | 'highlight' | 'ring' | 'root'
 
-export type OrbVoiceDeepReadonly<T> = T extends object
-  ? { readonly [Key in keyof T]: OrbVoiceDeepReadonly<T[Key]> }
+export type OrboDeepReadonly<T> = T extends object
+  ? { readonly [Key in keyof T]: OrboDeepReadonly<T[Key]> }
   : T
 
-export interface OrbVoiceSerializedLayerMotion {
-  animate: OrbVoiceAnimationValues
-  transition: Omit<OrbVoiceTransition, 'repeat'> & { repeat?: number | 'infinite' }
+export interface OrboSerializedLayerMotion {
+  animate: OrboAnimationValues
+  transition: Omit<OrboTransition, 'repeat'> & { repeat?: number | 'infinite' }
 }
 
-export interface OrbVoiceComponentConfiguration {
-  tagName: 'orb-voice'
-  states: OrbVoiceStates
-  reducedMotionModes: OrbVoiceReducedMotionModes
+export interface OrboComponentConfiguration {
+  tagName: 'orb-o'
+  states: OrboStates
+  reducedMotionModes: OrboReducedMotionModes
   defaultState: State
   defaultSize: string
   defaultSpeed: number
-  defaultReducedMotion: OrbVoiceReducedMotionModes[number]
+  defaultReducedMotion: OrboReducedMotionModes[number]
   /** Base attributes in source JSON; includes derived color attributes at runtime. */
   observedAttributes: readonly string[]
 }
 
-export interface OrbVoiceAppearanceConfiguration {
+export interface OrboAppearanceConfiguration {
   defaultPreset: Preset
-  presetNames: OrbVoicePresetNames
-  colorKeys: OrbVoiceColorKeys
+  presetNames: OrboPresetNames
+  colorKeys: OrboColorKeys
   colorAttributes: { [Key in Color]: `color-${Key}` }
   presets: Record<Preset, Record<Color, string>>
   byState: Record<State, { contrast: number; saturation: number }>
@@ -58,27 +58,27 @@ export interface OrbVoiceAppearanceConfiguration {
 
 /** Compatibility input for the preset identifier accidentally published in 1.0.1. */
 interface LegacyAppearanceConfiguration
-  extends Omit<OrbVoiceAppearanceConfiguration, 'defaultPreset' | 'presetNames' | 'presets'> {
+  extends Omit<OrboAppearanceConfiguration, 'defaultPreset' | 'presetNames' | 'presets'> {
   defaultPreset: LegacyPresetNames[number]
   presetNames: LegacyPresetNames
   presets: Record<LegacyPresetNames[number], Record<Color, string>>
 }
 
-interface OrbVoiceRuntimeAppearanceConfiguration extends OrbVoiceAppearanceConfiguration {
-  presets: OrbVoiceAppearanceConfiguration['presets'] & {
+interface OrboRuntimeAppearanceConfiguration extends OrboAppearanceConfiguration {
+  presets: OrboAppearanceConfiguration['presets'] & {
     /** @deprecated Use neongate; retained as a non-enumerable palette alias. */
     gojhonny: Record<Color, string>
   }
 }
 
-export interface OrbVoiceMotionConfigurationSource {
+export interface OrboMotionConfigurationSource {
   animatedStyleProperties: readonly string[]
   easings: { easeInOut: string; easeOut: string; linear: string }
-  full: Record<State, Record<Layer, OrbVoiceSerializedLayerMotion>>
-  reduced: Record<State, Record<Layer, OrbVoiceSerializedLayerMotion>>
+  full: Record<State, Record<Layer, OrboSerializedLayerMotion>>
+  reduced: Record<State, Record<Layer, OrboSerializedLayerMotion>>
 }
 
-export interface OrbVoiceSpeechConfiguration {
+export interface OrboSpeechConfiguration {
   defaultVoiceModel: null | 'web-speech' | 'openai-speech' | 'openai-realtime'
   models: readonly ['web-speech', 'openai-speech', 'openai-realtime']
   /** Package defaults intentionally contain no consumer conversation copy. */
@@ -105,7 +105,7 @@ export interface OrbVoiceSpeechConfiguration {
   }
 }
 
-export interface OrbVoiceRealtimeConfiguration {
+export interface OrboRealtimeConfiguration {
   maxEventBytes: number
   maxTranscriptLength: number
   openai: {
@@ -118,40 +118,40 @@ export interface OrbVoiceRealtimeConfiguration {
 }
 
 /** Compact build input; legacy internal overrides remain supported. */
-export interface OrbVoiceConfigurationSource {
-  component: OrbVoiceComponentConfiguration
+export interface OrboConfigurationSource {
+  component: OrboComponentConfiguration
   appearance: (
-    | Omit<OrbVoiceAppearanceConfiguration, 'byState'>
+    | Omit<OrboAppearanceConfiguration, 'byState'>
     | Omit<LegacyAppearanceConfiguration, 'byState'>
   ) & {
-    byState?: OrbVoiceAppearanceConfiguration['byState']
+    byState?: OrboAppearanceConfiguration['byState']
   }
-  motion?: OrbVoiceMotionConfigurationSource
-  speech?: OrbVoiceSpeechConfiguration
-  realtime: OrbVoiceRealtimeConfiguration
+  motion?: OrboMotionConfigurationSource
+  speech?: OrboSpeechConfiguration
+  realtime: OrboRealtimeConfiguration
 }
 
 /** Validated source after composing omitted internal defaults. */
-export interface OrbVoiceResolvedConfigurationSource
-  extends Omit<OrbVoiceConfigurationSource, 'appearance' | 'motion' | 'speech'> {
-  appearance: OrbVoiceAppearanceConfiguration
-  motion: OrbVoiceMotionConfigurationSource
-  speech: OrbVoiceSpeechConfiguration
+export interface OrboResolvedConfigurationSource
+  extends Omit<OrboConfigurationSource, 'appearance' | 'motion' | 'speech'> {
+  appearance: OrboAppearanceConfiguration
+  motion: OrboMotionConfigurationSource
+  speech: OrboSpeechConfiguration
 }
 
-export interface OrbVoiceMotionConfiguration
-  extends Omit<OrbVoiceMotionConfigurationSource, 'full' | 'reduced'> {
-  full: Record<State, OrbVoiceMotionProfile>
-  reduced: Record<State, OrbVoiceMotionProfile>
+export interface OrboMotionConfiguration
+  extends Omit<OrboMotionConfigurationSource, 'full' | 'reduced'> {
+  full: Record<State, OrboMotionProfile>
+  reduced: Record<State, OrboMotionProfile>
 }
 
-export interface OrbVoiceRuntimeConfiguration
-  extends Omit<OrbVoiceResolvedConfigurationSource, 'appearance' | 'motion'> {
-  appearance: OrbVoiceRuntimeAppearanceConfiguration
-  motion: OrbVoiceMotionConfiguration
+export interface OrboRuntimeConfiguration
+  extends Omit<OrboResolvedConfigurationSource, 'appearance' | 'motion'> {
+  appearance: OrboRuntimeAppearanceConfiguration
+  motion: OrboMotionConfiguration
 }
 
-export type OrbVoiceConfiguration = OrbVoiceDeepReadonly<OrbVoiceRuntimeConfiguration>
+export type OrboConfiguration = OrboDeepReadonly<OrboRuntimeConfiguration>
 
 /** The bundled defaults retain the same accurate configurable contracts. */
-export type OrbVoiceBundledConfiguration = OrbVoiceConfiguration
+export type OrboBundledConfiguration = OrboConfiguration

@@ -1,21 +1,21 @@
 import { readFile } from 'node:fs/promises'
 
-const ORB_VOICE_STYLES_ID = 'virtual:orb-voice-styles'
-const RESOLVED_ORB_VOICE_STYLES_ID = `\0${ORB_VOICE_STYLES_ID}`
-const ORB_VOICE_STYLES_URL = new URL('./src/element/index.css', import.meta.url)
+const ORBO_STYLES_ID = 'virtual:orbo-styles'
+const RESOLVED_ORBO_STYLES_ID = `\0${ORBO_STYLES_ID}`
+const ORBO_STYLES_URL = new URL('./src/element/index.css', import.meta.url)
 
-export function orbVoiceCssPlugin() {
+export function orboCssPlugin() {
   return {
-    name: 'orb-voice-css',
+    name: 'orbo-css',
     resolveId(id: string): string | undefined {
-      return id === ORB_VOICE_STYLES_ID ? RESOLVED_ORB_VOICE_STYLES_ID : undefined
+      return id === ORBO_STYLES_ID ? RESOLVED_ORBO_STYLES_ID : undefined
     },
     async load(id: string): Promise<string | undefined> {
-      if (id !== RESOLVED_ORB_VOICE_STYLES_ID) {
+      if (id !== RESOLVED_ORBO_STYLES_ID) {
         return undefined
       }
 
-      const styles = await readFile(ORB_VOICE_STYLES_URL, 'utf8')
+      const styles = await readFile(ORBO_STYLES_URL, 'utf8')
 
       return `export default ${JSON.stringify(styles)}`
     }

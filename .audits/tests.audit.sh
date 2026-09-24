@@ -12,7 +12,7 @@ for path in \
   vitest.config.ts \
   tsconfig.test.json \
   test/setup.ts \
-  test/fixtures/orb-voice-styles.ts \
+  test/fixtures/orbo-styles.ts \
   src/index.test.ts \
   src/core/appearance/merge-colors.compute.test.ts \
   src/core/lib/normalize-preset.compute.test.ts \
@@ -90,13 +90,13 @@ for (const dependency of ['vitest', 'happy-dom', '@vitest/coverage-v8']) {
   else { console.error(`FAIL  missing devDependency ${dependency}`); failed = true }
 }
 for (const alias of ['test', 'test:watch', 'test:coverage', 'typecheck', 'build', 'check']) {
-  if (!(alias in (pkg.scripts ?? {}))) console.log(`PASS  ${alias} is owned by Orb Voice rather than package scripts`)
-  else { console.error(`FAIL  package script duplicates Orb Voice command: ${alias}`); failed = true }
+  if (!(alias in (pkg.scripts ?? {}))) console.log(`PASS  ${alias} is owned by Orbo rather than package scripts`)
+  else { console.error(`FAIL  package script duplicates Orbo command: ${alias}`); failed = true }
 }
 if (readFileSync('cli/src/commands/test.sh', 'utf8').includes('vitest run')) {
-  console.log('PASS  Orb Voice owns deterministic Vitest execution')
+  console.log('PASS  Orbo owns deterministic Vitest execution')
 } else {
-  console.error('FAIL  orb-voice test must run Vitest once by default')
+  console.error('FAIL  orbo test must run Vitest once by default')
   failed = true
 }
 if (failed) process.exit(1)
@@ -108,10 +108,10 @@ if grep -F "'src/**/*.test.ts'" vitest.config.ts >/dev/null 2>&1; then pass 'cov
 if grep -F 'src/**/*.test.ts' tsconfig.json >/dev/null 2>&1; then pass 'source TypeScript excludes colocated tests'; else fail 'source TypeScript must exclude colocated tests'; fi
 if grep -F '@vitest-environment node' src/index.test.ts >/dev/null 2>&1; then pass 'SSR import test uses Node'; else fail 'SSR import test must use Node'; fi
 for ci_sensor in lint typecheck test build; do
-  if grep -F "run: ./cli/orb-voice $ci_sensor" .github/workflows/ci.yml >/dev/null 2>&1; then
-    pass "CI exposes Orb Voice $ci_sensor explicitly"
+  if grep -F "run: ./cli/orbo $ci_sensor" .github/workflows/ci.yml >/dev/null 2>&1; then
+    pass "CI exposes Orbo $ci_sensor explicitly"
   else
-    fail "CI must expose ./cli/orb-voice $ci_sensor as an explicit sensor step"
+    fail "CI must expose ./cli/orbo $ci_sensor as an explicit sensor step"
   fi
 done
 if grep -F 'run: npm pack --dry-run' .github/workflows/ci.yml >/dev/null 2>&1; then

@@ -1,40 +1,40 @@
-import { deepFreezeOrbVoiceConfiguration } from '@core/lib/deep-freeze.compute'
+import { deepFreezeOrboConfiguration } from '@core/lib/deep-freeze.compute'
 
-import { orbVoiceConfiguration } from './configuration.data'
+import { orboConfiguration } from './configuration.data'
 
-export { orbVoiceConfiguration } from './configuration.data'
+export { orboConfiguration } from './configuration.data'
 
-export const ORB_VOICE_STATES = orbVoiceConfiguration.component.states
-export const ORB_VOICE_REDUCED_MOTION_MODES = orbVoiceConfiguration.component.reducedMotionModes
-export const ORB_VOICE_PRESET_NAMES = orbVoiceConfiguration.appearance.presetNames
-export const ORB_VOICE_PRESETS = orbVoiceConfiguration.appearance.presets
-export const DEFAULT_ORB_VOICE_PRESET = orbVoiceConfiguration.appearance.defaultPreset
-export const DEFAULT_ORB_VOICE_COLORS = ORB_VOICE_PRESETS[DEFAULT_ORB_VOICE_PRESET]
-export const DEFAULT_ORB_VOICE_SIZE = orbVoiceConfiguration.component.defaultSize
-export const DEFAULT_ORB_VOICE_SPEED = orbVoiceConfiguration.component.defaultSpeed
-export const DEFAULT_ORB_VOICE_STATE = orbVoiceConfiguration.component.defaultState
-export const DEFAULT_ORB_VOICE_REDUCED_MOTION = orbVoiceConfiguration.component.defaultReducedMotion
-export const ORB_VOICE_COLOR_ATTRIBUTES = orbVoiceConfiguration.appearance.colorAttributes
-export const ORB_VOICE_COLOR_KEYS = orbVoiceConfiguration.appearance.colorKeys
+export const ORBO_STATES = orboConfiguration.component.states
+export const ORBO_REDUCED_MOTION_MODES = orboConfiguration.component.reducedMotionModes
+export const ORBO_PRESET_NAMES = orboConfiguration.appearance.presetNames
+export const ORBO_PRESETS = orboConfiguration.appearance.presets
+export const DEFAULT_ORBO_PRESET = orboConfiguration.appearance.defaultPreset
+export const DEFAULT_ORBO_COLORS = ORBO_PRESETS[DEFAULT_ORBO_PRESET]
+export const DEFAULT_ORBO_SIZE = orboConfiguration.component.defaultSize
+export const DEFAULT_ORBO_SPEED = orboConfiguration.component.defaultSpeed
+export const DEFAULT_ORBO_STATE = orboConfiguration.component.defaultState
+export const DEFAULT_ORBO_REDUCED_MOTION = orboConfiguration.component.defaultReducedMotion
+export const ORBO_COLOR_ATTRIBUTES = orboConfiguration.appearance.colorAttributes
+export const ORBO_COLOR_KEYS = orboConfiguration.appearance.colorKeys
 
-export const ORB_VOICE_VOICE_DEFAULTS = deepFreezeOrbVoiceConfiguration({
-  webSpeech: orbVoiceConfiguration.speech.webSpeech,
-  openaiSpeech: orbVoiceConfiguration.speech.openaiSpeech,
-  openaiRealtime: orbVoiceConfiguration.realtime.openai
+export const ORBO_VOICE_DEFAULTS = deepFreezeOrboConfiguration({
+  webSpeech: orboConfiguration.speech.webSpeech,
+  openaiSpeech: orboConfiguration.speech.openaiSpeech,
+  openaiRealtime: orboConfiguration.realtime.openai
 })
 
 /** Compatibility bindings derived from compact JSON and internal data defaults. */
-export const config = deepFreezeOrbVoiceConfiguration({
-  DEFAULT_ORB_VOICE_COLORS,
-  DEFAULT_ORB_VOICE_PRESET,
-  DEFAULT_ORB_VOICE_REDUCED_MOTION,
-  DEFAULT_ORB_VOICE_SIZE,
-  DEFAULT_ORB_VOICE_SPEED,
-  DEFAULT_ORB_VOICE_STATE,
-  ORB_VOICE_COLOR_ATTRIBUTES,
-  ORB_VOICE_COLOR_KEYS,
-  ORB_VOICE_PRESET_NAMES,
-  ORB_VOICE_PRESETS,
-  ORB_VOICE_REDUCED_MOTION_MODES,
-  ORB_VOICE_STATES
+export const config = deepFreezeOrboConfiguration({
+  DEFAULT_ORBO_COLORS,
+  DEFAULT_ORBO_PRESET,
+  DEFAULT_ORBO_REDUCED_MOTION,
+  DEFAULT_ORBO_SIZE,
+  DEFAULT_ORBO_SPEED,
+  DEFAULT_ORBO_STATE,
+  ORBO_COLOR_ATTRIBUTES,
+  ORBO_COLOR_KEYS,
+  ORBO_PRESET_NAMES,
+  ORBO_PRESETS,
+  ORBO_REDUCED_MOTION_MODES,
+  ORBO_STATES
 })
