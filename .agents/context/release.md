@@ -31,6 +31,8 @@ explicit engineering-only tooling and is never part of the runtime API.
 
 ADR-0022/SPEC-031 make `orb-voice` the npm package, public CLI, and
 `<orb-voice>` element. GitHub metadata targets `gojhonny/orb-voice`.
+ADR-0024/SPEC-033 restore that identity after npm rejected the unscoped `orbu`
+name attempted by ADR-0023/SPEC-032. Do not keep an `orbu` alias.
 ADR-0021/SPEC-030 record the rejected package name. ADR-0018/SPEC-027 are historical records of the previous
 scoped npm name. ADR-0019/SPEC-028 restore NeonGate (`neongate`) as the canonical default and keep
 the accidentally published `gojhonny` name only as a deprecated compatibility

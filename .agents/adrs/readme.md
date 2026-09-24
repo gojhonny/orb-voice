@@ -40,3 +40,9 @@ consumer setup separate. Public command spelling is `orbv` (ADR-0021).
 [ADR-0022](0022-orb-voice-distribution.adr.md) makes `orb-voice` the npm
 package, public CLI, and `<orb-voice>` element. GitHub metadata targets
 `gojhonny/orb-voice`.
+
+[ADR-0023](0023-orbu-package-identity.adr.md) attempted npm `orbu` and
+`<orb-u>`. npm rejected that package name. ADR-0024 reverts it.
+
+[ADR-0024](0024-restore-orb-voice-identity.adr.md) restores Orb Voice,
+`orb-voice`, and `<orb-voice>` as the canonical identity.

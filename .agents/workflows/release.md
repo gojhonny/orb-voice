@@ -30,10 +30,11 @@ The first publication of `orb-voice` uses the `NPM_TOKEN` repository secret.
 Trusted publishing can be configured only after that package exists on npm.
 Credentials are never committed or printed.
 
-ADR-0022/SPEC-031 make `orb-voice` the npm package, public CLI, and custom
-element. GitHub metadata targets `gojhonny/orb-voice`. ADR-0021/SPEC-030 record
-the previous unscoped package name that npm rejected. The owner renames the
-GitHub repository to `orb-voice` before merge so the release guard can run.
+ADR-0024/SPEC-033 restore `orb-voice` as the npm package, public CLI, and
+`<orb-voice>` element after npm rejected `orbu`. GitHub metadata targets
+`gojhonny/orb-voice`. ADR-0022/SPEC-031 record that distribution identity.
+ADR-0021/SPEC-030 record the earlier unscoped package name that npm rejected.
+The release guard runs when `github.repository` is `gojhonny/orb-voice`.
 
 The workflow publishes and verifies registry integrity and `orb-voice --help`
 before it creates the git tag or GitHub release. If npm rejects the package

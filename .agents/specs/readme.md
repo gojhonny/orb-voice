@@ -95,3 +95,8 @@ status only when the corresponding evidence is available.
 - [SPEC-031](031-publish-orb-voice.spec.md): publish Orb Voice as npm
   `orb-voice@1.1.1` with public CLI `orb-voice` and element `<orb-voice>`.
   Do not move `v1.1.0` or publish from a local machine.
+- [SPEC-032](032-orbu-package-identity.spec.md): reverted by SPEC-033. Historical
+  record of the rejected `orbu` / `<orb-u>` rename.
+- [SPEC-033](033-restore-orb-voice-identity.spec.md): current identity. Restore
+  npm `orb-voice`, CLI `orb-voice`, and element `<orb-voice>` by reverting the
+  Orbu merge. Version stays `1.1.1`. Do not publish from this change.

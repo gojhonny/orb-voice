@@ -5,7 +5,7 @@ alwaysApply: true
 # Rule 001: Package contract
 
 - Effective: 2026-08-21
-- Updated: 2026-09-19
+- Updated: 2026-09-24
 - Priority: Critical
 - Applies: Always
 
@@ -20,9 +20,9 @@ alwaysApply: true
 9. Treat every public export, attribute, property, method, event, and entry point as a compatibility commitment.
 10. Documentation sites and framework examples live outside this repository.
 11. npm identity and GitHub ownership are independent: publish `orb-voice`
-    from `gojhonny/orb-voice`. Current product identity is Orb Voice (ADR-0022 and
-    SPEC-031). Do not keep `@neongate-ai/orbz`, `<orb-z>`, or the `orb` binary
-    as current aliases.
+    from `gojhonny/orb-voice`. Current product identity is Orb Voice (ADR-0022,
+    restored by ADR-0024 and SPEC-033). Do not keep `@neongate-ai/orbz`, `<orb-z>`,
+    the `orb` binary, `orbu`, or `<orb-u>` as current aliases.
 12. Preset branding is independent of npm and GitHub ownership. Keep NeonGate's
     canonical identifier `neongate`, its established colors and six-name preset
     list. Preserve the deprecated 1.0.1 alias only at compatibility boundaries
