@@ -1,6 +1,6 @@
 # Skill prompt
 
-Create a small Orb Voice-specific procedure only when the same engineering workflow
+Create a small Orbu-specific procedure only when the same engineering workflow
 will recur. Include prerequisites, ordered steps, validation, stop conditions,
 and references to repository rules. Add a sibling `readme.md`; do not encode new
 product requirements in a skill.

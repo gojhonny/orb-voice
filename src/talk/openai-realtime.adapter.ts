@@ -1,15 +1,15 @@
-import { orbVoiceConfiguration } from '@core/config.data'
+import { orbuConfiguration } from '@core/config.data'
 import type {
-  OrbVoiceConversationHandlers,
-  OrbVoiceConversationPort,
-  OrbVoiceConversationState
+  OrbuConversationHandlers,
+  OrbuConversationPort,
+  OrbuConversationState
 } from '@ports/conversation.port'
 
 import { normalizeRealtimeSession } from './normalize-realtime-session.compute'
 import type {
   OpenAIRealtimeAdapterOptions,
-  OrbVoiceRealtimeSession,
-  OrbVoiceRealtimeSessionRequest
+  OrbuRealtimeSession,
+  OrbuRealtimeSessionRequest
 } from './voice-model.types'
 
 interface ActiveSession {
@@ -17,7 +17,7 @@ interface ActiveSession {
   readonly peer: RTCPeerConnection
   readonly channel: RTCDataChannel
   readonly audio: HTMLAudioElement
-  readonly handlers: OrbVoiceConversationHandlers
+  readonly handlers: OrbuConversationHandlers
   readonly remoteTracks: Set<MediaStreamTrack>
   readonly interruptedResponseIds: Set<string>
   responseId?: string
@@ -28,7 +28,7 @@ interface ActiveSession {
   closed: boolean
   responding: boolean
   playing: boolean
-  state: OrbVoiceConversationState
+  state: OrbuConversationState
 }
 
 /**
@@ -36,15 +36,15 @@ interface ActiveSession {
  * offer on its server, where credentials, tools, context and persona remain.
  * Construction performs no network, playback or microphone work.
  */
-export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
-  readonly #session: OrbVoiceRealtimeSession
+export class OpenAIRealtimeAdapter implements OrbuConversationPort {
+  readonly #session: OrbuRealtimeSession
   readonly #model: string
   readonly #voice: string
   readonly #sessionTimeoutMs: number
   #active: ActiveSession | undefined
 
   constructor(options: OpenAIRealtimeAdapterOptions) {
-    const defaults = orbVoiceConfiguration.realtime.openai
+    const defaults = orbuConfiguration.realtime.openai
     const session = normalizeRealtimeSession(options.session)
     if (!session) {
       throw new TypeError('OpenAI Realtime requires an application session authorizer or endpoint.')
@@ -59,7 +59,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
         : defaults.sessionTimeoutMs
   }
 
-  async start(handlers: OrbVoiceConversationHandlers): Promise<void> {
+  async start(handlers: OrbuConversationHandlers): Promise<void> {
     this.stop()
     if (
       typeof globalThis.RTCPeerConnection !== 'function' ||
@@ -78,7 +78,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
     let channel: RTCDataChannel
     let audio: HTMLAudioElement
     try {
-      channel = peer.createDataChannel(orbVoiceConfiguration.realtime.openai.dataChannelLabel)
+      channel = peer.createDataChannel(orbuConfiguration.realtime.openai.dataChannelLabel)
       audio = new globalThis.Audio()
     } catch {
       peer.close()
@@ -217,7 +217,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
     }
   }
 
-  async #authorize(request: OrbVoiceRealtimeSessionRequest): Promise<string> {
+  async #authorize(request: OrbuRealtimeSessionRequest): Promise<string> {
     if (typeof this.#session === 'function') {
       return this.#session(Object.freeze(request))
     }
@@ -228,7 +228,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
     const response = await fetcher(String(this.#session.endpoint), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/sdp' },
-      credentials: this.#session.credentials ?? orbVoiceConfiguration.realtime.openai.credentials,
+      credentials: this.#session.credentials ?? orbuConfiguration.realtime.openai.credentials,
       body: JSON.stringify({ sdp: request.sdp, model: request.model, voice: request.voice }),
       signal: request.signal
     })
@@ -283,7 +283,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
     if (
       active.closed ||
       typeof data !== 'string' ||
-      data.length > orbVoiceConfiguration.realtime.maxEventBytes
+      data.length > orbuConfiguration.realtime.maxEventBytes
     ) {
       return
     }
@@ -370,7 +370,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
               event.type === 'conversation.item.input_audio_transcription.completed'
                 ? 'user'
                 : 'assistant',
-            text: text.slice(0, orbVoiceConfiguration.realtime.maxTranscriptLength),
+            text: text.slice(0, orbuConfiguration.realtime.maxTranscriptLength),
             final,
             ...(itemId === undefined ? {} : { itemId })
           })
@@ -410,7 +410,7 @@ export class OpenAIRealtimeAdapter implements OrbVoiceConversationPort {
     active.playing = false
   }
 
-  #setState(active: ActiveSession, state: OrbVoiceConversationState): void {
+  #setState(active: ActiveSession, state: OrbuConversationState): void {
     if (active.state !== state) {
       active.state = state
       active.handlers.onStateChange(state)
@@ -492,7 +492,7 @@ function untilAborted<T>(work: Promise<T>, signal: AbortSignal): Promise<T> {
   })
 }
 
-function realtimeError(message: string, name = 'OrbVoiceRealtimeError'): Error {
+function realtimeError(message: string, name = 'OrbuRealtimeError'): Error {
   const error = new Error(message)
   error.name = name
   return error

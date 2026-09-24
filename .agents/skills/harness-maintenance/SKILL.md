@@ -1,6 +1,6 @@
 ---
 name: harness-maintenance
-description: Use when adding or changing Orb Voice context, ADRs, rules, SPECs, skills, workflows, audits, hooks, guardrails, or other engineering-harness artifacts.
+description: Use when adding or changing Orbu context, ADRs, rules, SPECs, skills, workflows, audits, hooks, guardrails, or other engineering-harness artifacts.
 ---
 
 # Harness maintenance procedure
@@ -11,7 +11,7 @@ description: Use when adding or changing Orb Voice context, ADRs, rules, SPECs, 
 4. State prospective versus retrospective mode and use accurate dates.
 5. Add or update deterministic audit evidence when possible.
 6. Ensure every created directory has `readme.md`.
-7. Run `./cli/orb-voice audit` and `./cli/orb-voice check`.
+7. Run `./cli/orbu audit` and `./cli/orbu check`.
 
 Do not add application state, generated transcripts, consumer data, or provider
 credentials to the harness.

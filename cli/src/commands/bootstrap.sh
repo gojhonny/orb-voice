@@ -5,7 +5,7 @@ set -eu
 case "${1:-}" in
   --help|-h)
     [ "$#" -eq 1 ] || orb_die 'Bootstrap help does not accept additional arguments.' 2
-    printf 'Usage: orb-voice bootstrap\n'
+    printf 'Usage: orbu bootstrap\n'
     exit 0
     ;;
   '') [ "$#" -eq 0 ] || orb_die 'Bootstrap does not accept arguments.' 2 ;;
@@ -20,7 +20,7 @@ node_major=$(node -p "process.versions.node.split('.')[0]")
 [ "$node_major" = 24 ] || orb_die "Node.js 24 is required; found $(node --version)."
 
 cd "$ORB_PROJECT_ROOT"
-orb_print_info 'Installing the Orb Voice dependency graph'
+orb_print_info 'Installing the Orbu dependency graph'
 pnpm install --no-frozen-lockfile
 
 if orb_ci_enabled; then
@@ -31,7 +31,7 @@ fi
 orb_print_info 'Configuring repository Git hooks'
 "$ORB_CLI_DIR/commands/git-setup.sh"
 
-orb_print_info 'Configuring the user-scoped orb-voice launcher'
+orb_print_info 'Configuring the user-scoped orbu launcher'
 "$ORB_CLI_DIR/commands/setup.sh" --bootstrap
 
 exec "$ORB_CLI_DIR/commands/doctor.sh"

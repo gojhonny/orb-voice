@@ -1,8 +1,8 @@
-import type { OrbVoiceState } from '@core/appearance/appearance.types'
-import { DEFAULT_ORB_VOICE_STATE } from '@core/config.data'
+import type { OrbuState } from '@core/appearance/appearance.types'
+import { DEFAULT_ORBU_STATE } from '@core/config.data'
 
-import { isOrbVoiceState } from './is-state.guard'
+import { isOrbuState } from './is-state.guard'
 
-export function normalizeOrbVoiceState(value: unknown): OrbVoiceState {
-  return isOrbVoiceState(value) ? value : DEFAULT_ORB_VOICE_STATE
+export function normalizeOrbuState(value: unknown): OrbuState {
+  return isOrbuState(value) ? value : DEFAULT_ORBU_STATE
 }

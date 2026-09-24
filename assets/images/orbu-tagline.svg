@@ -1,8 +1,8 @@
 <svg width="1800" height="90" viewBox="0 0 1800 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Orb Voice tagline</title>
+  <title id="title">Orbu tagline</title>
   <desc id="desc">One native voice-presence component for every web stack.</desc>
   <defs>
-    <linearGradient id="orbVoiceTaglineGradient" x1="0" y1="45" x2="1800" y2="45" gradientUnits="userSpaceOnUse">
+    <linearGradient id="orbuTaglineGradient" x1="0" y1="45" x2="1800" y2="45" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#00e5ff"/>
       <stop offset="35%" stop-color="#2563eb"/>
       <stop offset="65%" stop-color="#7c3aed"/>
@@ -15,7 +15,7 @@
     y="45"
     text-anchor="middle"
     dominant-baseline="middle"
-    fill="url(#orbVoiceTaglineGradient)"
+    fill="url(#orbuTaglineGradient)"
     font-family="Arial, Helvetica, sans-serif"
     font-size="44"
     font-weight="700"

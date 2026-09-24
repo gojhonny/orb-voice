@@ -1,18 +1,18 @@
-import { ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
-import type { OrbVoiceResolvedConfigurationSource } from '@core/config.types'
-import { ORB_VOICE_DEFAULT_MOTION } from '@core/motion/default-motion.data'
-import { ORB_VOICE_DEFAULT_SPEECH } from '@talk/default-speech.data'
+import { ORBU_DEFAULT_APPEARANCE_BY_STATE } from '@core/appearance/appearance.data'
+import type { OrbuResolvedConfigurationSource } from '@core/config.types'
+import { ORBU_DEFAULT_MOTION } from '@core/motion/default-motion.data'
+import { ORBU_DEFAULT_SPEECH } from '@talk/default-speech.data'
 
-import { cloneOrbVoiceConfigurationInput } from './clone-configuration.compute'
+import { cloneOrbuConfigurationInput } from './clone-configuration.compute'
 
 /** Validate a cloned input; diagnostics contain schema paths without supplied values. */
-export function readOrbVoiceConfigurationSource(input: unknown): OrbVoiceResolvedConfigurationSource {
-  const source = cloneOrbVoiceConfigurationInput(input)
+export function readOrbuConfigurationSource(input: unknown): OrbuResolvedConfigurationSource {
+  const source = cloneOrbuConfigurationInput(input)
   const root = record(source, '$', ['component', 'appearance', 'realtime'], ['motion', 'speech'])
   // Only absent legacy groups receive defaults. Explicit null/invalid input
   // still reaches validation, and every returned tree owns its nested data.
-  if (!Object.hasOwn(root, 'motion')) root.motion = cloneOrbVoiceConfigurationInput(ORB_VOICE_DEFAULT_MOTION)
-  if (!Object.hasOwn(root, 'speech')) root.speech = cloneOrbVoiceConfigurationInput(ORB_VOICE_DEFAULT_SPEECH)
+  if (!Object.hasOwn(root, 'motion')) root.motion = cloneOrbuConfigurationInput(ORBU_DEFAULT_MOTION)
+  if (!Object.hasOwn(root, 'speech')) root.speech = cloneOrbuConfigurationInput(ORBU_DEFAULT_SPEECH)
   const component = record(root.component, '$.component', [
     'tagName',
     'states',
@@ -23,7 +23,7 @@ export function readOrbVoiceConfigurationSource(input: unknown): OrbVoiceResolve
     'defaultReducedMotion',
     'observedAttributes'
   ])
-  choice(component.tagName, '$.component.tagName', ['orb-voice'])
+  choice(component.tagName, '$.component.tagName', ['orb-u'])
   const states = tuple(component.states, '$.component.states', [
     'idle',
     'listening',
@@ -66,7 +66,7 @@ export function readOrbVoiceConfigurationSource(input: unknown): OrbVoiceResolve
     ['byState']
   )
   if (!Object.hasOwn(appearance, 'byState')) {
-    appearance.byState = cloneOrbVoiceConfigurationInput(ORB_VOICE_DEFAULT_APPEARANCE_BY_STATE)
+    appearance.byState = cloneOrbuConfigurationInput(ORBU_DEFAULT_APPEARANCE_BY_STATE)
   }
   // The accidental 1.0.1 identifier is accepted only in its exact legacy shape.
   // Normalize our clone before canonical validation; preserve every palette value.
@@ -132,7 +132,7 @@ export function readOrbVoiceConfigurationSource(input: unknown): OrbVoiceResolve
     'reduced'
   ])
   tuple(motion.animatedStyleProperties, '$.motion.animatedStyleProperties', [
-    '--orb-voice-angle',
+    '--orbu-angle',
     'opacity',
     'rotate',
     'scale',
@@ -146,7 +146,7 @@ export function readOrbVoiceConfigurationSource(input: unknown): OrbVoiceResolve
   motionProfiles(motion.reduced, '$.motion.reduced', states, true)
   speechConfiguration(root.speech)
   realtimeConfiguration(root.realtime)
-  return source as OrbVoiceResolvedConfigurationSource
+  return source as OrbuResolvedConfigurationSource
 }
 
 function motionProfiles(
@@ -173,7 +173,7 @@ function motionProfiles(
         motion.animate,
         `${layerPath}.animate`,
         [],
-        ['--orb-voice-angle', 'opacity', 'rotate', 'scale', 'x', 'y']
+        ['--orbu-angle', 'opacity', 'rotate', 'scale', 'x', 'y']
       )
       if (Object.keys(animate).length === 0) {
         invalid(`${layerPath}.animate`, 'expected at least one animated property')
@@ -243,7 +243,7 @@ function animationScalar(value: unknown, path: string, property: string): void {
   } else {
     const scalar = text(value, path)
     const units =
-      property === 'rotate' || property === '--orb-voice-angle'
+      property === 'rotate' || property === '--orbu-angle'
         ? /^[-+]?(?:\d+\.?\d*|\.\d+)(?:deg|rad|grad|turn)$/
         : /^[-+]?(?:\d+\.?\d*|\.\d+)(?:%|px|rem|em|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc)$/
     if (!units.test(scalar)) {
@@ -428,5 +428,5 @@ function credentials(value: unknown, path: string): void {
 }
 
 function invalid(path: string, reason: string): never {
-  throw new TypeError(`Invalid Orb Voice configuration at ${path}: ${reason}.`)
+  throw new TypeError(`Invalid Orbu configuration at ${path}: ${reason}.`)
 }

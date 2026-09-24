@@ -10,8 +10,8 @@ export ORB_PROJECT_ROOT="$PROJECT_ROOT"
 . "$CLI_DIR/core/common.sh"
 
 orb_usage_error() {
-  orb_print_error "Orb Voice: $1"
-  printf "Run 'orb-voice help' for usage.\n" >&2
+  orb_print_error "Orbu: $1"
+  printf "Run 'orbu help' for usage.\n" >&2
   exit 2
 }
 
@@ -52,13 +52,13 @@ case "$orb_command" in
     ;;
   version|--version|-V)
     if [ "$#" -eq 1 ] && { [ "$1" = --help ] || [ "$1" = -h ]; }; then
-      printf 'Usage: orb-voice version | --version | -V\n'
+      printf 'Usage: orbu version | --version | -V\n'
       exit 0
     fi
     [ "$#" -eq 0 ] || orb_usage_error 'Version does not accept arguments.'
     orb_version=$(orb_project_version 2>/dev/null || true)
-    [ -n "$orb_version" ] || orb_die 'Unable to read the Orb Voice version.'
-    printf 'orb-voice %s\n' "$orb_version"
+    [ -n "$orb_version" ] || orb_die 'Unable to read the Orbu version.'
+    printf 'orbu %s\n' "$orb_version"
     ;;
   setup|--setup)
     exec "$CLI_DIR/commands/setup.sh" "$@"
@@ -132,7 +132,7 @@ case "$orb_command" in
         case "${1:-}" in
           ''|help|--help|-h) exec "$CLI_DIR/commands/help.sh" git commit "$@" ;;
           message) ;;
-          *) orb_usage_error 'Usage: orb-voice git commit message <message-file>' ;;
+          *) orb_usage_error 'Usage: orbu git commit message <message-file>' ;;
         esac
         shift
         ORB_HELP_TOPIC='git commit-message'
@@ -144,7 +144,7 @@ case "$orb_command" in
         exec "$CLI_DIR/commands/git-commit-msg.sh" "$@"
         ;;
       version-check) exec "$CLI_DIR/commands/git-version-check.sh" "$@" ;;
-      *) orb_usage_error 'Usage: orb-voice git <setup|doctor|pre-commit|commit-message|lint|commits|version-check>' ;;
+      *) orb_usage_error 'Usage: orbu git <setup|doctor|pre-commit|commit-message|lint|commits|version-check>' ;;
     esac
     ;;
   --*) orb_usage_error "Unknown option: $orb_command" ;;

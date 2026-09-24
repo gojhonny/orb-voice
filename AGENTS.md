@@ -1,6 +1,6 @@
-# Orb Voice engineering instructions
+# Orbu engineering instructions
 
-This repository owns only the `orb-voice` npm package.
+This repository owns only the `orbu` npm package.
 
 ## Required reading order
 
@@ -21,23 +21,23 @@ This repository owns only the `orb-voice` npm package.
 
 ## Repository boundaries
 
-- Keep `<orb-voice>` as the single runtime UI implementation.
+- Keep `<orb-u>` as the single runtime UI implementation.
 - Keep the package framework-agnostic and SSR-safe.
 - Do not add documentation-site code or framework example applications here.
 - Do not add runtime framework wrappers.
 - Keep provider secrets and product conversation copy outside the package.
 - Treat public API additions as compatibility commitments.
-- Run `orb-voice check` before completing a release-oriented change.
+- Run `orbu check` before completing a release-oriented change.
 
 ## Harness, CLI, and Git gates
 
-- A local root `pnpm install` provisions the managed user-scoped Orb Voice launcher; after source setup, use `orb-voice <command>` directly.
-- `./cli/orb-voice setup --launcher` is a recovery path when the launcher was disabled, moved, or needs refreshing.
-- Do not require package-manager executable runners for repository Orb Voice commands.
+- A local root `pnpm install` provisions the managed user-scoped Orbu launcher; after source setup, use `orbu <command>` directly.
+- `./cli/orbu setup --launcher` is a recovery path when the launcher was disabled, moved, or needs refreshing.
+- Do not require package-manager executable runners for repository Orbu commands.
 - `.agents/` contains context, ADRs, rules, specs, prompts, skills, and explicit workflows.
 - `.audits/` contains deterministic repository checks.
-- `orb-voice help` lists the shell-only local engineering commands.
-- Husky hooks are thin adapters; Orb Voice owns pre-commit and commit-message behavior.
+- `orbu help` lists the shell-only local engineering commands.
+- Husky hooks are thin adapters; Orbu owns pre-commit and commit-message behavior.
 - `.cursor/hooks.json` enforces agent shell guardrails and fast post-edit feedback; release/publication boundaries remain human-controlled.
 - `.agents/workflows/` contains explicit reusable task sequences; use them instead of inventing ad hoc release or regression procedures.
 - Commit messages follow Conventional Commits and package versions follow SemVer.
@@ -48,10 +48,10 @@ This repository owns only the `orb-voice` npm package.
 ## Task routing
 
 - Regression: use `.agents/workflows/regression-fix.md` plus the relevant domain skill.
-- Review: use `.agents/workflows/review.md`; the optional Cursor `orb-voice-reviewer` subagent is review-only.
+- Review: use `.agents/workflows/review.md`; the optional Cursor `orbu-reviewer` subagent is review-only.
 - Release: use `.agents/workflows/release.md`; agents must stop for human approval at tag/push/publish boundaries.
 - Harness improvement: use `.agents/workflows/harness-improvement.md` and Rule 012.
 
 ## Engineering harness command
 
-Run `orb-voice harness` explicitly when the repository harness needs scoring or reconciliation. Harness tooling is engineering-only and must never run automatically from install, build, test, or CI lifecycle hooks.
+Run `orbu harness` explicitly when the repository harness needs scoring or reconciliation. Harness tooling is engineering-only and must never run automatically from install, build, test, or CI lifecycle hooks.

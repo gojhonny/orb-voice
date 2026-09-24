@@ -1,4 +1,4 @@
-export type OrbVoiceConversationState =
+export type OrbuConversationState =
   | 'idle'
   | 'connecting'
   | 'listening'
@@ -7,22 +7,22 @@ export type OrbVoiceConversationState =
   | 'error'
 
 /** Text alternatives only; never raw provider events, SDP, or credentials. */
-export interface OrbVoiceTranscript {
+export interface OrbuTranscript {
   readonly role: 'user' | 'assistant'
   readonly text: string
   readonly final: boolean
   readonly itemId?: string
 }
 
-export interface OrbVoiceConversationHandlers {
-  onStateChange(state: OrbVoiceConversationState): void
-  onTranscript(transcript: OrbVoiceTranscript): void
+export interface OrbuConversationHandlers {
+  onStateChange(state: OrbuConversationState): void
+  onTranscript(transcript: OrbuTranscript): void
   onError(error: Error): void
 }
 
 /** A live audio session, separate from the speak(text) output-only port. */
-export interface OrbVoiceConversationPort {
-  start(handlers: OrbVoiceConversationHandlers): Promise<void>
+export interface OrbuConversationPort {
+  start(handlers: OrbuConversationHandlers): Promise<void>
   stop(): void
   interrupt(): void
 }

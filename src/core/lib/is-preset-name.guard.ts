@@ -1,9 +1,9 @@
-import type { OrbVoicePresetName } from '@core/appearance/appearance.types'
-import { ORB_VOICE_PRESET_NAMES } from '@core/config.data'
+import type { OrbuPresetName } from '@core/appearance/appearance.types'
+import { ORBU_PRESET_NAMES } from '@core/config.data'
 
-export function isOrbVoicePresetName(value: unknown): value is OrbVoicePresetName {
+export function isOrbuPresetName(value: unknown): value is OrbuPresetName {
   return (
     typeof value === 'string' &&
-    (value === 'gojhonny' || (ORB_VOICE_PRESET_NAMES as readonly string[]).includes(value))
+    (value === 'gojhonny' || (ORBU_PRESET_NAMES as readonly string[]).includes(value))
   )
 }

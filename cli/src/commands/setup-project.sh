@@ -38,11 +38,11 @@ while [ "$#" -gt 0 ]; do
       [ "$#" -eq 1 ] || orb_die 'Project setup help does not accept additional arguments.' 2
       cat <<'HELP'
 Usage:
-  npx orb-voice --setup
-  orb-voice setup [--project <directory>] [--package-manager <manager>]
+  npx orbu --setup
+  orbu setup [--project <directory>] [--package-manager <manager>]
             [--package-spec <specifier>] [--force] [--dry-run]
 
-Project setup installs orb-voice into an existing JavaScript project.
+Project setup installs orbu into an existing JavaScript project.
 The package manager is selected from package.json#packageManager, lockfiles, or
 npm as a fallback. No application source file is generated or overwritten.
 HELP
@@ -59,7 +59,7 @@ done
 [ -d "$orb_target_dir" ] || orb_die "Project directory does not exist: $orb_target_dir" 2
 orb_target_dir=$(CDPATH= cd -P "$orb_target_dir" && pwd)
 [ -f "$orb_target_dir/package.json" ] ||
-  orb_die "No package.json found in $orb_target_dir. Initialize the project before running Orb Voice setup." 2
+  orb_die "No package.json found in $orb_target_dir. Initialize the project before running Orbu setup." 2
 
 orb_need node
 
@@ -75,18 +75,18 @@ try {
 NODE
 ) || orb_die "Invalid package.json in $orb_target_dir." 2
 
-[ "$orb_target_name" != 'orb-voice' ] ||
-  orb_die 'Project setup cannot install Orb Voice into the Orb Voice package itself.' 2
+[ "$orb_target_name" != 'orbu' ] ||
+  orb_die 'Project setup cannot install Orbu into the Orbu package itself.' 2
 
 if [ -z "$orb_package_spec" ]; then
   orb_package_version=$(orb_project_version 2>/dev/null || true)
-  [ -n "$orb_package_version" ] || orb_die 'Unable to resolve the executing Orb Voice version.'
-  orb_package_spec="orb-voice@$orb_package_version"
+  [ -n "$orb_package_version" ] || orb_die 'Unable to resolve the executing Orbu version.'
+  orb_package_spec="orbu@$orb_package_version"
 fi
 
 case "$orb_package_spec" in
-  orb-voice|orb-voice@*) ;;
-  *) orb_die "Package specifier must target 'orb-voice': $orb_package_spec" 2 ;;
+  orbu|orbu@*) ;;
+  *) orb_die "Package specifier must target 'orbu': $orb_package_spec" 2 ;;
 esac
 
 if [ -z "$orb_package_manager" ]; then
@@ -133,13 +133,13 @@ orb_existing_dependency=$(node - "$orb_target_dir/package.json" <<'NODE'
 const fs = require('node:fs')
 const file = process.argv[2]
 const manifest = JSON.parse(fs.readFileSync(file, 'utf8'))
-const value = manifest.dependencies?.['orb-voice']
+const value = manifest.dependencies?.['orbu']
 if (typeof value === 'string') process.stdout.write(value)
 NODE
 ) || orb_die "Invalid package.json in $orb_target_dir." 2
 
 if [ -n "$orb_existing_dependency" ] && [ "$orb_force" = false ]; then
-  orb_print_success "orb-voice is already a project dependency ($orb_existing_dependency)"
+  orb_print_success "orbu is already a project dependency ($orb_existing_dependency)"
 else
   if [ "$orb_dry_run" = false ]; then
     orb_need "$orb_package_manager"
@@ -169,21 +169,21 @@ orb_recorded_dependency=$(node - "$orb_target_dir/package.json" <<'NODE'
 const fs = require('node:fs')
 const file = process.argv[2]
 const manifest = JSON.parse(fs.readFileSync(file, 'utf8'))
-const value = manifest.dependencies?.['orb-voice']
+const value = manifest.dependencies?.['orbu']
 if (typeof value === 'string') process.stdout.write(value)
 NODE
 ) || orb_die "Invalid package.json after $orb_package_manager setup." 2
 [ -n "$orb_recorded_dependency" ] ||
-  orb_die "$orb_package_manager completed without adding orb-voice to dependencies."
+  orb_die "$orb_package_manager completed without adding orbu to dependencies."
 
-orb_print_success "Orb Voice project setup completed ($orb_recorded_dependency)"
+orb_print_success "Orbu project setup completed ($orb_recorded_dependency)"
 cat <<'NEXT'
 
 Next step:
 
-  import 'orb-voice/browser'
+  import 'orbu/browser'
 
-  <orb-voice preset="neongate" state="idle"></orb-voice>
+  <orb-u preset="neongate" state="idle"></orb-u>
 
 Speech remains opt-in. Assign speech and a voiceEngine, then call startTalking().
 NEXT

@@ -1,14 +1,14 @@
-import { orbVoiceConfiguration } from '@core/config.data'
-import type { OrbVoiceTalkContext } from '@talk/talk.types'
+import { orbuConfiguration } from '@core/config.data'
+import type { OrbuTalkContext } from '@talk/talk.types'
 
 const talkTokenPattern = new RegExp(
-  orbVoiceConfiguration.speech.tokenPattern.source,
-  orbVoiceConfiguration.speech.tokenPattern.flags
+  orbuConfiguration.speech.tokenPattern.source,
+  orbuConfiguration.speech.tokenPattern.flags
 )
 
 export function resolveTalkText(
   text: string,
-  context: Readonly<OrbVoiceTalkContext>
+  context: Readonly<OrbuTalkContext>
 ): string {
   return text.replace(talkTokenPattern, (_token, key: string) => {
     return context[key] ?? ''
