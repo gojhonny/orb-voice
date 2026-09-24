@@ -1,35 +1,35 @@
-import styles from 'virtual:orb-voice-styles'
+import styles from 'virtual:orbo-styles'
 
 import {
-  DEFAULT_ORB_VOICE_COLORS,
-  DEFAULT_ORB_VOICE_SIZE,
-  DEFAULT_ORB_VOICE_STATE,
-  ORB_VOICE_COLOR_KEYS
+  DEFAULT_ORBO_COLORS,
+  DEFAULT_ORBO_SIZE,
+  DEFAULT_ORBO_STATE,
+  ORBO_COLOR_KEYS
 } from '@core/config.data'
-import { ORB_VOICE_APPEARANCE_BY_STATE } from '@core/motion/motion.data'
-import type { OrbVoiceAnimationLayers, OrbVoiceShadowTree } from '@element/element.types'
+import { ORBO_APPEARANCE_BY_STATE } from '@core/motion/motion.data'
+import type { OrboAnimationLayers, OrboShadowTree } from '@element/element.types'
 
-export function orbVoiceShadowTreeFactory(shadowRoot: ShadowRoot, document: Document): OrbVoiceShadowTree {
+export function orboShadowTreeFactory(shadowRoot: ShadowRoot, document: Document): OrboShadowTree {
   const style = document.createElement('style')
   style.textContent = styles
 
-  const root = createLayer(document, 'div', 'orb-voice-root', 'root')
+  const root = createLayer(document, 'div', 'orbo-root', 'root')
   root.setAttribute('aria-hidden', 'true')
   seedDefaultStyles(root)
 
-  const aura = createLayer(document, 'span', 'orb-voice-aura', 'aura')
-  const ring = createLayer(document, 'span', 'orb-voice-ring', 'ring')
-  const sphere = createLayer(document, 'span', 'orb-voice-sphere')
-  const field = createLayer(document, 'span', 'orb-voice-field', 'field')
-  const texture = createLayer(document, 'span', 'orb-voice-texture')
-  const core = createLayer(document, 'span', 'orb-voice-core', 'core')
-  const highlight = createLayer(document, 'span', 'orb-voice-highlight', 'highlight')
+  const aura = createLayer(document, 'span', 'orbo-aura', 'aura')
+  const ring = createLayer(document, 'span', 'orbo-ring', 'ring')
+  const sphere = createLayer(document, 'span', 'orbo-sphere')
+  const field = createLayer(document, 'span', 'orbo-field', 'field')
+  const texture = createLayer(document, 'span', 'orbo-texture')
+  const core = createLayer(document, 'span', 'orbo-core', 'core')
+  const highlight = createLayer(document, 'span', 'orbo-highlight', 'highlight')
 
   sphere.append(field, texture, core, highlight)
   root.append(aura, ring, sphere)
   shadowRoot.append(style, root)
 
-  const layers: OrbVoiceAnimationLayers = {
+  const layers: OrboAnimationLayers = {
     aura,
     core,
     field,
@@ -42,14 +42,14 @@ export function orbVoiceShadowTreeFactory(shadowRoot: ShadowRoot, document: Docu
 }
 
 function seedDefaultStyles(root: HTMLElement): void {
-  for (const key of ORB_VOICE_COLOR_KEYS) {
-    root.style.setProperty(`--orb-voice-${key}`, DEFAULT_ORB_VOICE_COLORS[key])
+  for (const key of ORBO_COLOR_KEYS) {
+    root.style.setProperty(`--orbo-${key}`, DEFAULT_ORBO_COLORS[key])
   }
 
-  const appearance = ORB_VOICE_APPEARANCE_BY_STATE[DEFAULT_ORB_VOICE_STATE]
-  root.style.setProperty('--orb-voice-contrast', String(appearance.contrast))
-  root.style.setProperty('--orb-voice-saturation', String(appearance.saturation))
-  root.style.setProperty('--orb-voice-size', DEFAULT_ORB_VOICE_SIZE)
+  const appearance = ORBO_APPEARANCE_BY_STATE[DEFAULT_ORBO_STATE]
+  root.style.setProperty('--orbo-contrast', String(appearance.contrast))
+  root.style.setProperty('--orbo-saturation', String(appearance.saturation))
+  root.style.setProperty('--orbo-size', DEFAULT_ORBO_SIZE)
 }
 
 function createLayer<K extends keyof HTMLElementTagNameMap>(

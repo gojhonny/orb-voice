@@ -12,11 +12,11 @@ globs:
 - Priority: Critical
 - Applies: `src/talk/**`, talk service, element speech API
 
-1. Orb Voice is silent until explicit activation: `startTalking()` uses consumer speech/custom flow; `startConversation()` activates a selected Realtime provider under consumer-owned session configuration (ADR-0014).
+1. Orbo is silent until explicit activation: `startTalking()` uses consumer speech/custom flow; `startConversation()` activates a selected Realtime provider under consumer-owned session configuration (ADR-0014).
 2. Assigning `speech`, `voiceEngine`, `talkFlow`, `voiceModel`, or `realtimeSession`, and loading JSON defaults must never autoplay or access the microphone.
 3. Blank `speech` is normalized to absence and produces no utterance.
 4. `WebSpeechAdapter` defaults to `pt-BR`; consumers may override its language.
-5. Orb Voice never invents fallback copy or persona. Realtime output may be generated only through an explicitly started provider session; the application owns its instructions, tools, context and translation policy.
+5. Orbo never invents fallback copy or persona. Realtime output may be generated only through an explicitly started provider session; the application owns its instructions, tools, context and translation policy.
 6. The package default talk flow is empty and contains no mocked phrases.
 7. Stop or supersede stale speech runs deterministically.
 8. Dispatch public speaking and error events without exposing provider secrets.

@@ -1,9 +1,9 @@
 ---
 name: web-components
-description: Use when adding or modifying the native orb-voice element, attributes, properties, events, lifecycle, Shadow DOM, SSR behavior, registration, styling, or animation behavior.
+description: Use when adding or modifying the native orbo element, attributes, properties, events, lifecycle, Shadow DOM, SSR behavior, registration, styling, or animation behavior.
 ---
 
-# Orb Voice Web Component procedure
+# Orbo Web Component procedure
 
 1. Specify the native public contract: attribute, property, method, event, and reflection behavior.
 2. Normalize invalid values at the element boundary through pure core functions.

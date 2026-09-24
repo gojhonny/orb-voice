@@ -1,8 +1,8 @@
 # Product context
 
-Orb Voice is the `orb-voice` package: a framework-agnostic, SSR-safe visual
+Orbo is the `orbo-voice` package: a framework-agnostic, SSR-safe visual
 presence for AI voice experiences. It exposes one native custom element,
-`<orb-voice>`, plus typed ports and optional speech adapters.
+`<orb-o>`, plus typed ports and optional speech adapters.
 
 ## Product boundary
 
@@ -12,7 +12,7 @@ conversation copy, authentication, provider credentials, and intelligence.
 
 ## Public experience
 
-The orb-voice represents states through motion and appearance. Consumers can select a
+Orbo represents states through motion and appearance. Consumers can select a
 preset or an explicit five-color palette, set size and speed, respect reduced
 motion preferences, and connect speech through an adapter.
 

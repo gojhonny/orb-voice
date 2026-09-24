@@ -1,6 +1,6 @@
 # SPEC-033: Restore Orb Voice package identity
 
-- Status: Implemented for source; no publication in this change
+- Status: Superseded by SPEC-034
 - Created: 2026-09-24
 - Updated: 2026-09-24
 - Mode: Prospective

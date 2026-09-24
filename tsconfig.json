@@ -23,7 +23,7 @@
       "@factories/*": [
         "./src/factories/*"
       ],
-      "@orb-voice": [
+      "@orbo": [
         "./src/index.ts"
       ],
       "@ports/*": [
@@ -36,7 +36,7 @@
         "./src/talk/*"
       ],
       "@configuration": [
-        "./src/orb-voice.config.json"
+        "./src/orbo.config.json"
       ]
     },
     "rootDir": "src",

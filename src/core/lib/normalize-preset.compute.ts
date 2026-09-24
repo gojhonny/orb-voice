@@ -1,9 +1,9 @@
-import type { OrbVoicePresetName } from '@core/appearance/appearance.types'
-import { DEFAULT_ORB_VOICE_PRESET } from '@core/config.data'
+import type { OrboPresetName } from '@core/appearance/appearance.types'
+import { DEFAULT_ORBO_PRESET } from '@core/config.data'
 
-import { isOrbVoicePresetName } from './is-preset-name.guard'
+import { isOrboPresetName } from './is-preset-name.guard'
 
-export function normalizeOrbVoicePreset(value: unknown): OrbVoicePresetName {
+export function normalizeOrboPreset(value: unknown): OrboPresetName {
   if (value === 'gojhonny') return 'neongate'
-  return isOrbVoicePresetName(value) ? value : DEFAULT_ORB_VOICE_PRESET
+  return isOrboPresetName(value) ? value : DEFAULT_ORBO_PRESET
 }

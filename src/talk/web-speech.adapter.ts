@@ -1,5 +1,5 @@
-import { orbVoiceConfiguration } from '@core/config.data'
-import type { OrbVoiceVoiceEnginePort } from '@ports/voice-engine.port'
+import { orboConfiguration } from '@core/config.data'
+import type { OrboVoiceEnginePort } from '@ports/voice-engine.port'
 
 import type { WebSpeechAdapterOptions } from './talk.types'
 
@@ -7,7 +7,7 @@ interface ActiveSpeech {
   cancel(): void
 }
 
-export class WebSpeechAdapter implements OrbVoiceVoiceEnginePort {
+export class WebSpeechAdapter implements OrboVoiceEnginePort {
   #activeSpeech: ActiveSpeech | undefined
   readonly #language: string
   readonly #pitch: number
@@ -19,7 +19,7 @@ export class WebSpeechAdapter implements OrbVoiceVoiceEnginePort {
   readonly #volume: number
 
   constructor(options: WebSpeechAdapterOptions = {}) {
-    const defaults = orbVoiceConfiguration.speech.webSpeech
+    const defaults = orboConfiguration.speech.webSpeech
     this.#language = normalizeLanguage(options.language)
     this.#pitch = clamp(options.pitch ?? defaults.pitch, 0, 2)
     this.#preferredVoices = Object.freeze([
@@ -87,7 +87,7 @@ export class WebSpeechAdapter implements OrbVoiceVoiceEnginePort {
 
         finish(createSpeechStartError())
         synthesis.cancel()
-      }, orbVoiceConfiguration.speech.webSpeech.speechStartTimeoutMs)
+      }, orboConfiguration.speech.webSpeech.speechStartTimeoutMs)
 
       const finish = (error?: Error): void => {
         if (settled) {
@@ -256,7 +256,7 @@ function normalizeLanguage(value: string | undefined): string {
   const normalized = value?.trim()
   return normalized && normalized.length > 0
     ? normalized
-    : orbVoiceConfiguration.speech.webSpeech.language
+    : orboConfiguration.speech.webSpeech.language
 }
 
 function clamp(value: number, minimum: number, maximum: number): number {

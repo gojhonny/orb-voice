@@ -8,7 +8,7 @@ while [ "$#" -gt 0 ]; do
     --ci) ci=true ;;
     --help|-h)
       [ "$#" -eq 1 ] || orb_die 'Doctor help does not accept additional arguments.' 2
-      printf 'Usage: orb-voice doctor [--ci]\n'
+      printf 'Usage: orbo doctor [--ci]\n'
       exit 0
       ;;
     *) orb_die "Unknown doctor option: $1" 2 ;;
@@ -33,7 +33,7 @@ fail() {
 }
 
 orb_print_logo
-printf 'Orb Voice engineering doctor\n'
+printf 'Orbo engineering doctor\n'
 
 if orb_has node; then
   node_version=$(node --version 2>/dev/null || true)
@@ -53,7 +53,7 @@ fi
 
 if orb_has git; then pass git "$(git --version 2>/dev/null || true)"; else fail git 'not available' 'Install Git.'; fi
 
-for required_file in package.json pnpm-lock.yaml biome.json tsconfig.json tsconfig.test.json vitest.config.ts commitlint.config.cjs .lintstagedrc.json cli/orb-voice; do
+for required_file in package.json pnpm-lock.yaml biome.json tsconfig.json tsconfig.test.json vitest.config.ts commitlint.config.cjs .lintstagedrc.json cli/orbo; do
   if [ -f "$ORB_PROJECT_ROOT/$required_file" ]; then pass "$required_file"; else fail "$required_file" missing 'Restore the repository configuration.'; fi
 done
 
@@ -86,20 +86,20 @@ done
 [ "$audit_count" -gt 0 ] || fail audits missing 'Restore .audits/*.audit.sh.'
 
 if [ "$ci" = true ]; then
-  if "$ORB_CLI_DIR/commands/git-doctor.sh" --ci >/dev/null 2>&1; then pass git-tooling 'CI configuration'; else fail git-tooling 'invalid CI configuration' 'Run orb-voice git doctor --ci.'; fi
+  if "$ORB_CLI_DIR/commands/git-doctor.sh" --ci >/dev/null 2>&1; then pass git-tooling 'CI configuration'; else fail git-tooling 'invalid CI configuration' 'Run orbo git doctor --ci.'; fi
 else
-  if "$ORB_CLI_DIR/commands/git-doctor.sh" >/dev/null 2>&1; then pass git-tooling configured; else fail git-tooling 'not configured' 'Run orb-voice git setup, then orb-voice git doctor.'; fi
+  if "$ORB_CLI_DIR/commands/git-doctor.sh" >/dev/null 2>&1; then pass git-tooling configured; else fail git-tooling 'not configured' 'Run orbo git setup, then orbo git doctor.'; fi
 
   direct_bin=$(orb_default_bin_dir 2>/dev/null || true)
-  if [ -n "$direct_bin" ] && [ -x "$direct_bin/orb-voice" ] && [ "$(sed -n '2p' "$direct_bin/orb-voice" 2>/dev/null || true)" = '# managed-by: orb-voice' ]; then
-    pass direct-orb-voice "$direct_bin/orb-voice"
+  if [ -n "$direct_bin" ] && [ -x "$direct_bin/orbo" ] && [ "$(sed -n '2p' "$direct_bin/orbo" 2>/dev/null || true)" = '# managed-by: orbo' ]; then
+    pass direct-orbo "$direct_bin/orbo"
   else
-    warn direct-orb-voice 'not configured; run pnpm install or ./cli/orb-voice setup --launcher'
+    warn direct-orbo 'not configured; run pnpm install or ./cli/orbo setup --launcher'
   fi
 fi
 
 if [ "$failures" -gt 0 ]; then
-  orb_print_error "Orb Voice doctor FAIL — $failures required check(s) failed"
+  orb_print_error "Orbo doctor FAIL — $failures required check(s) failed"
   exit 1
 fi
-orb_print_success 'Orb Voice doctor PASS'
+orb_print_success 'Orbo doctor PASS'

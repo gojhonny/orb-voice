@@ -1,44 +1,44 @@
 import type {
-  OrbVoicePresetName,
-  OrbVoiceReducedMotion,
-  OrbVoiceSize,
-  OrbVoiceState
+  OrboPresetName,
+  OrboReducedMotion,
+  OrboSize,
+  OrboState
 } from '@core/appearance/appearance.types'
-import type { OrbVoiceElement } from '@element/element.types'
-import type { OrbVoiceRealtimeSession, OrbVoiceVoiceModel } from '@talk/voice-model.types'
+import type { OrboElement } from '@element/element.types'
+import type { OrboRealtimeSession, OrboVoiceModel } from '@talk/voice-model.types'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
-export interface OrbVoiceReactAttributes {
-  voiceModel?: OrbVoiceVoiceModel
-  realtimeSession?: OrbVoiceRealtimeSession
+export interface OrboReactAttributes {
+  voiceModel?: OrboVoiceModel
+  realtimeSession?: OrboRealtimeSession
   'color-accent'?: string
   'color-background'?: string
   'color-highlight'?: string
   'color-primary'?: string
   'color-secondary'?: string
-  /** Use Orb Voice presets/properties and an outer element for layout styling. */
+  /** Use Orbo presets/properties and an outer element for layout styling. */
   className?: never
   elevated?: boolean | string
   paused?: boolean | string
-  preset?: OrbVoicePresetName
-  'reduced-motion'?: OrbVoiceReducedMotion
-  size?: OrbVoiceSize
+  preset?: OrboPresetName
+  'reduced-motion'?: OrboReducedMotion
+  size?: OrboSize
   speech?: string
   speed?: number | string
-  state?: OrbVoiceState
+  state?: OrboState
 }
 
-type OrbVoiceReactHostProps = Omit<
-  DetailedHTMLProps<HTMLAttributes<OrbVoiceElement>, OrbVoiceElement>,
+type OrboReactHostProps = Omit<
+  DetailedHTMLProps<HTMLAttributes<OrboElement>, OrboElement>,
   'className'
 >
 
-export type OrbVoiceReactIntrinsicProps = OrbVoiceReactHostProps & OrbVoiceReactAttributes
+export type OrboReactIntrinsicProps = OrboReactHostProps & OrboReactAttributes
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'orb-voice': OrbVoiceReactIntrinsicProps
+      'orb-o': OrboReactIntrinsicProps
     }
   }
 }

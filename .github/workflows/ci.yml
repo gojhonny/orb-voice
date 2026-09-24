@@ -36,33 +36,33 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Inspect engineering environment
-        run: ./cli/orb-voice doctor --ci
+        run: ./cli/orbo doctor --ci
 
       - name: Lint pull request commits
         if: github.event_name == 'pull_request'
-        run: ./cli/orb-voice git lint --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}"
+        run: ./cli/orbo git lint --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}"
 
       - name: Lint pushed commit
         if: github.event_name == 'push'
-        run: ./cli/orb-voice git lint --last
+        run: ./cli/orbo git lint --last
 
       - name: Lint
-        run: ./cli/orb-voice lint
+        run: ./cli/orbo lint
 
       - name: Typecheck
-        run: ./cli/orb-voice typecheck
+        run: ./cli/orbo typecheck
 
       - name: Test
-        run: ./cli/orb-voice test
+        run: ./cli/orbo test
 
       - name: Build
-        run: ./cli/orb-voice build
+        run: ./cli/orbo build
 
       - name: Validate package version
-        run: ./cli/orb-voice git version-check
+        run: ./cli/orbo git version-check
 
       - name: Run repository audits
-        run: ./cli/orb-voice audit
+        run: ./cli/orbo audit
 
       - name: Verify npm payload and prepack gate
         run: npm pack --dry-run

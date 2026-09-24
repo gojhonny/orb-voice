@@ -35,5 +35,5 @@ fi
 case "$orb_setup_mode" in
   launcher) exec "$ORB_CLI_DIR/commands/setup-launcher.sh" "$@" ;;
   project) exec "$ORB_CLI_DIR/commands/setup-project.sh" "$@" ;;
-  *) orb_die 'Unable to select an Orb Voice setup mode.' ;;
+  *) orb_die 'Unable to select an Orbo setup mode.' ;;
 esac

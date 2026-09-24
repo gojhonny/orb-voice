@@ -1,50 +1,50 @@
 import type {
-  OrbVoiceColorOverrides,
-  OrbVoiceColors,
-  OrbVoicePresetName,
-  OrbVoiceReducedMotion,
-  OrbVoiceSize,
-  OrbVoiceState
+  OrboColorOverrides,
+  OrboColors,
+  OrboPresetName,
+  OrboReducedMotion,
+  OrboSize,
+  OrboState
 } from '@core/appearance/appearance.types'
-import { mergeOrbVoiceColors } from '@core/appearance/merge-colors.compute'
+import { mergeOrboColors } from '@core/appearance/merge-colors.compute'
 import {
-  DEFAULT_ORB_VOICE_REDUCED_MOTION,
-  ORB_VOICE_COLOR_ATTRIBUTES,
-  ORB_VOICE_COLOR_KEYS,
-  ORB_VOICE_PRESETS
+  DEFAULT_ORBO_REDUCED_MOTION,
+  ORBO_COLOR_ATTRIBUTES,
+  ORBO_COLOR_KEYS,
+  ORBO_PRESETS
 } from '@core/config.data'
-import { normalizeOrbVoicePreset } from '@core/lib/normalize-preset.compute'
-import { normalizeOrbVoiceReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
-import { normalizeOrbVoiceSize } from '@core/lib/normalize-size.compute'
-import { normalizeOrbVoiceSpeed } from '@core/lib/normalize-speed.compute'
-import { normalizeOrbVoiceState } from '@core/lib/normalize-state.compute'
-import { ORB_VOICE_OBSERVED_ATTRIBUTES } from '@element/element.data'
-import type { OrbVoiceElement, OrbVoiceElementConstructor } from '@element/element.types'
-import { orbVoiceShadowTreeFactory } from '@factories/shadow-tree.factory'
-import type { OrbVoiceConversationState } from '@ports/conversation.port'
-import type { OrbVoiceIntelligencePort } from '@ports/intelligence.port'
-import type { OrbVoiceVoiceEnginePort } from '@ports/voice-engine.port'
-import { OrbVoiceAnimationService } from '@services/animation.service'
-import { OrbVoiceConversationRunnerService } from '@services/conversation-runner.service'
-import { OrbVoiceTalkRunnerService } from '@services/talk-runner.service'
+import { normalizeOrboPreset } from '@core/lib/normalize-preset.compute'
+import { normalizeOrboReducedMotion } from '@core/lib/normalize-reduced-motion.compute'
+import { normalizeOrboSize } from '@core/lib/normalize-size.compute'
+import { normalizeOrboSpeed } from '@core/lib/normalize-speed.compute'
+import { normalizeOrboState } from '@core/lib/normalize-state.compute'
+import { ORBO_OBSERVED_ATTRIBUTES } from '@element/element.data'
+import type { OrboElement, OrboElementConstructor } from '@element/element.types'
+import { orboShadowTreeFactory } from '@factories/shadow-tree.factory'
+import type { OrboConversationState } from '@ports/conversation.port'
+import type { OrboIntelligencePort } from '@ports/intelligence.port'
+import type { OrboVoiceEnginePort } from '@ports/voice-engine.port'
+import { OrboAnimationService } from '@services/animation.service'
+import { OrboConversationRunnerService } from '@services/conversation-runner.service'
+import { OrboTalkRunnerService } from '@services/talk-runner.service'
 import {
-  createDefaultOrbVoiceVoiceModel,
-  createOrbVoiceConversation,
-  createOrbVoiceVoiceEngine
+  createDefaultOrboVoiceModel,
+  createOrboConversation,
+  createOrboVoiceEngine
 } from '@services/voice-model.service'
 import { normalizeRealtimeSession } from '@talk/normalize-realtime-session.compute'
 import { normalizeVoiceModel } from '@talk/normalize-voice-model.compute'
 import { DEFAULT_TALK_FLOW } from '@talk/talk.data'
-import type { OrbVoiceTalkContext, OrbVoiceTalkStep } from '@talk/talk.types'
-import type { OrbVoiceRealtimeSession, OrbVoiceVoiceModel } from '@talk/voice-model.types'
+import type { OrboTalkContext, OrboTalkStep } from '@talk/talk.types'
+import type { OrboRealtimeSession, OrboVoiceModel } from '@talk/voice-model.types'
 
-const ELEMENT_CONSTRUCTORS = new WeakMap<object, OrbVoiceElementConstructor>()
+const ELEMENT_CONSTRUCTORS = new WeakMap<object, OrboElementConstructor>()
 
 /**
- * Creates the Orb Voice custom-element class only when a DOM implementation exists.
+ * Creates the Orbo custom-element class only when a DOM implementation exists.
  * Importing this module on a server never evaluates an HTMLElement subclass.
  */
-export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | undefined {
+export function orboElementClassFactory(): OrboElementConstructor | undefined {
   if (typeof globalThis.HTMLElement === 'undefined') {
     return undefined
   }
@@ -55,25 +55,25 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
     return existingConstructor
   }
 
-  class OrbVoiceHTMLElement extends HTMLElementBase implements OrbVoiceElement {
-    static readonly observedAttributes = ORB_VOICE_OBSERVED_ATTRIBUTES
+  class OrboHTMLElement extends HTMLElementBase implements OrboElement {
+    static readonly observedAttributes = ORBO_OBSERVED_ATTRIBUTES
 
-    readonly #animationService: OrbVoiceAnimationService
-    readonly #conversationRunner: OrbVoiceConversationRunnerService
-    readonly #talkRunner: OrbVoiceTalkRunnerService
+    readonly #animationService: OrboAnimationService
+    readonly #conversationRunner: OrboConversationRunnerService
+    readonly #talkRunner: OrboTalkRunnerService
     readonly #visualRoot: HTMLElement
     #activationAbortController: AbortController | undefined
     #colorConflictCheckQueued = false
     #connected = false
-    #customVoiceEngine: OrbVoiceVoiceEnginePort | undefined
+    #customVoiceEngine: OrboVoiceEnginePort | undefined
     #hasColorConflict = false
     #motionQuery: MediaQueryList | undefined
     #speaking = false
-    #stateBeforeConversation: OrbVoiceState | undefined
-    #stateBeforeSpeech: OrbVoiceState | undefined
-    #talkFlow: readonly OrbVoiceTalkStep[] = DEFAULT_TALK_FLOW
-    #voiceModel: Readonly<OrbVoiceVoiceModel> | undefined = createDefaultOrbVoiceVoiceModel()
-    #realtimeSession: OrbVoiceRealtimeSession | undefined
+    #stateBeforeConversation: OrboState | undefined
+    #stateBeforeSpeech: OrboState | undefined
+    #talkFlow: readonly OrboTalkStep[] = DEFAULT_TALK_FLOW
+    #voiceModel: Readonly<OrboVoiceModel> | undefined = createDefaultOrboVoiceModel()
+    #realtimeSession: OrboRealtimeSession | undefined
 
     readonly #handleMotionPreferenceChange = (): void => {
       if (this.reducedMotion === 'system') {
@@ -85,101 +85,101 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       super()
 
       const shadowRoot = this.attachShadow({ mode: 'closed' })
-      const shadowTree = orbVoiceShadowTreeFactory(shadowRoot, this.ownerDocument)
+      const shadowTree = orboShadowTreeFactory(shadowRoot, this.ownerDocument)
 
       this.#visualRoot = shadowTree.root
-      this.#animationService = new OrbVoiceAnimationService(this.#visualRoot, shadowTree.layers)
-      this.#talkRunner = new OrbVoiceTalkRunnerService(
+      this.#animationService = new OrboAnimationService(this.#visualRoot, shadowTree.layers)
+      this.#talkRunner = new OrboTalkRunnerService(
         this.#handleSpeakingChange.bind(this),
         this.#handleTalkError.bind(this)
       )
-      this.#conversationRunner = new OrbVoiceConversationRunnerService({
+      this.#conversationRunner = new OrboConversationRunnerService({
         onStateChange: this.#handleConversationState.bind(this),
         onTranscript: (transcript) => {
-          this.dispatchEvent(new CustomEvent('orb-voice-transcript', { detail: transcript }))
+          this.dispatchEvent(new CustomEvent('orbo-transcript', { detail: transcript }))
         },
         onError: (error) => {
           this.dispatchEvent(
-            new CustomEvent('orb-voice-talk-error', {
+            new CustomEvent('orbo-talk-error', {
               detail: Object.freeze({ error })
             })
           )
         }
       })
-      this.#talkRunner.voiceEngine = createOrbVoiceVoiceEngine(this.#voiceModel)
+      this.#talkRunner.voiceEngine = createOrboVoiceEngine(this.#voiceModel)
     }
 
-    get intelligence(): OrbVoiceIntelligencePort | undefined {
+    get intelligence(): OrboIntelligencePort | undefined {
       return this.#talkRunner.intelligence
     }
 
-    set intelligence(value: OrbVoiceIntelligencePort | undefined) {
+    set intelligence(value: OrboIntelligencePort | undefined) {
       if (value !== undefined && typeof value.respond !== 'function') {
-        throw new TypeError('Orb Voice intelligence must implement respond().')
+        throw new TypeError('Orbo intelligence must implement respond().')
       }
 
       this.#talkRunner.intelligence = value
     }
 
-    get talkContext(): Readonly<OrbVoiceTalkContext> {
+    get talkContext(): Readonly<OrboTalkContext> {
       return this.#talkRunner.context
     }
 
-    get talkFlow(): readonly OrbVoiceTalkStep[] {
+    get talkFlow(): readonly OrboTalkStep[] {
       return Object.freeze([...this.#talkFlow])
     }
 
-    set talkFlow(value: readonly OrbVoiceTalkStep[] | undefined) {
+    set talkFlow(value: readonly OrboTalkStep[] | undefined) {
       const flow = value ?? DEFAULT_TALK_FLOW
       if (!Array.isArray(flow)) {
-        throw new TypeError('Orb Voice talkFlow must be an array of talk steps.')
+        throw new TypeError('Orbo talkFlow must be an array of talk steps.')
       }
 
       this.#talkFlow = [...flow]
     }
 
-    get voiceEngine(): OrbVoiceVoiceEnginePort | undefined {
+    get voiceEngine(): OrboVoiceEnginePort | undefined {
       return this.#talkRunner.voiceEngine
     }
 
-    set voiceEngine(value: OrbVoiceVoiceEnginePort | undefined) {
+    set voiceEngine(value: OrboVoiceEnginePort | undefined) {
       if (
         value !== undefined &&
         (typeof value.speak !== 'function' || typeof value.stop !== 'function')
       ) {
-        throw new TypeError('Orb Voice voiceEngine must implement speak() and stop().')
+        throw new TypeError('Orbo voiceEngine must implement speak() and stop().')
       }
 
       this.stopTalking()
       this.stopConversation()
       this.#customVoiceEngine = value
-      this.#talkRunner.voiceEngine = value ?? createOrbVoiceVoiceEngine(this.#voiceModel)
+      this.#talkRunner.voiceEngine = value ?? createOrboVoiceEngine(this.#voiceModel)
     }
 
-    get voiceModel(): Readonly<OrbVoiceVoiceModel> | undefined {
+    get voiceModel(): Readonly<OrboVoiceModel> | undefined {
       return this.#voiceModel
     }
 
-    set voiceModel(value: OrbVoiceVoiceModel | null | undefined) {
+    set voiceModel(value: OrboVoiceModel | null | undefined) {
       const model = normalizeVoiceModel(value)
-      const engine = this.#customVoiceEngine ?? createOrbVoiceVoiceEngine(model)
+      const engine = this.#customVoiceEngine ?? createOrboVoiceEngine(model)
       this.stopTalking()
       this.stopConversation()
       this.#voiceModel = model
       this.#talkRunner.voiceEngine = engine
     }
 
-    get realtimeSession(): OrbVoiceRealtimeSession | undefined {
+    get realtimeSession(): OrboRealtimeSession | undefined {
       return this.#realtimeSession
     }
 
-    set realtimeSession(value: OrbVoiceRealtimeSession | undefined) {
+    set realtimeSession(value: OrboRealtimeSession | undefined) {
       const session = normalizeRealtimeSession(value)
       this.stopConversation()
       this.#realtimeSession = session
     }
 
-    get conversationState(): OrbVoiceConversationState {
+    get conversationState(): OrboConversationState {
       return this.#conversationRunner.state
     }
 
@@ -191,17 +191,17 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       this.toggleAttribute('elevated', Boolean(value))
     }
 
-    get preset(): OrbVoicePresetName {
-      return normalizeOrbVoicePreset(this.getAttribute('preset'))
+    get preset(): OrboPresetName {
+      return normalizeOrboPreset(this.getAttribute('preset'))
     }
 
-    set preset(value: OrbVoicePresetName | null | undefined) {
+    set preset(value: OrboPresetName | null | undefined) {
       if (value === null || value === undefined) {
         this.removeAttribute('preset')
         return
       }
 
-      this.setAttribute('preset', normalizeOrbVoicePreset(value))
+      this.setAttribute('preset', normalizeOrboPreset(value))
     }
 
     get paused(): boolean {
@@ -212,20 +212,20 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       this.toggleAttribute('paused', Boolean(value))
     }
 
-    get reducedMotion(): OrbVoiceReducedMotion {
-      return normalizeOrbVoiceReducedMotion(this.getAttribute('reduced-motion'))
+    get reducedMotion(): OrboReducedMotion {
+      return normalizeOrboReducedMotion(this.getAttribute('reduced-motion'))
     }
 
-    set reducedMotion(value: OrbVoiceReducedMotion) {
-      this.setAttribute('reduced-motion', normalizeOrbVoiceReducedMotion(value))
+    set reducedMotion(value: OrboReducedMotion) {
+      this.setAttribute('reduced-motion', normalizeOrboReducedMotion(value))
     }
 
     get size(): string {
-      return normalizeOrbVoiceSize(this.getAttribute('size'))
+      return normalizeOrboSize(this.getAttribute('size'))
     }
 
-    set size(value: OrbVoiceSize) {
-      this.setAttribute('size', normalizeOrbVoiceSize(value))
+    set size(value: OrboSize) {
+      this.setAttribute('size', normalizeOrboSize(value))
     }
 
     get speech(): string | undefined {
@@ -243,19 +243,19 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
     }
 
     get speed(): number {
-      return normalizeOrbVoiceSpeed(this.getAttribute('speed'))
+      return normalizeOrboSpeed(this.getAttribute('speed'))
     }
 
     set speed(value: number) {
-      this.setAttribute('speed', String(normalizeOrbVoiceSpeed(value)))
+      this.setAttribute('speed', String(normalizeOrboSpeed(value)))
     }
 
-    get state(): OrbVoiceState {
-      return normalizeOrbVoiceState(this.getAttribute('state'))
+    get state(): OrboState {
+      return normalizeOrboState(this.getAttribute('state'))
     }
 
-    set state(value: OrbVoiceState) {
-      this.setAttribute('state', normalizeOrbVoiceState(value))
+    set state(value: OrboState) {
+      this.setAttribute('state', normalizeOrboState(value))
     }
 
     connectedCallback(): void {
@@ -303,7 +303,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
 
       if (name === 'preset') {
         if (newValue !== null) {
-          const normalized = normalizeOrbVoicePreset(newValue)
+          const normalized = normalizeOrboPreset(newValue)
           if (newValue !== normalized) {
             this.setAttribute(name, normalized)
             return
@@ -332,7 +332,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       }
 
       if (name === 'state' && newValue !== null) {
-        const normalized = normalizeOrbVoiceState(newValue)
+        const normalized = normalizeOrboState(newValue)
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -340,7 +340,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       }
 
       if (name === 'speed' && newValue !== null) {
-        const normalized = String(normalizeOrbVoiceSpeed(newValue))
+        const normalized = String(normalizeOrboSpeed(newValue))
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -348,7 +348,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       }
 
       if (name === 'reduced-motion' && newValue !== null) {
-        const normalized = normalizeOrbVoiceReducedMotion(newValue)
+        const normalized = normalizeOrboReducedMotion(newValue)
         if (newValue !== normalized) {
           this.setAttribute(name, normalized)
           return
@@ -429,12 +429,12 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
         this.#handleTalkError(error)
         throw error
       }
-      let conversation: ReturnType<typeof createOrbVoiceConversation>
+      let conversation: ReturnType<typeof createOrboConversation>
       try {
-        conversation = createOrbVoiceConversation(this.#voiceModel, this.#realtimeSession)
+        conversation = createOrboConversation(this.#voiceModel, this.#realtimeSession)
       } catch {
         const error = new Error(
-          'Orb Voice startConversation() requires a Realtime voiceModel and realtimeSession.'
+          'Orbo startConversation() requires a Realtime voiceModel and realtimeSession.'
         )
         this.#handleTalkError(error)
         throw error
@@ -451,7 +451,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       this.#conversationRunner.interrupt()
     }
 
-    #handleConversationState(state: OrbVoiceConversationState): void {
+    #handleConversationState(state: OrboConversationState): void {
       this.#handleSpeakingChange(state === 'speaking')
       if (state === 'idle' || state === 'error') {
         const previous = this.#stateBeforeConversation
@@ -463,7 +463,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
         this.state = state === 'connecting' ? 'thinking' : state
       }
       this.dispatchEvent(
-        new CustomEvent('orb-voice-conversation-state-change', {
+        new CustomEvent('orbo-conversation-state-change', {
           detail: Object.freeze({ state })
         })
       )
@@ -538,36 +538,36 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
 
       const presetAttribute = this.getAttribute('preset')
       if (presetAttribute !== null) {
-        const normalized = normalizeOrbVoicePreset(presetAttribute)
+        const normalized = normalizeOrboPreset(presetAttribute)
         if (presetAttribute !== normalized) {
           this.setAttribute('preset', normalized)
         }
       }
 
-      for (const key of ORB_VOICE_COLOR_KEYS) {
-        this.#normalizeColorAttribute(key, this.getAttribute(ORB_VOICE_COLOR_ATTRIBUTES[key]))
+      for (const key of ORBO_COLOR_KEYS) {
+        this.#normalizeColorAttribute(key, this.getAttribute(ORBO_COLOR_ATTRIBUTES[key]))
       }
 
       this.#synchronizeColors()
     }
 
     #synchronizeSize(value: string | null): void {
-      const normalized = normalizeOrbVoiceSize(value)
+      const normalized = normalizeOrboSize(value)
       if (value !== null && value !== normalized) {
         this.setAttribute('size', normalized)
         return
       }
 
-      this.#visualRoot.style.setProperty('--orb-voice-size', normalized)
+      this.#visualRoot.style.setProperty('--orbo-size', normalized)
     }
 
-    #normalizeColorAttribute(key: keyof OrbVoiceColors, value: string | null): boolean {
+    #normalizeColorAttribute(key: keyof OrboColors, value: string | null): boolean {
       if (value === null) {
         return true
       }
 
       const normalized = value.trim()
-      const attribute = ORB_VOICE_COLOR_ATTRIBUTES[key]
+      const attribute = ORBO_COLOR_ATTRIBUTES[key]
       if (normalized.length === 0) {
         this.removeAttribute(attribute)
         return false
@@ -584,11 +584,11 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
     #synchronizeColors(): void {
       const hasExplicitPreset = this.hasAttribute('preset')
       const colors = hasExplicitPreset
-        ? { ...ORB_VOICE_PRESETS[this.preset] }
-        : mergeOrbVoiceColors(this.#readColorOverrides())
+        ? { ...ORBO_PRESETS[this.preset] }
+        : mergeOrboColors(this.#readColorOverrides())
 
-      for (const key of ORB_VOICE_COLOR_KEYS) {
-        this.#visualRoot.style.setProperty(`--orb-voice-${key}`, colors[key])
+      for (const key of ORBO_COLOR_KEYS) {
+        this.#visualRoot.style.setProperty(`--orbo-${key}`, colors[key])
       }
 
       this.#queueColorConflictCheck()
@@ -602,15 +602,15 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       this.#colorConflictCheckQueued = true
       queueMicrotask(() => {
         this.#colorConflictCheckQueued = false
-        const customAttributes = ORB_VOICE_COLOR_KEYS.filter((key) =>
-          this.hasAttribute(ORB_VOICE_COLOR_ATTRIBUTES[key])
+        const customAttributes = ORBO_COLOR_KEYS.filter((key) =>
+          this.hasAttribute(ORBO_COLOR_ATTRIBUTES[key])
         )
         const hasConflict = this.hasAttribute('preset') && customAttributes.length > 0
 
         if (hasConflict && !this.#hasColorConflict) {
-          const names = customAttributes.map((key) => ORB_VOICE_COLOR_ATTRIBUTES[key]).join(', ')
+          const names = customAttributes.map((key) => ORBO_COLOR_ATTRIBUTES[key]).join(', ')
           console.error(
-            `[Orb Voice] preset='${this.preset}' cannot be combined with ` +
+            `[Orbo] preset='${this.preset}' cannot be combined with ` +
               `${names}. ` +
               'The preset is applied and custom color attributes are ignored.'
           )
@@ -619,10 +619,10 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       })
     }
 
-    #readColorOverrides(): OrbVoiceColorOverrides {
-      const overrides: OrbVoiceColorOverrides = {}
-      for (const key of ORB_VOICE_COLOR_KEYS) {
-        const value = this.getAttribute(ORB_VOICE_COLOR_ATTRIBUTES[key])
+    #readColorOverrides(): OrboColorOverrides {
+      const overrides: OrboColorOverrides = {}
+      for (const key of ORBO_COLOR_KEYS) {
+        const value = this.getAttribute(ORBO_COLOR_ATTRIBUTES[key])
         if (value !== null) {
           overrides[key] = value
         }
@@ -652,7 +652,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       }
 
       this.dispatchEvent(
-        new CustomEvent('orb-voice-speaking-change', {
+        new CustomEvent('orbo-speaking-change', {
           detail: Object.freeze({ speaking })
         })
       )
@@ -664,7 +664,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       }
 
       this.dispatchEvent(
-        new CustomEvent('orb-voice-talk-error', {
+        new CustomEvent('orbo-talk-error', {
           detail: Object.freeze({ error })
         })
       )
@@ -678,7 +678,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
       const reducedMotion = this.reducedMotion
       const reduced =
         reducedMotion === 'always' ||
-        (reducedMotion === DEFAULT_ORB_VOICE_REDUCED_MOTION && (this.#motionQuery?.matches ?? false))
+        (reducedMotion === DEFAULT_ORBO_REDUCED_MOTION && (this.#motionQuery?.matches ?? false))
 
       this.#animationService.render({
         paused: this.paused,
@@ -689,7 +689,7 @@ export function orbVoiceElementClassFactory(): OrbVoiceElementConstructor | unde
     }
   }
 
-  const elementConstructor = OrbVoiceHTMLElement as unknown as OrbVoiceElementConstructor
+  const elementConstructor = OrboHTMLElement as unknown as OrboElementConstructor
   ELEMENT_CONSTRUCTORS.set(HTMLElementBase, elementConstructor)
 
   return elementConstructor
@@ -700,8 +700,8 @@ function normalizeSpeech(value: string | null | undefined): string | undefined {
   return normalized && normalized.length > 0 ? normalized : undefined
 }
 
-function colorKeyForAttribute(name: string): keyof OrbVoiceColors | undefined {
-  return ORB_VOICE_COLOR_KEYS.find((key) => ORB_VOICE_COLOR_ATTRIBUTES[key] === name)
+function colorKeyForAttribute(name: string): keyof OrboColors | undefined {
+  return ORBO_COLOR_KEYS.find((key) => ORBO_COLOR_ATTRIBUTES[key] === name)
 }
 
 function isSpeechActivationError(error: unknown): boolean {

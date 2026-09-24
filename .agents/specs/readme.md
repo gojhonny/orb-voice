@@ -97,6 +97,9 @@ status only when the corresponding evidence is available.
   Do not move `v1.1.0` or publish from a local machine.
 - [SPEC-032](032-orbu-package-identity.spec.md): reverted by SPEC-033. Historical
   record of the rejected `orbu` / `<orb-u>` rename.
-- [SPEC-033](033-restore-orb-voice-identity.spec.md): current identity. Restore
-  npm `orb-voice`, CLI `orb-voice`, and element `<orb-voice>` by reverting the
-  Orbu merge. Version stays `1.1.1`. Do not publish from this change.
+- [SPEC-033](033-restore-orb-voice-identity.spec.md): superseded by SPEC-034.
+  Historical record of restoring npm `orb-voice`, CLI `orb-voice`, and element
+  `<orb-voice>` after the rejected Orbu rename.
+- [SPEC-034](034-orbo-product-identity.spec.md): current identity. Product Orbo,
+  npm `orbo-voice`, element `<orb-o>`, and CLI `orbo`. Version stays `1.1.1`.
+  Do not publish from this change.

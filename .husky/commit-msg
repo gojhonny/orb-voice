@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ./cli/orb-voice git commit-message "$@"
+exec ./cli/orbo git commit-message "$@"

@@ -32,8 +32,8 @@ while [ "$#" -gt 0 ]; do
       [ "$#" -eq 1 ] || orb_die 'Git commits help does not accept additional arguments.' 2
       cat <<'USAGE'
 Usage:
-  orb-voice git commits --last
-  orb-voice git commits --from <ref> --to <ref>
+  orbo git commits --last
+  orbo git commits --from <ref> --to <ref>
 
 Validate non-merge history using Commitlint and the repository Conventional
 Commits policy. For a merge HEAD, --last validates the changes introduced
@@ -48,7 +48,7 @@ done
 
 orb_need pnpm
 orb_need git
-orb_git_checkout || orb_die 'Commit history validation must run inside the Orb Voice checkout.'
+orb_git_checkout || orb_die 'Commit history validation must run inside the Orbo checkout.'
 cd "$ORB_PROJECT_ROOT"
 
 case "$mode" in
@@ -57,5 +57,5 @@ case "$mode" in
     [ -n "$from_ref" ] && [ -n "$to_ref" ] || orb_die 'Both --from and --to are required.' 2
     orb_lint_commit_history range "$from_ref" "$to_ref"
     ;;
-  *) orb_die 'Usage: orb-voice git commits --last | --from <ref> --to <ref>' 2 ;;
+  *) orb_die 'Usage: orbo git commits --last | --from <ref> --to <ref>' 2 ;;
 esac

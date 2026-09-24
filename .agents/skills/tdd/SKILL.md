@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use when implementing or changing a declared Orb Voice behavior and you need a strict red-to-green loop at a stable public seam with regression evidence.
+description: Use when implementing or changing a declared Orbo behavior and you need a strict red-to-green loop at a stable public seam with regression evidence.
 ---
 
 # Test-Driven Development
